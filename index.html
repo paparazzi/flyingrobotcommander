@@ -6,9 +6,13 @@
 
 <script>
 
-var row_count = 4;  // Number of rows
-var col_count = 8;  // Number of columns
-var msg_btn_id = "999"  // Id of the message id status button
+var row_count       = 4;      // Number of rows
+var col_count       = 8;      // Number of columns
+var msg_btn_id      = "999";  // Id of the message id status button
+var ip_cmd_prefix   = 'http://192.168.1.7:5000';  // Prefix for URL commands that includes the ip address and port
+var cmd_flightblock = ip_cmd_prefix + '/flightblock';
+var aircraft_id     = new Array('/217', '/218', '/219');
+var flightblock_id  = new Array('/3', '/4', '/6', '/7', '/8', '/9', '/12', '/33');
 
 function displayTriggerMessage(msg) {
   // Set message text to color other than black as a visual aid to detect message latency issues
@@ -20,89 +24,89 @@ function displayTriggerMessage(msg) {
   var bReq = new XMLHttpRequest();
   var cReq = new XMLHttpRequest();
   switch(parseInt(msg)) {
-    case 0:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/3");  aReq.send(); break;
-    case 1:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/4");  aReq.send(); break;
-    case 2:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/6");  aReq.send(); break;
-    case 3:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/7");  aReq.send(); break;
-    case 4:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/8");  aReq.send(); break;
-    case 5:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/9");  aReq.send(); break;
-    case 6:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/12"); aReq.send(); break;
-    case 7:    aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/33"); aReq.send(); break;
-    case 8:    bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/3");  bReq.send(); break;
-    case 9:    bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/4");  bReq.send(); break;
-    case 10:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/6");  bReq.send(); break;
-    case 11:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/7");  bReq.send(); break;
-    case 12:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/8");  bReq.send(); break;
-    case 13:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/9");  bReq.send(); break;
-    case 14:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/12"); bReq.send(); break;
-    case 15:   bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/33"); bReq.send(); break;
-    case 16:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/3");  cReq.send(); break;
-    case 17:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/4");  cReq.send(); break;
-    case 18:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/6");  cReq.send(); break;
-    case 19:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/7");  cReq.send(); break;
-    case 20:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/8");  cReq.send(); break;
-    case 21:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/9");  cReq.send(); break;
-    case 22:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/12"); cReq.send(); break;
-    case 23:   cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/33"); cReq.send(); break;
+    case 0:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]);  aReq.send(); break;
+    case 1:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]);  aReq.send(); break;
+    case 2:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]);  aReq.send(); break;
+    case 3:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]);  aReq.send(); break;
+    case 4:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]);  aReq.send(); break;
+    case 5:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]);  aReq.send(); break;
+    case 6:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]);  aReq.send(); break;
+    case 7:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]);  aReq.send(); break;
+    case 8:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]);  bReq.send(); break;
+    case 9:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]);  bReq.send(); break;
+    case 10:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]);  bReq.send(); break;
+    case 11:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]);  bReq.send(); break;
+    case 12:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]);  bReq.send(); break;
+    case 13:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]);  bReq.send(); break;
+    case 14:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]);  bReq.send(); break;
+    case 15:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]);  bReq.send(); break;
+    case 16:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]);  cReq.send(); break;
+    case 17:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]);  cReq.send(); break;
+    case 18:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]);  cReq.send(); break;
+    case 19:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]);  cReq.send(); break;
+    case 20:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]);  cReq.send(); break;
+    case 21:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]);  cReq.send(); break;
+    case 22:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]);  cReq.send(); break;
+    case 23:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]);  cReq.send(); break;
     case 24:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/3"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/3"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/3"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send(); 
                break;
     case 25:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/4"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/4"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/4"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]); cReq.send(); 
                break;
     case 26:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/6"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/6"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/6"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]); cReq.send(); 
                break;
     case 27:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/7"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/7"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/7"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]); cReq.send(); 
                break;
     case 28:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/8"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/8"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/8"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]); cReq.send(); 
                break;
     case 29:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/9"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/9"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/9"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]); cReq.send(); 
                break;
     case 30:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/12"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/12"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/12"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
                break;
     case 31:   
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/33"); aReq.send();
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/33"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/33"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
                break;
     case 200:  
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/3"); aReq.send(); 
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/3"); bReq.send();
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/3"); cReq.send();
-               setTimeout(aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/4"),3000); aReq.send(); 
-               setTimeout(bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/4"),3000); bReq.send();
-               setTimeout(cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/4"),3000); cReq.send();
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send();
+               setTimeout(aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]),3000); aReq.send(); 
+               setTimeout(bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]),3000); bReq.send();
+               setTimeout(cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]),3000); cReq.send();
                break;
     case 201:  
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/12"); aReq.send(); 
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/12"); bReq.send(); 
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/12"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send(); 
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
                break;
     case 202:  
-               aReq.open("GET", "http://192.168.1.7:5000/flightblock/217/33"); aReq.send(); 
-               bReq.open("GET", "http://192.168.1.7:5000/flightblock/218/33"); bReq.send(); 
-               cReq.open("GET", "http://192.168.1.7:5000/flightblock/219/33"); cReq.send(); 
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send(); 
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
                break;
-    default:   aReq.open("GET", "http://192.168.1.7:5000"); aReq.send();
+    default:   aReq.open("GET", cmd_flightblock + ''); aReq.send();
   }
 
   document.getElementById(msg_btn_id).style.color = "black";
