@@ -72,7 +72,7 @@ class GuidanceMsg(object):
             print("Setting mode to NAV: %s" % msg)
             self._interface.send(msg)
 
-    def set_guidance(self, flag, x, y, z, yaw=0.0):
+    def set_guidance(self, flag, x, y, z, yaw):
         """
         set a local position in meters (if already in GUIDED mode)
         """
@@ -132,7 +132,9 @@ class GuidanceMsg(object):
 
 
 if __name__ == '__main__':
-    ac_id = int(sys.argv[1])
+    ac_id     = int(sys.argv[1])
+    yaw_value = float(sys.argv[6])
+    cmd_time  = float(sys.argv[7])
     try:
         gm = GuidanceMsg(ac_id)
         sleep(0.2)
@@ -140,8 +142,8 @@ if __name__ == '__main__':
         gm.set_guided_mode()
         sleep(0.2)
 
-        gm.set_guidance(flag=sys.argv[2], x=sys.argv[3], y=sys.argv[4], z=sys.argv[5], yaw=radians(90))
-        sleep(10)  # Time to spend in guided mode to allow the above instruction/message to express itself
+        gm.set_guidance(flag=sys.argv[2], x=sys.argv[3], y=sys.argv[4], z=sys.argv[5], yaw=radians(yaw_value))
+        sleep(cmd_time)  # Time to spend in guided mode to allow the above instruction/message to express itself
         
         #gm.goto_ned(north=10.0, east=5.0, down=-5.0, heading=radians(90))
         #sleep(10)

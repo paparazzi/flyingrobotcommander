@@ -24,10 +24,10 @@ def index():
 def guidance_all():
     return 'Guidance: All'
 
-@app.route('/guidance/<int:ac_id>/<int:flag>/<x>/<y>/<z>/<yaw>')
-def guidance(ac_id, flag, x, y, z, yaw):
-    os.system( "./guidance.py %d %d %s %s %s %s" % (ac_id, flag, x, y, z, yaw) )
-    return 'Guidance: ac_id=%d, flag=%d, x=%s, y=%s, z=%s, yaw=%s' % (ac_id, flag, x, y, z, yaw)
+@app.route('/guidance/<int:ac_id>/<int:flag>/<x>/<y>/<z>/<yaw>/<time>')
+def guidance(ac_id, flag, x, y, z, yaw, time):
+    os.system( "./guidance.py %d %d %s %s %s %s %s" % (ac_id, flag, x, y, z, yaw, time) )
+    return 'Guidance: ac_id=%d, flag=%d, x=%s, y=%s, z=%s, yaw=%s, time=%s' % (ac_id, flag, x, y, z, yaw, time)
 
 @app.route('/waypoint/')
 def waypoint_all():
