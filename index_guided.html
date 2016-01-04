@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Guided: Flying Robot Commander</title>
+
+<script>
+
+var row_count       = 4;      // Number of rows
+var col_count       = 8;      // Number of columns
+var msg_btn_id      = "999";  // Id of the message id status button
+var ip_cmd_prefix   = 'http://192.168.1.7:5000';  // Prefix for URL commands that includes the ip address and port
+var cmd_flightblock = ip_cmd_prefix + '/flightblock';
+var aircraft_id     = new Array('/217', '/218', '/219');
+var flightblock_id  = new Array('/3', '/4', '/6', '/7', '/8', '/9', '/12', '/33');
+
+function displayTriggerMessage(msg) {
+  // Set message text to color other than black as a visual aid to detect message latency issues
+  // CURRENTY NOT USED BASED ON OBSERVED PERFORMANCE
+  //document.getElementById(msg_btn_id).style.color = "green";
+  //document.getElementById(msg_btn_id).innerHTML = "Guide: " + msg;
+
+  var aReq = new XMLHttpRequest();
+  var bReq = new XMLHttpRequest();
+  var cReq = new XMLHttpRequest();
+  switch(parseInt(msg)) {
+    case 0:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]);  aReq.send(); break;
+    case 1:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]);  aReq.send(); break;
+    case 2:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]);  aReq.send(); break;
+    case 3:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]);  aReq.send(); break;
+    case 4:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]);  aReq.send(); break;
+    case 5:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]);  aReq.send(); break;
+    case 6:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]);  aReq.send(); break;
+    case 7:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]);  aReq.send(); break;
+    case 8:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]);  bReq.send(); break;
+    case 9:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]);  bReq.send(); break;
+    case 10:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]);  bReq.send(); break;
+    case 11:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]);  bReq.send(); break;
+    case 12:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]);  bReq.send(); break;
+    case 13:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]);  bReq.send(); break;
+    case 14:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]);  bReq.send(); break;
+    case 15:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]);  bReq.send(); break;
+    case 16:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]);  cReq.send(); break;
+    case 17:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]);  cReq.send(); break;
+    case 18:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]);  cReq.send(); break;
+    case 19:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]);  cReq.send(); break;
+    case 20:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]);  cReq.send(); break;
+    case 21:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]);  cReq.send(); break;
+    case 22:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]);  cReq.send(); break;
+    case 23:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]);  cReq.send(); break;
+    case 24:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send(); 
+               break;
+    case 25:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]); cReq.send(); 
+               break;
+    case 26:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]); cReq.send(); 
+               break;
+    case 27:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]); cReq.send(); 
+               break;
+    case 28:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]); cReq.send(); 
+               break;
+    case 29:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]); cReq.send(); 
+               break;
+    case 30:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               break;
+    case 31:   
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send();
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
+               break;
+    case 200:  
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send();
+               setTimeout(aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]),3000); aReq.send(); 
+               setTimeout(bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]),3000); bReq.send();
+               setTimeout(cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]),3000); cReq.send();
+               break;
+    case 201:  
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send(); 
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               break;
+    case 202:  
+               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send(); 
+               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send(); 
+               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
+               break;
+    case 300:  
+               break;
+    case 301:  
+               break;
+    case 302:  
+               break;
+    default:   aReq.open("GET", cmd_flightblock + ''); aReq.send();
+  }
+
+  document.getElementById(msg_btn_id).style.color = "black";
+  document.getElementById(msg_btn_id).innerHTML = "Guide: " + msg;
+
+}
+
+function clearRowBoarders(row) {
+
+  for (var i = 0; i < col_count; i++) {
+    var tid = ((row - 1)*col_count) + i;
+    document.getElementById(tid).style.borderColor = "black";
+    document.getElementById(tid).style.color = "black";
+  }  
+
+}
+
+function setRowColumnBoarder(row, col) {
+  var tid = ((row - 1)*col_count) + (col-1);
+  document.getElementById(tid).style.borderColor = "white";
+  document.getElementById(tid).style.color = "white";
+}
+
+function mousedownButton(btn) {
+  var row = Math.trunc(btn.id / col_count) + 1;
+  var col = (btn.id % col_count) + 1;
+
+  // Clear row borders
+  clearRowBoarders(row);
+  btn.style.borderColor = "black";
+  btn.style.color = "black";
+
+  // Clear message status as a visual cue
+  // CURRENTLY NOT USED
+  //document.getElementById(msg_btn_id).innerHTML = "";
+}
+
+function selectButton(btn) {
+  var row = Math.trunc(btn.id / col_count) + 1;
+  var col = (btn.id % col_count) + 1;
+
+  // Set the text of the button. Useful for testing
+  //btn.innerHTML = "X" + row + "Y" + col;
+
+  // Clear row borders
+  clearRowBoarders(row);
+  btn.style.borderColor = "white";
+  btn.style.color = "white";
+  displayTriggerMessage(btn.id);
+
+  // If a button in the bottom row selected, clear borders on preceeding rows
+  if (row == row_count) {
+    for (var i = 1; i < row_count; i++) {
+      clearRowBoarders(i);
+      setRowColumnBoarder(i, col);
+    }
+
+  }
+
+  /*
+  // UNUSED CODE BLOCKS
+
+  // Toggle border color
+  if (btn.style.borderColor == "white") {
+    btn.style.borderColor = "black";
+  }
+  else {
+    btn.style.borderColor = "white";
+  }
+
+  // Set the background to white
+  btn.style.background = "white";
+  */
+}
+
+function clearPageRowBoarders() {
+
+  // Leverage button id sequence to simplify clear operation logic
+  for (var tid = 200; tid < 203; tid++) {
+    document.getElementById(tid).style.borderColor = "black";
+    document.getElementById(tid).style.color = "black";
+  }
+
+}
+
+
+function selectPageButton(btn) {
+
+  // Clear row borders
+  clearPageRowBoarders();
+  btn.style.borderColor = "white";
+  btn.style.color = "white";
+  displayTriggerMessage(btn.id);
+}
+
+</script>
+
+<style>
+
+body {
+    background-color: black;
+}
+
+.button-container {
+  width: 780px;
+  background: black;
+  overflow-y: auto;
+}
+
+.button-container > button {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  border: 4px solid black;
+  font-family:verdana-bold, verdana-bold, verdana;
+  font-size: 40px;
+  color:black;
+  text-align:center;
+  float: left;
+  background: white;
+  margin: 4px;
+}
+
+/*
+.button-container > button:hover {
+  opacity: 1.0;
+  border: 4px solid white;
+*/
+
+.command-button-container {
+  width: 780px;
+  background: black;
+  overflow-y: auto;
+}
+
+.command-button-container > button {
+  width: 168px;
+  height: 80px;
+  border-radius: 10px;
+  border: 4px solid black;
+  font-family:verdana-bold, verdana-bold, verdana;
+  font-size: 40px;
+  color:black;
+  text-align:center;
+  float: left;
+  background: white;
+  margin: 4px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="menu-container">
+  <div class="button-container">
+  <button id="0"  style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="1"  style="background:green"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="2"  style="background:magenta"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="3"  style="background:purple"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="4"  style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="5"  style="background:orange"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="6"  style="background:orangered"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="7"  style="background:red"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="8"  style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="9"  style="background:green"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="10" style="background:magenta"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="11" style="background:purple"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="12" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="13" style="background:orange"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="14" style="background:orangered"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="15" style="background:red"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="16" style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="17" style="background:green"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="18" style="background:magenta"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="19" style="background:purple"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="20" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="21" style="background:orange"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="22" style="background:orangered"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="23" style="background:red"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="24" title="Up" style="background:lime; background-image:url(img/aircraft-take-off.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="25" title="Down" style="background:green; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="26" title="North" style="background:magenta; background-image:url(img/arrow-with-circle-up.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="27" title="South" style="background:purple; background-image:url(img/arrow-with-circle-down.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="28" title="West" style="background:deepskyblue; background-image:url(img/arrow-with-circle-left.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="29" title="East" style="background:orange; background-image:url(img/arrow-with-circle-right.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="30" title="Clockwise" style="background:orangered; background-image:url(img/arrows-rotate-clockwise.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="31" title="Counterclockwise" style="background:red; background-image:url(img/arrows-rotate-counterclockwise.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  </div>
+  <div class="command-button-container">
+  <button id="999" style="color:black; font-size: 18px">Guide: x</button>
+  <button id="200" style="background:lime; color:black; font-size: 30px"   onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
+  <button id="201" style="background:purple; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
+  <button id="202" style="background:red; color:black; font-size: 30px"    onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
+  </div>
+</div>
+
+</body>
+</html>
