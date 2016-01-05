@@ -133,18 +133,28 @@ class GuidanceMsg(object):
 
 if __name__ == '__main__':
     ac_id     = int(sys.argv[1])
+    flag_mask = int(sys.argv[2])
     yaw_value = float(sys.argv[6])
     cmd_time  = float(sys.argv[7])
     try:
         gm = GuidanceMsg(ac_id)
         sleep(0.2)
 
-        gm.set_guided_mode()
-        sleep(0.2)
+        # KLUDGE: Overload flag_mask to enable(5)/disble(6) the guided mode
+        if flag_mask == 5:
+            gm.set_guided_mode()
+            sleep(0.2)
+        elif flag_mask == 6:
+            gm.set_nav_mode()
+            sleep(0.2)        
 
-        gm.set_guidance(flag=sys.argv[2], x=sys.argv[3], y=sys.argv[4], z=sys.argv[5], yaw=radians(yaw_value))
-        sleep(cmd_time)  # Time to spend in guided mode to allow the above instruction/message to express itself
-        
+        # KLUDGE: Execute guidance command if valid flag_mask (i.e. < 5)
+        if flag_mask < 5: 
+            gm.set_guidance(flag=sys.argv[2], x=sys.argv[3], y=sys.argv[4], z=sys.argv[5], yaw=radians(yaw_value))
+            sleep(cmd_time)  # Time to spend in guided mode to allow the above instruction/message to express itself        
+
+    
+        # UNUSED CODE BLOCK    
         #gm.goto_ned(north=10.0, east=5.0, down=-5.0, heading=radians(90))
         #sleep(10)
         #gm.goto_ned_relative(north=-5.0, east=-5.0, down=-2.0, yaw=-radians(45))
@@ -152,8 +162,6 @@ if __name__ == '__main__':
         #gm.goto_body_relative(forward=0.0, right=5.0, down=2.0)
         #sleep(10)
 
-        gm.set_nav_mode()
-        sleep(0.2)
     except KeyboardInterrupt:
         print("Stopping on request")
     gm.shutdown()
