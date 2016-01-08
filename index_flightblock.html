@@ -9,10 +9,48 @@
 var row_count       = 4;       // Number of rows
 var col_count       = 10;      // Number of columns
 var msg_btn_id      = "999";   // Id of the message id status button
-var ip_cmd_prefix   = 'http://192.168.1.111:5000';  // Prefix for URL commands that includes the ip address and port
+
+// Assign defaults for ip address, port number
+var ip_addr         = '192.168.1.7';
+var port_number     =  '5000';
+var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
 var cmd_flightblock = ip_cmd_prefix + '/flightblock';
+var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+
 var aircraft_id     = new Array('/217', '/218', '/219');
 var flightblock_id  = new Array('/3', '/4', '/6', '/7', '/8', '/9', '/12', '/32','/33', '/2');
+
+
+// Get a parameter value from the current URL
+function getParam ( sname )
+{
+  var params = location.search.substr(location.search.indexOf("?")+1);
+  var sval = "";
+  params = params.split("&");
+    // split param and value into individual pieces
+    for (var i=0; i<params.length; i++)
+       {
+         temp = params[i].split("=");
+         if ( [temp[0]] == sname ) { sval = temp[1]; }
+       }
+  return sval;
+}
+
+// Initalize any state variables needed for this page
+function initPage()
+{
+  ip_addr = getParam("ipaddr");
+  //alert(ip_addr);
+  port_number = getParam("port");
+  //alert(port_number);
+
+  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+  cmd_flightblock = ip_cmd_prefix + '/flightblock';
+  //alert(cmd_flightblock);
+  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+  //alert(url_params);
+}
+
 
 function displayTriggerMessage(msg) {
   // Set message text to color other than black as a visual aid to detect message latency issues
@@ -283,7 +321,7 @@ body {
 
 </head>
 
-<body>
+<body onload="initPage();">
 
 <div class="menu-container">
   <div class="button-container">
@@ -319,12 +357,12 @@ body {
   <button id="29" title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="30" title="Props On" style="background:lime; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
   <button id="31" title="Takeoff" style="background:green; background-image:url(img/aircraft-take-off.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="32" style="background:deepskyblue; background-image:url(img/arrow-with-circle-up.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="33" style="background:dodgerblue; background-image:url(img/arrow-with-circle-down.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="34" style="background:gold; background-image:url(img/arrows-rotate-clockwise.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="35" style="background:orange; background-image:url(img/arrow-with-circle-left.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="36" style="background:darkorange; background-image:url(img/arrow-with-circle-right.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="37" title="Land Here" style="background:orangered; background-image:url(img/arrow-with-circle-right.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="32" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="33" style="background:dodgerblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="34" style="background:gold" onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="35" style="background:orange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="36" style="background:darkorange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">H</button>
+  <button id="37" title="Land Here" style="background:orangered; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
   <button id="38" title="Land" style="background:red; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
   <button id="39" title="Props Off" style="background:darkred; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
   </div>

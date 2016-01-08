@@ -9,22 +9,59 @@
 var row_count       = 4;       // Number of rows
 var col_count       = 10;      // Number of columns
 var msg_btn_id      = "999";   // Id of the message id status button
-var ip_cmd_prefix   = 'http://192.168.1.111:5000';  // Prefix for URL commands that includes the ip address and port
+
+// Assign defaults for ip address, port number
+var ip_addr         = '192.168.1.7';
+var port_number     =  '5000';
+var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
 var cmd_guidance    = ip_cmd_prefix + '/guidance';
+var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+
 var aircraft_id     = new Array('/217', '/218', '/219');
 var flag_mask       = new Array('/0', '/1', '/3', '/5', '/6');  // Flag values 5 and 6 are a kludge to enable/disable guidance mode
 var ned_params      = new Array(
-                                '/10.0/0.0/0.0/0.0/1.0', 
-                                '/-10.0/0.0/0.0/0.0/1.0', 
-                                '/0.0/-10.0/0.0/0.0/1.0', 
-                                '/0.0/10.0/0.0/0.0/1.0', 
-                                '/0.0/0.0/-10.0/0.0/1.0', 
-                                '/0.0/0.0/10.0/0.0/1.0', 
-                                '/0.0/0.0/0.0/-90.0/1.0', 
-                                '/0.0/0.0/0.0/90.0/1.0',
-                                '/0.0/0.0/0.0/0.0/1.0', 
-                                '/0.0/0.0/0.0/0.0/1.0'
+                                '/10.0/0.0/0.0/0.0/0.2', 
+                                '/-10.0/0.0/0.0/0.0/0.2', 
+                                '/0.0/-10.0/0.0/0.0/0.2', 
+                                '/0.0/10.0/0.0/0.0/0.2', 
+                                '/0.0/0.0/-10.0/0.0/0.2', 
+                                '/0.0/0.0/10.0/0.0/0.2', 
+                                '/0.0/0.0/0.0/-90.0/0.2', 
+                                '/0.0/0.0/0.0/90.0/0.2',
+                                '/0.0/0.0/0.0/0.0/0.2', 
+                                '/0.0/0.0/0.0/0.0/0.2'
                                 );
+
+// Get a parameter value from the current URL
+function getParam ( sname )
+{
+  var params = location.search.substr(location.search.indexOf("?")+1);
+  var sval = "";
+  params = params.split("&");
+    // split param and value into individual pieces
+    for (var i=0; i<params.length; i++)
+       {
+         temp = params[i].split("=");
+         if ( [temp[0]] == sname ) { sval = temp[1]; }
+       }
+  return sval;
+}
+
+// Initalize any state variables needed for this page
+function initPage()
+{
+  ip_addr = getParam("ipaddr");
+  //alert(ip_addr);
+  port_number = getParam("port");
+  //alert(port_number);
+
+  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+  cmd_guidance    = ip_cmd_prefix + '/guidance';
+  alert(cmd_flightblock);
+  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+  alert(url_params);
+}
+
 
 function displayTriggerMessage(msg) {
 
@@ -285,7 +322,7 @@ body {
 
 </head>
 
-<body>
+<body onload="initPage();">
 
 <div class="menu-container">
   <div class="button-container">

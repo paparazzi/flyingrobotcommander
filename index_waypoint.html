@@ -9,10 +9,59 @@
 var row_count       = 4;      // Number of rows
 var col_count       = 8;      // Number of columns
 var msg_btn_id      = "999";  // Id of the message id status button
-var ip_cmd_prefix   = 'http://192.168.1.111:5000';  // Prefix for URL commands that includes the ip address and port
-var cmd_flightblock = ip_cmd_prefix + '/flightblock';
+
+// Assign defaults for ip address, port number
+var ip_addr         = '192.168.1.7';
+var port_number     =  '5000';
+var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+var cmd_wp          = ip_cmd_prefix + '/waypoint';
+var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+
 var aircraft_id     = new Array('/217', '/218', '/219');
-var flightblock_id  = new Array('/3', '/4', '/6', '/7', '/8', '/9', '/12', '/33');
+// Default Waypoints for: Standby, WP_1, WP_2, WP_3, WP_4, WP_HOV, WP_1_mod, WP_2_mod
+// Mostly here for reference while playing with waypoint configurations
+/*
+var wp_id           = new Array('/3', '/4', '/5', '/6', '/7', '/8', '/4', '/5');
+var wp_lat          = new Array(  45.5641310,   45.5644588,   45.5642158,   45.5644687,   45.5642239,   45.5642671,   45.5641310,   45.5644588);
+var wp_long         = new Array(-122.6224349, -122.6224673, -122.6219449, -122.6219406, -122.6224702, -122.6222098, -122.6224349, -122.6224673);
+*/
+// Testing with the WP_HOV waypoint
+var wp_id           = new Array('/8', '/8', '/8', '/8', '/8', '/8', '/8', '/8');
+var wp_lat          = new Array(  45.5642,   45.5645,   45.5643,   45.5641,   45.5643,   45.5645,   45.5642,   45.5642);
+var wp_long         = new Array(-122.6222, -122.6222, -122.6225, -122.6222, -122.6219, -122.6219, -122.6222, -122.6222);
+var wp_alt          = new Array(  61.0,      61.0,      61.0,      61.0,      61.0,      61.0,      81.0,     101.0);
+var wp_incr         = 0.0001;
+
+// Get a parameter value from the current URL
+function getParam ( sname )
+{
+  var params = location.search.substr(location.search.indexOf("?")+1);
+  var sval = "";
+  params = params.split("&");
+    // split param and value into individual pieces
+    for (var i=0; i<params.length; i++)
+       {
+         temp = params[i].split("=");
+         if ( [temp[0]] == sname ) { sval = temp[1]; }
+       }
+  return sval;
+}
+
+// Initalize any state variables needed for this page
+function initPage()
+{
+  ip_addr = getParam("ipaddr");
+  //alert(ip_addr);
+  port_number = getParam("port");
+  //alert(port_number);
+
+  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+  cmd_wp          = ip_cmd_prefix + '/waypoint';
+  //alert(cmd_flightblock);
+  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+  //alert(url_params);
+}
+
 
 function displayTriggerMessage(msg) {
   // Set message text to color other than black as a visual aid to detect message latency issues
@@ -24,95 +73,89 @@ function displayTriggerMessage(msg) {
   var bReq = new XMLHttpRequest();
   var cReq = new XMLHttpRequest();
   switch(parseInt(msg)) {
-    case 0:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]);  aReq.send(); break;
-    case 1:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]);  aReq.send(); break;
-    case 2:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]);  aReq.send(); break;
-    case 3:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]);  aReq.send(); break;
-    case 4:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]);  aReq.send(); break;
-    case 5:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]);  aReq.send(); break;
-    case 6:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]);  aReq.send(); break;
-    case 7:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]);  aReq.send(); break;
-    case 8:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]);  bReq.send(); break;
-    case 9:    bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]);  bReq.send(); break;
-    case 10:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]);  bReq.send(); break;
-    case 11:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]);  bReq.send(); break;
-    case 12:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]);  bReq.send(); break;
-    case 13:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]);  bReq.send(); break;
-    case 14:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]);  bReq.send(); break;
-    case 15:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]);  bReq.send(); break;
-    case 16:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]);  cReq.send(); break;
-    case 17:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]);  cReq.send(); break;
-    case 18:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]);  cReq.send(); break;
-    case 19:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]);  cReq.send(); break;
-    case 20:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]);  cReq.send(); break;
-    case 21:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]);  cReq.send(); break;
-    case 22:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]);  cReq.send(); break;
-    case 23:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]);  cReq.send(); break;
+    case 0:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]);  aReq.send(); break;
+    case 1:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]);  aReq.send(); break;
+    case 2:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[2] + '/' + wp_lat[2] + '/' + wp_long[2] + '/' + wp_alt[2]);  aReq.send(); break;
+    case 3:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[3] + '/' + wp_lat[3] + '/' + wp_long[3] + '/' + wp_alt[3]);  aReq.send(); break;
+    case 4:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[4] + '/' + wp_lat[4] + '/' + wp_long[4] + '/' + wp_alt[4]);  aReq.send(); break;
+    case 5:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]);  aReq.send(); break;
+    case 6:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]);  aReq.send(); break;
+    case 7:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]);  aReq.send(); break;
+    case 8:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]);  bReq.send(); break;
+    case 9:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]);  bReq.send(); break;
+    case 10:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]);  bReq.send(); break;
+    case 11:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]);  bReq.send(); break;
+    case 12:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]);  bReq.send(); break;
+    case 13:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]);  bReq.send(); break;
+    case 14:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]);  bReq.send(); break;
+    case 15:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]);  bReq.send(); break;
+    case 16:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]);  cReq.send(); break;
+    case 17:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]);  cReq.send(); break;
+    case 18:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]);  cReq.send(); break;
+    case 19:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]);  cReq.send(); break;
+    case 20:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]);  cReq.send(); break;
+    case 21:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]);  cReq.send(); break;
+    case 22:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]);  cReq.send(); break;
+    case 23:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]);  cReq.send(); break;
     case 24:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]); cReq.send(); 
                break;
     case 25:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]); cReq.send(); 
                break;
     case 26:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[2] + '/' + wp_lat[2] + '/' + wp_long[2] + '/' + wp_alt[2]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]); cReq.send(); 
                break;
     case 27:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[3] + '/' + wp_lat[3] + '/' + wp_long[3] + '/' + wp_alt[3]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]); cReq.send(); 
                break;
     case 28:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[4] + '/' + wp_lat[4] + '/' + wp_long[4] + '/' + wp_alt[4]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]); cReq.send(); 
                break;
     case 29:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]); cReq.send(); 
                break;
     case 30:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]); cReq.send(); 
                break;
     case 31:   
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send();
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]); cReq.send(); 
                break;
     case 200:  
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send(); 
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send();
-               setTimeout(aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]),3000); aReq.send(); 
-               setTimeout(bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]),3000); bReq.send();
-               setTimeout(cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]),3000); cReq.send();
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0]); cReq.send();
+               setTimeout(aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1]),3000); aReq.send(); 
+               setTimeout(bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1]),3000); bReq.send();
+               setTimeout(cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1]),3000); cReq.send();
                break;
     case 201:  
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send(); 
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send(); 
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6]); bReq.send(); 
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6]); cReq.send(); 
                break;
     case 202:  
-               aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send(); 
-               bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send(); 
-               cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7]); bReq.send(); 
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7]); cReq.send(); 
                break;
-    case 300:  
-               break;
-    case 301:  
-               break;
-    case 302:  
-               break;
-    default:   aReq.open("GET", cmd_flightblock + ''); aReq.send();
+    default:   aReq.open("GET", cmd_wp + ''); aReq.send();
   }
 
   document.getElementById(msg_btn_id).style.color = "black";
@@ -266,7 +309,7 @@ body {
 
 </head>
 
-<body>
+<body onload="initPage();">
 
 <div class="menu-container">
   <div class="button-container">

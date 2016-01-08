@@ -6,8 +6,83 @@
 
 <script>
 
-var ip_cmd_prefix   = 'http://192.168.1.7:5000';  // Prefix for URL commands that includes the ip address and port
+// Assign defaults for ip address, port number
+var ip_addr         = '192.168.1.7';
+var port_number     =  '5000';
+var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
 var cmd_flightblock = ip_cmd_prefix + '/flightblock';
+var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+
+
+// NOT USED AT THIS TIME
+// SAVE FOR POTENTIAL IP ADDRESS AND PORT NUMBER VALIDATION
+/*
+
+function ValidateIPaddress(inputText) {
+
+  var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  //var ipformat = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+
+  if(inputText.value.match(ipformat)) {
+    document.form1.text1.focus();
+   return true;
+  }
+  else {
+    alert("You have entered an invalid IP address!");
+   document.form1.text1.focus();
+   return false;
+  }
+}
+
+function ValidatePortnumber(inputText) {
+
+  port = parseInt(inputText.value);
+  if( (0 <= port) && (port <= 65535) && !isNaN(port) ) {
+    document.form1.text2.focus();
+   return true;
+  }
+  else {
+    alert("You have entered an invalid Port number!");
+   document.form1.text2.focus();
+   return false;
+  }
+}
+
+*/
+
+
+
+// Get a parameter value from the current URL
+function getParam ( sname )
+{
+  var params = location.search.substr(location.search.indexOf("?")+1);
+  var sval = "";
+  params = params.split("&");
+    // split param and value into individual pieces
+    for (var i=0; i<params.length; i++)
+       {
+         temp = params[i].split("=");
+         if ( [temp[0]] == sname ) { sval = temp[1]; }
+       }
+  return sval;
+}
+
+
+// Initalize any state variables needed for this page
+function initPage()
+{
+  ip_addr = getParam("ipaddr");
+  //alert(ip_addr);
+  port_number = getParam("port");
+  //alert(port_number);
+
+  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+  cmd_flightblock = ip_cmd_prefix + '/flightblock';
+  //alert(cmd_flightblock);
+  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+  //alert(url_params);
+}
+
 
 function displayTriggerMessage(msg) {
 
@@ -47,6 +122,7 @@ function selectPageButton(btn) {
   btn.style.color = "white";
   displayTriggerMessage(btn.id);
 }
+
 
 </script>
 
@@ -106,15 +182,31 @@ body {
 
 </head>
 
-<body>
+<body onload="initPage();">
 
 <div class="menu-container">
   <div class="command-button-container">
-  <button id="300" style="background:lime; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_flightblock.html'">Block</button>
-  <button id="301" style="background:dodgerblue; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_guided.html'">Guide</button>
-  <button id="302" style="background:gold; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_waypoint.html'">Point</button>
+  <button id="300" style="background:lime; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_flightblock.html' + url_params">Block</button>
+  <button id="301" style="background:dodgerblue; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_guided.html' + url_params">Guide</button>
+  <button id="302" style="background:gold; color:black; font-size: 30px" onclick="selectPageButton(this); location.href='file:///Users/richardaburton/Documents/FlyingRobotCommander/index_waypoint.html' + url_params">Point</button>
   </div>
 </div>
+
+<!-- NOT USED AT THIS TIME
+<form name="form1" action="#">   
+<ul>  
+<li><input type='text' name='text1'/></li>  
+<li>&nbsp;</li>  
+<li class="submit"><input type="submit" name="submit" value="IP Address" onclick="ValidateIPaddress(document.form1.text1)"/></li>  
+<li>&nbsp;</li>  
+<li><input type='text' name='text2'/></li>  
+<li>&nbsp;</li>  
+<li class="submit"><input type="submit" name="submit" value="Port Number" onclick="ValidatePortnumber(document.form1.text2)"/></li>  
+<li>&nbsp;</li>  
+</ul>  
+</form>  
+-->
+
 
 </body>
 </html>
