@@ -10,6 +10,7 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 * [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
+- [x] Refactor python modules to use the pprzlink interface
 - [ ] Integration of code generation tools that use aircraft/flight plan configurations
 - [ ] Consolidation of network related configurations with respect to IP addresses and port assignments
 - [ ] Consolidate CSS related UI controls
