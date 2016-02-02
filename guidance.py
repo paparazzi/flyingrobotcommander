@@ -30,6 +30,7 @@ from os import path, getenv
 # if PAPARAZZI_SRC not set, then assume the tree containing this
 # file is a reasonable substitute
 PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../')))
+sys.path.append(PPRZ_SRC + "/sw/lib/python")
 sys.path.append(PPRZ_SRC + "/sw/ext/pprzlink/lib/v1.0/python")
 
 from ivy_msg_interface import IvyMessagesInterface
@@ -151,6 +152,21 @@ class GuidanceMsg(object):
         msg['yaw'] = yaw
         print("goto body relative: %s" % msg)
         self._interface.send_raw_datalink(msg)
+
+    def move_at_vel(self, north=0.0, east=0.0, down=0.0, yaw=0.0):
+        """
+        move at specified velocity in meters/sec with absolute heading (if already in GUIDED mode)
+        """
+        msg = PprzMessage("datalink", "GUIDED_SETPOINT_NED")
+        msg['ac_id'] = self.ac_id
+        msg['flags'] = 0x70
+        msg['x'] = north
+        msg['y'] = east
+        msg['z'] = down
+        msg['yaw'] = yaw
+        print("move at vel NED: %s" % msg)
+        self._interface.send_raw_datalink(msg)
+        
 
 
 if __name__ == '__main__':
