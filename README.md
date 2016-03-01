@@ -1,6 +1,6 @@
 # flyingrobotcommander
 
-This is an alpha version used as a proof-of-concept and is subject to major refactoring.
+This is an alpha version 0.0.2 used as a proof-of-concept and is subject to major refactoring.
 
 ## Video Demos
 
@@ -19,3 +19,6 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 
 ## COMPLETED:
 - [x] Refactor python modules to use the pprzlink interface
+- [x] Refactor code to use updated IvyMessagesInterface
+- [x] Remove external python scripts: flightblock.py, guidance.py, waypoint.py
+- [x] Refactor frc.py with direct calls to the IvyMessagesInterface

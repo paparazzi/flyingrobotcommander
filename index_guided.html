@@ -36,23 +36,29 @@ var msg_btn_id      = "999";   // Id of the message id status button
 var ip_addr         = '192.168.1.7';
 var port_number     =  '5000';
 var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
-var cmd_guidance    = ip_cmd_prefix + '/guidance';
 var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
 
+// Guidance Command Example: http://127.0.0.1:5000/guidance/217/3//10.0/0.0/0.0/0.0
+var cmd_guidance    = ip_cmd_prefix + '/guidance';
 var aircraft_id     = new Array('/217', '/218', '/219');
-var flag_mask       = new Array('/0', '/1', '/3', '/5', '/6');  // Flag values 5 and 6 are a kludge to enable/disable guidance mode
+var flag_mask       = new Array('/0', '/1', '/3', '/112');  // Velocity flag: 112 = 0x70 
 var ned_params      = new Array(
-                                '/10.0/0.0/0.0/0.0/0.2', 
-                                '/-10.0/0.0/0.0/0.0/0.2', 
-                                '/0.0/-10.0/0.0/0.0/0.2', 
-                                '/0.0/10.0/0.0/0.0/0.2', 
-                                '/0.0/0.0/-10.0/0.0/0.2', 
-                                '/0.0/0.0/10.0/0.0/0.2', 
-                                '/0.0/0.0/0.0/-90.0/0.2', 
-                                '/0.0/0.0/0.0/90.0/0.2',
-                                '/0.0/0.0/0.0/0.0/0.2', 
-                                '/0.0/0.0/0.0/0.0/0.2'
+                                '/10.0/0.0/0.0/0.0', 
+                                '/-10.0/0.0/0.0/0.0', 
+                                '/0.0/-10.0/0.0/0.0', 
+                                '/0.0/10.0/0.0/0.0', 
+                                '/0.0/0.0/-10.0/0.0', 
+                                '/0.0/0.0/10.0/0.0', 
+                                '/0.0/0.0/0.0/-90.0', 
+                                '/0.0/0.0/0.0/90.0',
+                                '/0.0/0.0/0.0/0.0', 
+                                '/0.0/0.0/0.0/0.0'
                                 );
+
+// Setmode Command Example: http://127.0.0.1:5000/guidance/setmode/217/13
+// Note: uses the aircraft_id values as part of the command, see above
+var cmd_setmode     = ip_cmd_prefix + '/guidance/setmode';
+var mode            = new Array('/19', '/13');  // GUIDED = 19, NAV = 13
 
 // Get a parameter value from the current URL
 function getParam ( sname )
@@ -79,9 +85,11 @@ function initPage()
 
   ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
   cmd_guidance    = ip_cmd_prefix + '/guidance';
-  alert(cmd_flightblock);
+  //alert(cmd_guidance);
+  cmd_setmode    = ip_cmd_prefix + '/guidance/setmode';
+  //alert(cmd_setmode);
   url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
-  alert(url_params);
+  //alert(url_params);
 }
 
 
@@ -99,8 +107,8 @@ function displayTriggerMessage(msg) {
     case 5:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[5]);  aReq.send(); break;
     case 6:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[6]);  aReq.send(); break;
     case 7:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[7]);  aReq.send(); break;
-    case 8:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[3] + ned_params[8]);  aReq.send(); break;
-    case 9:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[4] + ned_params[9]);  aReq.send(); break;
+    case 8:    aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[0]);  aReq.send(); break;
+    case 9:    aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[1]);  aReq.send(); break;
     case 10:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]);  bReq.send(); break;
     case 11:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[1]);  bReq.send(); break;
     case 12:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[2]);  bReq.send(); break;
@@ -109,8 +117,8 @@ function displayTriggerMessage(msg) {
     case 15:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[5]);  bReq.send(); break;
     case 16:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[6]);  bReq.send(); break;
     case 17:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[7]);  bReq.send(); break;
-    case 18:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[3] + ned_params[8]);  bReq.send(); break;
-    case 19:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[4] + ned_params[9]);  bReq.send(); break;
+    case 18:   bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[0]);  bReq.send(); break;
+    case 19:   bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[1]);  bReq.send(); break;
     case 20:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]);  cReq.send(); break;
     case 21:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[1]);  cReq.send(); break;
     case 22:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[2]);  cReq.send(); break;
@@ -119,8 +127,8 @@ function displayTriggerMessage(msg) {
     case 25:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[5]);  cReq.send(); break;
     case 26:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[6]);  cReq.send(); break;
     case 27:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[7]);  cReq.send(); break;
-    case 28:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[3] + ned_params[8]);  cReq.send(); break;
-    case 29:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[4] + ned_params[9]);  cReq.send(); break;
+    case 28:   cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[0]);  cReq.send(); break;
+    case 29:   cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[1]);  cReq.send(); break;
 
     case 30:   
                aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send();
@@ -163,14 +171,14 @@ function displayTriggerMessage(msg) {
                cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[7]); cReq.send(); 
                break;
     case 38:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[3] + ned_params[8]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[3] + ned_params[8]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[3] + ned_params[8]); cReq.send(); 
+               aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[0]); aReq.send();
+               bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[0]); bReq.send();
+               cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[0]); cReq.send(); 
                break;
     case 39:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[4] + ned_params[9]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[4] + ned_params[9]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[4] + ned_params[9]); cReq.send(); 
+               aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[1]); aReq.send();
+               bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[1]); bReq.send();
+               cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[1]); cReq.send(); 
                break;
     case 200:  
                aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send(); 
