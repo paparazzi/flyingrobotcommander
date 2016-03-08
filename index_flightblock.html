@@ -28,7 +28,7 @@
 
 <script>
 
-var row_count       = 4;       // Number of rows
+var row_count       = 6;       // Number of rows
 var col_count       = 10;      // Number of columns
 var msg_btn_id      = "999";   // Id of the message id status button
 
@@ -39,7 +39,7 @@ var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for UR
 var cmd_flightblock = ip_cmd_prefix + '/flightblock';
 var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
 
-var aircraft_id     = new Array('/217', '/218', '/219');
+var aircraft_id     = new Array('/217', '/218', '/219', '/216', '/215');
 var flightblock_id  = new Array('/3', '/4', '/6', '/7', '/8', '/9', '/12', '/32','/33', '/2');
 
 
@@ -83,6 +83,8 @@ function displayTriggerMessage(msg) {
   var aReq = new XMLHttpRequest();
   var bReq = new XMLHttpRequest();
   var cReq = new XMLHttpRequest();
+  var dReq = new XMLHttpRequest();
+  var eReq = new XMLHttpRequest();
   switch(parseInt(msg)) {
     case 0:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]);  aReq.send(); break;
     case 1:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]);  aReq.send(); break;
@@ -94,6 +96,7 @@ function displayTriggerMessage(msg) {
     case 7:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]);  aReq.send(); break;
     case 8:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[8]);  aReq.send(); break;
     case 9:    aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[9]);  aReq.send(); break;
+
     case 10:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]);  bReq.send(); break;
     case 11:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]);  bReq.send(); break;
     case 12:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]);  bReq.send(); break;
@@ -104,6 +107,7 @@ function displayTriggerMessage(msg) {
     case 17:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]);  bReq.send(); break;
     case 18:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[8]);  bReq.send(); break;
     case 19:   bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[9]);  bReq.send(); break;
+
     case 20:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]);  cReq.send(); break;
     case 21:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]);  cReq.send(); break;
     case 22:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]);  cReq.send(); break;
@@ -115,73 +119,123 @@ function displayTriggerMessage(msg) {
     case 28:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[8]);  cReq.send(); break;
     case 29:   cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[9]);  cReq.send(); break;
 
-    case 30:   
+    case 30:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[0]);  dReq.send(); break;
+    case 31:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[1]);  dReq.send(); break;
+    case 32:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[2]);  dReq.send(); break;
+    case 33:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[3]);  dReq.send(); break;
+    case 34:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[4]);  dReq.send(); break;
+    case 35:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[5]);  dReq.send(); break;
+    case 36:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[6]);  dReq.send(); break;
+    case 37:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[7]);  dReq.send(); break;
+    case 38:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[8]);  dReq.send(); break;
+    case 39:   dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[9]);  dReq.send(); break;
+
+    case 40:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[0]);  eReq.send(); break;
+    case 41:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[1]);  eReq.send(); break;
+    case 42:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[2]);  eReq.send(); break;
+    case 43:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[3]);  eReq.send(); break;
+    case 44:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[4]);  eReq.send(); break;
+    case 45:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[5]);  eReq.send(); break;
+    case 46:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[6]);  eReq.send(); break;
+    case 47:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[7]);  eReq.send(); break;
+    case 48:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[8]);  eReq.send(); break;
+    case 49:   eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[9]);  eReq.send(); break;
+
+    case 50:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[0]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[0]); eReq.send(); 
                break;
-    case 31:   
+    case 51:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[1]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[1]); eReq.send(); 
                break;
-    case 32:   
+    case 52:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[2]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[2]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[2]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[2]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[2]); eReq.send(); 
                break;
-    case 33:   
+    case 53:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[3]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[3]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[3]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[3]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[3]); eReq.send(); 
                break;
-    case 34:   
+    case 54:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[4]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[4]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[4]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[4]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[4]); eReq.send(); 
                break;
-    case 35:   
+    case 55:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[5]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[5]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[5]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[5]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[5]); eReq.send(); 
                break;
-    case 36:   
+    case 56:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[6]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[6]); eReq.send(); 
                break;
-    case 37:   
+    case 57:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[7]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[7]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[7]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[7]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[7]); eReq.send(); 
                break;
-    case 38:   
+    case 58:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[8]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[8]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[8]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[8]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[8]); eReq.send(); 
                break;
-    case 39:   
+    case 59:   
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[9]); aReq.send();
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[9]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[9]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[9]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[9]); eReq.send(); 
                break;
     case 200:  
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[0]); aReq.send(); 
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[0]); bReq.send();
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[0]); cReq.send();
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[0]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[0]); eReq.send(); 
                setTimeout(aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[1]),3000); aReq.send(); 
                setTimeout(bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[1]),3000); bReq.send();
                setTimeout(cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[1]),3000); cReq.send();
+               setTimeout(dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[1]),3000); dReq.send();
+               setTimeout(eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[1]),3000); eReq.send();
                break;
     case 201:  
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[6]); aReq.send(); 
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[6]); bReq.send(); 
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[6]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[6]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[6]); eReq.send(); 
                break;
     case 202:  
                aReq.open("GET", cmd_flightblock + aircraft_id[0] + flightblock_id[8]); aReq.send(); 
                bReq.open("GET", cmd_flightblock + aircraft_id[1] + flightblock_id[8]); bReq.send(); 
                cReq.open("GET", cmd_flightblock + aircraft_id[2] + flightblock_id[8]); cReq.send(); 
+               dReq.open("GET", cmd_flightblock + aircraft_id[3] + flightblock_id[8]); dReq.send(); 
+               eReq.open("GET", cmd_flightblock + aircraft_id[4] + flightblock_id[8]); eReq.send(); 
                break;
     case 300:  
                break;
@@ -357,6 +411,7 @@ body {
   <button id="7"  title="Land Here" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
   <button id="8"  title="Land" style="background:red"            onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
   <button id="9"  title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+
   <button id="10" title="Props On" style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="11" title="Takeoff" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="12" style="background:deepskyblue"                 onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
@@ -367,6 +422,7 @@ body {
   <button id="17" title="Land Here" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="18" title="Land" style="background:red"            onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="19" title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+
   <button id="20" title="Props On" style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="21" title="Takeoff" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="22" style="background:deepskyblue"                 onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
@@ -377,16 +433,39 @@ body {
   <button id="27" title="Land Here" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="28" title="Land" style="background:red"            onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="29" title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="30" title="Props On" style="background:lime; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="31" title="Takeoff" style="background:green; background-image:url(img/aircraft-take-off.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="32" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="33" style="background:dodgerblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="34" style="background:gold" onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="35" style="background:orange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="36" style="background:darkorange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">H</button>
-  <button id="37" title="Land Here" style="background:orangered; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="38" title="Land" style="background:red; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="39" title="Props Off" style="background:darkred; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+
+  <button id="30" title="Props On" style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="31" title="Takeoff" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="32" style="background:deepskyblue"                 onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="33" style="background:dodgerblue"                  onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="34" style="background:gold"                        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="35" style="background:orange"                      onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="36" style="background:darkorange"                  onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="37" title="Land Here" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="38" title="Land" style="background:red"            onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="39" title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+
+  <button id="40" title="Props On" style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="41" title="Takeoff" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="42" style="background:deepskyblue"                 onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="43" style="background:dodgerblue"                  onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="44" style="background:gold"                        onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="45" style="background:orange"                      onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="46" style="background:darkorange"                  onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="47" title="Land Here" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="48" title="Land" style="background:red"            onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="49" title="Props Off" style="background:darkred"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+
+  <button id="50" title="Props On" style="background:lime; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="51" title="Takeoff" style="background:green; background-image:url(img/aircraft-take-off.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="52" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="53" style="background:dodgerblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="54" style="background:gold" onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="55" style="background:orange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="56" style="background:darkorange" onmousedown="mousedownButton(this)" onclick="selectButton(this)">H</button>
+  <button id="57" title="Land Here" style="background:orangered; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="58" title="Land" style="background:red; background-image:url(img/aircraft-landing.png); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="59" title="Props Off" style="background:darkred; background-image:url(img/propeller.png); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Block: x</button>

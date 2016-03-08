@@ -28,7 +28,7 @@
 
 <script>
 
-var row_count       = 4;      // Number of rows
+var row_count       = 6;      // Number of rows
 var col_count       = 8;      // Number of columns
 var msg_btn_id      = "999";  // Id of the message id status button
 
@@ -39,7 +39,7 @@ var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for UR
 var cmd_wp          = ip_cmd_prefix + '/waypoint';
 var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
 
-var aircraft_id     = new Array('/217', '/218', '/219');
+var aircraft_id     = new Array('/217', '/218', '/219', '/216', '/215');
 // Default Waypoints for: Standby, WP_1, WP_2, WP_3, WP_4, WP_HOV, WP_1_mod, WP_2_mod
 // Mostly here for reference while playing with waypoint configurations
 /*
@@ -94,6 +94,8 @@ function displayTriggerMessage(msg) {
   var aReq = new XMLHttpRequest();
   var bReq = new XMLHttpRequest();
   var cReq = new XMLHttpRequest();
+  var dReq = new XMLHttpRequest();
+  var eReq = new XMLHttpRequest();
   switch(parseInt(msg)) {
     case 0:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]);  aReq.send(); break;
     case 1:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]);  aReq.send(); break;
@@ -103,6 +105,7 @@ function displayTriggerMessage(msg) {
     case 5:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]);  aReq.send(); break;
     case 6:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]);  aReq.send(); break;
     case 7:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]);  aReq.send(); break;
+
     case 8:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]);  bReq.send(); break;
     case 9:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]);  bReq.send(); break;
     case 10:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]);  bReq.send(); break;
@@ -111,6 +114,7 @@ function displayTriggerMessage(msg) {
     case 13:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]);  bReq.send(); break;
     case 14:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]);  bReq.send(); break;
     case 15:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]);  bReq.send(); break;
+
     case 16:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]);  cReq.send(); break;
     case 17:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]);  cReq.send(); break;
     case 18:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]);  cReq.send(); break;
@@ -119,63 +123,106 @@ function displayTriggerMessage(msg) {
     case 21:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]);  cReq.send(); break;
     case 22:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]);  cReq.send(); break;
     case 23:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]);  cReq.send(); break;
-    case 24:   
+
+    case 24:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0] + '/' + (wp_lat[0] - wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  dReq.send(); break;
+    case 25:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1] + '/' + (wp_lat[1] - wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  dReq.send(); break;
+    case 26:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[2] + '/' + (wp_lat[2] - wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  dReq.send(); break;
+    case 27:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[3] + '/' + (wp_lat[3] - wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  dReq.send(); break;
+    case 28:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[4] + '/' + (wp_lat[4] - wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  dReq.send(); break;
+    case 29:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[5] + '/' + (wp_lat[5] - wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  dReq.send(); break;
+    case 30:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6] + '/' + (wp_lat[6] - wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  dReq.send(); break;
+    case 31:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7] + '/' + (wp_lat[7] - wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  dReq.send(); break;
+
+    case 32:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0] + '/' + (wp_lat[0] + wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  eReq.send(); break;
+    case 33:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1] + '/' + (wp_lat[1] + wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  eReq.send(); break;
+    case 34:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[2] + '/' + (wp_lat[2] + wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  eReq.send(); break;
+    case 35:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[3] + '/' + (wp_lat[3] + wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  eReq.send(); break;
+    case 36:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[4] + '/' + (wp_lat[4] + wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  eReq.send(); break;
+    case 37:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[5] + '/' + (wp_lat[5] + wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  eReq.send(); break;
+    case 38:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6] + '/' + (wp_lat[6] + wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  eReq.send(); break;
+    case 39:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7] + '/' + (wp_lat[7] + wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  eReq.send(); break;
+
+    case 40:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0] + '/' + (wp_lat[0] - wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0] + '/' + (wp_lat[0] + wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  eReq.send();
                break;
-    case 25:   
+    case 41:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1] + '/' + (wp_lat[1] - wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1] + '/' + (wp_lat[1] + wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  eReq.send();
                break;
-    case 26:   
+    case 42:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[2] + '/' + wp_lat[2] + '/' + wp_long[2] + '/' + wp_alt[2]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[2] + '/' + (wp_lat[2] - wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[2] + '/' + (wp_lat[2] + wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  eReq.send();
                break;
-    case 27:   
+    case 43:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[3] + '/' + wp_lat[3] + '/' + wp_long[3] + '/' + wp_alt[3]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[3] + '/' + (wp_lat[3] - wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[3] + '/' + (wp_lat[3] + wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  eReq.send();
                break;
-    case 28:   
+    case 44:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[4] + '/' + wp_lat[4] + '/' + wp_long[4] + '/' + wp_alt[4]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[4] + '/' + (wp_lat[4] - wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[4] + '/' + (wp_lat[4] + wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  eReq.send();
                break;
-    case 29:   
+    case 45:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[5] + '/' + (wp_lat[5] - wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[5] + '/' + (wp_lat[5] + wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  eReq.send();
                break;
-    case 30:   
+    case 46:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6] + '/' + (wp_lat[6] - wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6] + '/' + (wp_lat[6] + wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  eReq.send();
                break;
-    case 31:   
+    case 47:   
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]); aReq.send();
-               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]); bReq.send();
-               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]); cReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7] + '/' + (wp_lat[7] - wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7] + '/' + (wp_lat[7] + wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  eReq.send();
                break;
     case 200:  
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0]); aReq.send(); 
                bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0]); bReq.send();
                cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0]); cReq.send();
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0]); dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0]); eReq.send();
                setTimeout(aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1]),3000); aReq.send(); 
                setTimeout(bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1]),3000); bReq.send();
                setTimeout(cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1]),3000); cReq.send();
+               setTimeout(dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1]),3000); dReq.send();
+               setTimeout(eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1]),3000); eReq.send();
                break;
     case 201:  
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6]); aReq.send(); 
                bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6]); bReq.send(); 
                cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6]); cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6]); dReq.send(); 
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6]); eReq.send(); 
                break;
     case 202:  
                aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7]); aReq.send(); 
                bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7]); bReq.send(); 
                cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7]); cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7]); dReq.send(); 
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7]); eReq.send(); 
                break;
     default:   aReq.open("GET", cmd_wp + ''); aReq.send();
   }
@@ -343,6 +390,7 @@ body {
   <button id="5"  style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
   <button id="6"  style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
   <button id="7"  style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+
   <button id="8"  style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="9"  style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="10" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
@@ -351,6 +399,7 @@ body {
   <button id="13" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="14" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
   <button id="15" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+
   <button id="16" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="17" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="18" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
@@ -359,14 +408,33 @@ body {
   <button id="21" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="22" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
   <button id="23" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="24" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="25" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="26" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+
+  <button id="24" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="25" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="26" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
   <button id="27" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="28" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="29" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">6</button>
-  <button id="30" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">7</button>
-  <button id="31" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">8</button>
+  <button id="28" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="29" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="30" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="31" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+
+  <button id="32" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="33" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="34" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="35" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="36" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="37" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="38" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="39" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+
+  <button id="40" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="41" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="42" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="43" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="44" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="45" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">6</button>
+  <button id="46" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">7</button>
+  <button id="47" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">8</button>
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Point: x</button>
