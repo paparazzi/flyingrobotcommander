@@ -22,3 +22,5 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 - [x] Refactor code to use updated IvyMessagesInterface
 - [x] Remove external python scripts: flightblock.py, guidance.py, waypoint.py
 - [x] Refactor frc.py with direct calls to the IvyMessagesInterface
+- [x] Add curl code generation and ivy message interface tracing support(-c and -v, repsectively)
+
