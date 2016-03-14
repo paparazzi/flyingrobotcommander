@@ -28,7 +28,8 @@ from os import path, getenv
 import os
 import time
 import argparse
-from flask import Flask, request
+from flask import Flask, request, Response
+import json
 
 # if PAPARAZZI_SRC not set, then assume the tree containing this file is a reasonable substitute
 PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../')))
@@ -44,15 +45,45 @@ from math import radians
 
 app = Flask(__name__)
 
+# --- Configure server logging levels
+
 # Only spit out error level server messages
 import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+
+# --- Class/Global state variables
+
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
 frc_version   = "0.0.3"
 verbose       = 0       # Default is disabled(i.e. = 0)
 curl          = 0       # Default is disabled(i.e. = 0)
+subscribe     = 0       # Default is disabled(i.e. = 0)
+
+
+# --- Aircraft & Messages related state/methods
+
+class Message(PprzMessage):
+    def __init__(self, class_name, name,msg):
+        super(Message, self).__init__(class_name, name)
+        self.field_controls = {}
+        self.index = None
+        self.last_seen = time.clock()
+        self.latest_msg = msg 
+
+class Aircraft(object):
+    def __init__(self, ac_id):
+        self.ac_id = ac_id
+        self.messages = {}
+
+aircrafts = {}
+
+def add_new_message( aircraft, msg_class, name,msg):
+    aircraft.messages[name] = Message(msg_class, name,msg)        
+
+def add_new_aircraft(ac_id):
+    aircrafts[ac_id] = Aircraft(ac_id)    
 
 
 # --- Helper methods ---
@@ -63,11 +94,22 @@ def print_curl_header(host, port):
     print('port=%s' % port)
 
 def print_curl_format():
-	#print('curl %s' % request.url)
+    #print('curl %s' % request.url)
     print('curl http://$host:$port%s' % request.path)
 
 def print_ivy_trace(msg):
     print("Sending ivy message interface: %s" % msg)
+
+def callback_aircraft_messages(ac_id, msg):
+    # Possibly add the aircraft to the list
+    if ac_id not in aircrafts:
+        add_new_aircraft(ac_id)
+    aircraft = aircrafts[ac_id]
+    # Add the messages and say when last seen
+    add_new_message(aircraft, msg.msg_class, msg.name,msg)
+    aircrafts[ac_id].messages[msg.name].last_seen = time.time()
+    for index in range(0, len(msg.fieldvalues)):
+        aircraft.messages[msg.name].field_controls[index]=msg.get_field(index)
 
 
 # --- Routes/Paths ----
@@ -81,6 +123,42 @@ def index():
     if curl: print_curl_format()
     return retval
 
+
+@app.route('/aircraft/')
+def aircraft_all():
+    aclist = []
+    for ac_id in aircrafts:
+        aclist.append(ac_id)
+    if curl: print_curl_format()
+    return str(aclist)
+
+
+@app.route('/message/<int:ac_id>')
+def message(ac_id):
+    ac_id = int(ac_id)
+    if ac_id in aircrafts:
+        messagelist = []
+        for key in aircrafts[ac_id].messages:
+            messagelist.append(key)
+        if curl: print_curl_format()
+        return str(json.dumps(messagelist))
+    return "unknown id"    
+
+
+@app.route('/message/<int:ac_id>/<messagename>')
+def message_byname(ac_id, messagename):
+    # If the message is valid, return the latest message
+    ac_id = int(ac_id)
+    if ac_id in aircrafts:
+        if messagename in aircrafts[ac_id].messages:
+            if curl: print_curl_format()
+            return Response(str(aircrafts[ac_id].messages[messagename].latest_msg.to_json()))
+        else:
+            return "unknown message"
+    else:
+        return "unknown id"
+
+
 @app.route('/guidance/')
 def guidance_all():
     retval = ''
@@ -89,6 +167,7 @@ def guidance_all():
         retval = 'Guidance: All\n'
     if curl: print_curl_format()
     return retval
+
 
 #Set auto2 mode to GUIDED(value=19) or NAV(value=13).
 @app.route('/guidance/setmode/<int:ac_id>/<int:value>')
@@ -138,6 +217,7 @@ def guidance(ac_id, flag, x, y, z, yaw):
     if curl: print_curl_format()
     return retval
 
+
 @app.route('/waypoint/')
 def waypoint_all():
     retval = ''
@@ -146,6 +226,7 @@ def waypoint_all():
         retval = 'Waypoint: All\n'
     if curl: print_curl_format()
     return retval
+
 
 @app.route('/waypoint/<int:ac_id>/<int:wp_id>/<lat>/<lon>/<alt>')
 def waypoint(ac_id, wp_id, lat, lon, alt):
@@ -164,6 +245,7 @@ def waypoint(ac_id, wp_id, lat, lon, alt):
     if curl: print_curl_format()
     return retval
 
+
 @app.route('/flightblock/<int:fb_id>')
 def flightblock_all():
     retval = ''
@@ -173,6 +255,7 @@ def flightblock_all():
         retval = 'Flightblock: All Aircraft\n'
     if curl: print_curl_format()
     return retval
+
 
 @app.route('/flightblock/<int:ac_id>/<int:fb_id>')
 def flightblock(ac_id, fb_id):
@@ -188,9 +271,11 @@ def flightblock(ac_id, fb_id):
     if curl: print_curl_format()
     return retval
 
+
 @app.route('/about')
 def about():
     return 'About: Flying Robot Commander Server v%s\n' % (frc_version)
+
 
 # --- Main body ----
 if __name__ == '__main__':
@@ -201,12 +286,15 @@ if __name__ == '__main__':
                         help="ip address")
     parser.add_argument("-p","--port", type=int, default=5000,
                         help="port number")
-    parser.add_argument("-c","--curl",    action="store_true", help="dump actions as curl commands")
-    parser.add_argument("-v","--verbose", action="store_true", help="verbose mode")
+    parser.add_argument("-c","--curl",      action="store_true", help="dump actions as curl commands")
+    parser.add_argument("-s","--subscribe", action="store_true", help="subscribe to the ivy bus")
+    parser.add_argument("-v","--verbose",   action="store_true", help="verbose mode")
 
     try:
         # --- Startup state initialization block
         args = parser.parse_args()
+        if args.subscribe: 
+            ivy_interface.subscribe(callback_aircraft_messages)
         ivy_interface.start()
 
         # Handle misc. command line arguments

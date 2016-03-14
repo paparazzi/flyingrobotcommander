@@ -1,6 +1,6 @@
 # flyingrobotcommander
 
-This is an alpha version 0.0.2 used as a proof-of-concept and is subject to major refactoring.
+This is an alpha version 0.0.3 used as a proof-of-concept and is subject to major refactoring.
 
 ## Video Demos
 
@@ -18,9 +18,10 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
-- [x] Refactor python modules to use the pprzlink interface
-- [x] Refactor code to use updated IvyMessagesInterface
-- [x] Remove external python scripts: flightblock.py, guidance.py, waypoint.py
+- [x] Integrate real-time aircraft message handling features(-s switch to subscribe to ivy message bus)
+- [x] Add curl code generation and ivy message interface tracing support(-c and -v, respectively)
 - [x] Refactor frc.py with direct calls to the IvyMessagesInterface
-- [x] Add curl code generation and ivy message interface tracing support(-c and -v, repsectively)
+- [x] Remove external python scripts: flightblock.py, guidance.py, waypoint.py
+- [x] Refactor code to use updated IvyMessagesInterface
+- [x] Refactor python modules to use the pprzlink interface
 
