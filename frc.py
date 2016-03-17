@@ -32,7 +32,8 @@ from flask import Flask, request, Response
 import json
 
 # if PAPARAZZI_SRC not set, then assume the tree containing this file is a reasonable substitute
-PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '../../../')))
+PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '~/paparazzi/')))
+
 sys.path.append(PPRZ_SRC + "/sw/lib/python")
 sys.path.append(PPRZ_SRC + "/sw/ext/pprzlink/lib/v1.0/python")
 
@@ -62,28 +63,44 @@ curl          = 0       # Default is disabled(i.e. = 0)
 subscribe     = 0       # Default is disabled(i.e. = 0)
 
 
-# --- Aircraft & Messages related state/methods
+# --- Aircraft, Flighblock & Message related state/methods
 
 class Message(PprzMessage):
-    def __init__(self, class_name, name,msg):
+    def __init__(self, class_name, name, msg):
         super(Message, self).__init__(class_name, name)
         self.field_controls = {}
-        self.index = None
-        self.last_seen = time.clock()
-        self.latest_msg = msg 
+        self.index          = None
+        self.last_seen      = time.clock()
+        self.latest_msg     = msg
+
+class Flightblock(object):
+    def __init__(self, fb_id, fb_name):
+        self.fb_id   = fb_id
+        self.fb_name = fb_name
 
 class Aircraft(object):
-    def __init__(self, ac_id):
-        self.ac_id = ac_id
-        self.messages = {}
+    def __init__(self, ac_id, name):
+        self.ac_id        = ac_id
+        self.name         = name
+        self.flightblocks = {}
+        self.messages     = {}
 
 aircrafts = {}
 
-def add_new_message( aircraft, msg_class, name,msg):
-    aircraft.messages[name] = Message(msg_class, name,msg)        
+def add_new_message( aircraft, msg_class, name, msg):
+    aircraft.messages[name] = Message(msg_class, name, msg)
 
-def add_new_aircraft(ac_id):
-    aircrafts[ac_id] = Aircraft(ac_id)    
+def add_new_flightblock( aircraft, fb_id, fb_name):
+    aircraft.flightblocks[fb_id] = Flightblock(fb_id, fb_name)      
+
+def add_new_aircraft(ac_id, name):
+    aircrafts[ac_id] = Aircraft(ac_id, name)
+
+def print_aircraft_data():
+    for ac_id in aircrafts:
+        print( ac_id, aircrafts[ac_id].name )
+        for fb_id in aircrafts[ac_id].flightblocks:
+            print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )   
 
 
 # --- Helper methods ---
@@ -100,10 +117,35 @@ def print_curl_format():
 def print_ivy_trace(msg):
     print("Sending ivy message interface: %s" % msg)
 
+import xml.etree.cElementTree as ET    
+PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
+
+def static_init_aircraft_data():
+    tree = ET.parse(os.path.join( PPRZ_SRC_CONF, 'conf.xml' ))
+    root = tree.getroot()
+
+    # Populate aircraft objects
+    for aircraft in root.findall('aircraft'):
+        acid           = int(aircraft.get('ac_id'))
+        name           = aircraft.get('name')
+        flightplanpath = aircraft.get('flight_plan')
+        #airframepath   = aircraft.get('airframe')
+        #color          = aircraft.get('gui_color')
+        add_new_aircraft(acid, name)
+        aircraft = aircrafts[acid]
+    
+        # Populate flightblock objects
+        fptree = ET.parse(os.path.join( PPRZ_SRC_CONF, flightplanpath )) 
+        fproot = fptree.getroot()
+        for idx, block in enumerate(fproot.iter('block')):
+            name = block.get('name')
+            add_new_flightblock(aircraft, idx, name)
+
+
 def callback_aircraft_messages(ac_id, msg):
     # Possibly add the aircraft to the list
     if ac_id not in aircrafts:
-        add_new_aircraft(ac_id)
+        add_new_aircraft(ac_id, 'unknown')
     aircraft = aircrafts[ac_id]
     # Add the messages and say when last seen
     add_new_message(aircraft, msg.msg_class, msg.name,msg)
@@ -131,6 +173,21 @@ def aircraft_all():
         aclist.append(ac_id)
     if curl: print_curl_format()
     return str(aclist)
+
+
+@app.route('/aircraft/<int:ac_id>')
+def aircraft(ac_id):
+    ac_id = int(ac_id)
+    if ac_id in aircrafts:
+        alist = []
+        alist.append(ac_id)
+        alist.append(aircrafts[ac_id].name)
+        for fb_id in aircrafts[ac_id].flightblocks:
+            alist.append(fb_id)   
+            alist.append(aircrafts[ac_id].flightblocks[fb_id].fb_name)   
+        if curl: print_curl_format()
+        return str(alist)    
+    return "unknown id"    
 
 
 @app.route('/message/<int:ac_id>')
@@ -293,6 +350,9 @@ if __name__ == '__main__':
     try:
         # --- Startup state initialization block
         args = parser.parse_args()
+        static_init_aircraft_data()
+        if args.verbose: 
+            print_aircraft_data()
         if args.subscribe: 
             ivy_interface.subscribe(callback_aircraft_messages)
         ivy_interface.start()
