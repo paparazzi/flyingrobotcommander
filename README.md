@@ -18,6 +18,7 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Parse configuration files and populate aircraft data objects on startup
 - [x] Integrate real-time aircraft message handling features(-s switch to subscribe to ivy message bus)
 - [x] Add curl code generation and ivy message interface tracing support(-c and -v, respectively)
 - [x] Refactor frc.py with direct calls to the IvyMessagesInterface
