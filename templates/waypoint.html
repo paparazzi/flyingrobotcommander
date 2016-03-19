@@ -1,0 +1,395 @@
+{% extends "layout.html" %}
+{% block head %}
+<head>
+
+<title>Waypoint: Flying Robot Commander</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<script>
+
+var row_count       = 6;      // Number of rows
+var col_count       = 8;      // Number of columns
+var msg_btn_id      = "999";  // Id of the message id status button
+
+// Assign defaults for ip address, port number
+var ip_addr         = '192.168.1.7';
+var port_number     =  '5000';
+var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+var cmd_wp          = ip_cmd_prefix + '/waypoint';
+var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+
+var aircraft_id     = new Array('/217', '/218', '/219', '/216', '/215');
+// Default Waypoints for: Standby, WP_1, WP_2, WP_3, WP_4, WP_HOV, WP_1_mod, WP_2_mod
+// Mostly here for reference while playing with waypoint configurations
+/*
+var wp_id           = new Array('/3', '/4', '/5', '/6', '/7', '/8', '/4', '/5');
+var wp_lat          = new Array(  45.5641310,   45.5644588,   45.5642158,   45.5644687,   45.5642239,   45.5642671,   45.5641310,   45.5644588);
+var wp_long         = new Array(-122.6224349, -122.6224673, -122.6219449, -122.6219406, -122.6224702, -122.6222098, -122.6224349, -122.6224673);
+*/
+// Testing with the WP_HOV waypoint
+var wp_id           = new Array('/8', '/8', '/8', '/8', '/8', '/8', '/8', '/8');
+var wp_lat          = new Array(  45.5642,   45.5645,   45.5643,   45.5641,   45.5643,   45.5645,   45.5642,   45.5642);
+var wp_long         = new Array(-122.6222, -122.6222, -122.6225, -122.6222, -122.6219, -122.6219, -122.6222, -122.6222);
+var wp_alt          = new Array(  61.0,      61.0,      61.0,      61.0,      61.0,      61.0,      81.0,     101.0);
+var wp_incr         = 0.0001;
+
+// Get a parameter value from the current URL
+function getParam ( sname )
+{
+  var params = location.search.substr(location.search.indexOf("?")+1);
+  var sval = "";
+  params = params.split("&");
+    // split param and value into individual pieces
+    for (var i=0; i<params.length; i++)
+       {
+         temp = params[i].split("=");
+         if ( [temp[0]] == sname ) { sval = temp[1]; }
+       }
+  return sval;
+}
+
+// Initalize any state variables needed for this page
+function initPage()
+{
+  ip_addr = getParam("ipaddr");
+  //alert(ip_addr);
+  port_number = getParam("port");
+  //alert(port_number);
+
+  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
+  cmd_wp          = ip_cmd_prefix + '/waypoint';
+  //alert(cmd_flightblock);
+  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
+  //alert(url_params);
+}
+
+
+function displayTriggerMessage(msg) {
+  // Set message text to color other than black as a visual aid to detect message latency issues
+  // CURRENTY NOT USED BASED ON OBSERVED PERFORMANCE
+  //document.getElementById(msg_btn_id).style.color = "green";
+  //document.getElementById(msg_btn_id).innerHTML = "Point: " + msg;
+
+  var aReq = new XMLHttpRequest();
+  var bReq = new XMLHttpRequest();
+  var cReq = new XMLHttpRequest();
+  var dReq = new XMLHttpRequest();
+  var eReq = new XMLHttpRequest();
+  switch(parseInt(msg)) {
+    case 0:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]);  aReq.send(); break;
+    case 1:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]);  aReq.send(); break;
+    case 2:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[2] + '/' + wp_lat[2] + '/' + wp_long[2] + '/' + wp_alt[2]);  aReq.send(); break;
+    case 3:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[3] + '/' + wp_lat[3] + '/' + wp_long[3] + '/' + wp_alt[3]);  aReq.send(); break;
+    case 4:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[4] + '/' + wp_lat[4] + '/' + wp_long[4] + '/' + wp_alt[4]);  aReq.send(); break;
+    case 5:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]);  aReq.send(); break;
+    case 6:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]);  aReq.send(); break;
+    case 7:    aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]);  aReq.send(); break;
+
+    case 8:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]);  bReq.send(); break;
+    case 9:    bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]);  bReq.send(); break;
+    case 10:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]);  bReq.send(); break;
+    case 11:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]);  bReq.send(); break;
+    case 12:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]);  bReq.send(); break;
+    case 13:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]);  bReq.send(); break;
+    case 14:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]);  bReq.send(); break;
+    case 15:   bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]);  bReq.send(); break;
+
+    case 16:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]);  cReq.send(); break;
+    case 17:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]);  cReq.send(); break;
+    case 18:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]);  cReq.send(); break;
+    case 19:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]);  cReq.send(); break;
+    case 20:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]);  cReq.send(); break;
+    case 21:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]);  cReq.send(); break;
+    case 22:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]);  cReq.send(); break;
+    case 23:   cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]);  cReq.send(); break;
+
+    case 24:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0] + '/' + (wp_lat[0] - wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  dReq.send(); break;
+    case 25:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1] + '/' + (wp_lat[1] - wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  dReq.send(); break;
+    case 26:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[2] + '/' + (wp_lat[2] - wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  dReq.send(); break;
+    case 27:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[3] + '/' + (wp_lat[3] - wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  dReq.send(); break;
+    case 28:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[4] + '/' + (wp_lat[4] - wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  dReq.send(); break;
+    case 29:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[5] + '/' + (wp_lat[5] - wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  dReq.send(); break;
+    case 30:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6] + '/' + (wp_lat[6] - wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  dReq.send(); break;
+    case 31:   dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7] + '/' + (wp_lat[7] - wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  dReq.send(); break;
+
+    case 32:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0] + '/' + (wp_lat[0] + wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  eReq.send(); break;
+    case 33:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1] + '/' + (wp_lat[1] + wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  eReq.send(); break;
+    case 34:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[2] + '/' + (wp_lat[2] + wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  eReq.send(); break;
+    case 35:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[3] + '/' + (wp_lat[3] + wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  eReq.send(); break;
+    case 36:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[4] + '/' + (wp_lat[4] + wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  eReq.send(); break;
+    case 37:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[5] + '/' + (wp_lat[5] + wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  eReq.send(); break;
+    case 38:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6] + '/' + (wp_lat[6] + wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  eReq.send(); break;
+    case 39:   eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7] + '/' + (wp_lat[7] + wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  eReq.send(); break;
+
+    case 40:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0] + '/' + wp_lat[0] + '/' + wp_long[0] + '/' + wp_alt[0]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] - wp_incr).toFixed(4) + '/' + wp_alt[0]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0] + '/' + wp_lat[0] + '/' + (wp_long[0] + wp_incr).toFixed(4) + '/' + wp_alt[0]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0] + '/' + (wp_lat[0] - wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0] + '/' + (wp_lat[0] + wp_incr).toFixed(4) + '/' + wp_long[0] + '/' + wp_alt[0]);  eReq.send();
+               break;
+    case 41:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1] + '/' + wp_lat[1] + '/' + wp_long[1] + '/' + wp_alt[1]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] - wp_incr).toFixed(4) + '/' + wp_alt[1]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1] + '/' + wp_lat[1] + '/' + (wp_long[1] + wp_incr).toFixed(4) + '/' + wp_alt[1]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1] + '/' + (wp_lat[1] - wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1] + '/' + (wp_lat[1] + wp_incr).toFixed(4) + '/' + wp_long[1] + '/' + wp_alt[1]);  eReq.send();
+               break;
+    case 42:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[2] + '/' + wp_lat[2] + '/' + wp_long[2] + '/' + wp_alt[2]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] - wp_incr).toFixed(4) + '/' + wp_alt[2]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[2] + '/' + wp_lat[2] + '/' + (wp_long[2] + wp_incr).toFixed(4) + '/' + wp_alt[2]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[2] + '/' + (wp_lat[2] - wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[2] + '/' + (wp_lat[2] + wp_incr).toFixed(4) + '/' + wp_long[2] + '/' + wp_alt[2]);  eReq.send();
+               break;
+    case 43:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[3] + '/' + wp_lat[3] + '/' + wp_long[3] + '/' + wp_alt[3]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] - wp_incr).toFixed(4) + '/' + wp_alt[3]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[3] + '/' + wp_lat[3] + '/' + (wp_long[3] + wp_incr).toFixed(4) + '/' + wp_alt[3]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[3] + '/' + (wp_lat[3] - wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[3] + '/' + (wp_lat[3] + wp_incr).toFixed(4) + '/' + wp_long[3] + '/' + wp_alt[3]);  eReq.send();
+               break;
+    case 44:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[4] + '/' + wp_lat[4] + '/' + wp_long[4] + '/' + wp_alt[4]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] - wp_incr).toFixed(4) + '/' + wp_alt[4]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[4] + '/' + wp_lat[4] + '/' + (wp_long[4] + wp_incr).toFixed(4) + '/' + wp_alt[4]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[4] + '/' + (wp_lat[4] - wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[4] + '/' + (wp_lat[4] + wp_incr).toFixed(4) + '/' + wp_long[4] + '/' + wp_alt[4]);  eReq.send();
+               break;
+    case 45:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[5] + '/' + wp_lat[5] + '/' + wp_long[5] + '/' + wp_alt[5]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] - wp_incr).toFixed(4) + '/' + wp_alt[5]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[5] + '/' + wp_lat[5] + '/' + (wp_long[5] + wp_incr).toFixed(4) + '/' + wp_alt[5]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[5] + '/' + (wp_lat[5] - wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[5] + '/' + (wp_lat[5] + wp_incr).toFixed(4) + '/' + wp_long[5] + '/' + wp_alt[5]);  eReq.send();
+               break;
+    case 46:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6] + '/' + wp_lat[6] + '/' + wp_long[6] + '/' + wp_alt[6]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] - wp_incr).toFixed(4) + '/' + wp_alt[6]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6] + '/' + wp_lat[6] + '/' + (wp_long[6] + wp_incr).toFixed(4) + '/' + wp_alt[6]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6] + '/' + (wp_lat[6] - wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6] + '/' + (wp_lat[6] + wp_incr).toFixed(4) + '/' + wp_long[6] + '/' + wp_alt[6]);  eReq.send();
+               break;
+    case 47:   
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7] + '/' + wp_lat[7] + '/' + wp_long[7] + '/' + wp_alt[7]); aReq.send();
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] - wp_incr).toFixed(4) + '/' + wp_alt[7]);  bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7] + '/' + wp_lat[7] + '/' + (wp_long[7] + wp_incr).toFixed(4) + '/' + wp_alt[7]);  cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7] + '/' + (wp_lat[7] - wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7] + '/' + (wp_lat[7] + wp_incr).toFixed(4) + '/' + wp_long[7] + '/' + wp_alt[7]);  eReq.send();
+               break;
+    case 200:  
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[0]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[0]); bReq.send();
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[0]); cReq.send();
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[0]); dReq.send();
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[0]); eReq.send();
+               setTimeout(aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[1]),3000); aReq.send(); 
+               setTimeout(bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[1]),3000); bReq.send();
+               setTimeout(cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[1]),3000); cReq.send();
+               setTimeout(dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[1]),3000); dReq.send();
+               setTimeout(eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[1]),3000); eReq.send();
+               break;
+    case 201:  
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[6]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[6]); bReq.send(); 
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[6]); cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[6]); dReq.send(); 
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[6]); eReq.send(); 
+               break;
+    case 202:  
+               aReq.open("GET", cmd_wp + aircraft_id[0] + wp_id[7]); aReq.send(); 
+               bReq.open("GET", cmd_wp + aircraft_id[1] + wp_id[7]); bReq.send(); 
+               cReq.open("GET", cmd_wp + aircraft_id[2] + wp_id[7]); cReq.send(); 
+               dReq.open("GET", cmd_wp + aircraft_id[3] + wp_id[7]); dReq.send(); 
+               eReq.open("GET", cmd_wp + aircraft_id[4] + wp_id[7]); eReq.send(); 
+               break;
+    default:   aReq.open("GET", cmd_wp + ''); aReq.send();
+  }
+
+  document.getElementById(msg_btn_id).style.color = "black";
+  document.getElementById(msg_btn_id).innerHTML = "Point: " + msg;
+
+}
+
+function clearRowBoarders(row) {
+
+  for (var i = 0; i < col_count; i++) {
+    var tid = ((row - 1)*col_count) + i;
+    document.getElementById(tid).style.borderColor = "black";
+    document.getElementById(tid).style.color = "black";
+  }  
+
+}
+
+function setRowColumnBoarder(row, col) {
+  var tid = ((row - 1)*col_count) + (col-1);
+  document.getElementById(tid).style.borderColor = "white";
+  document.getElementById(tid).style.color = "white";
+}
+
+function mousedownButton(btn) {
+  var row = Math.trunc(btn.id / col_count) + 1;
+  var col = (btn.id % col_count) + 1;
+
+  // Clear row borders
+  clearRowBoarders(row);
+  btn.style.borderColor = "black";
+  btn.style.color = "black";
+
+  // Clear message status as a visual cue
+  // CURRENTLY NOT USED
+  //document.getElementById(msg_btn_id).innerHTML = "";
+}
+
+function selectButton(btn) {
+  var row = Math.trunc(btn.id / col_count) + 1;
+  var col = (btn.id % col_count) + 1;
+
+  // Set the text of the button. Useful for testing
+  //btn.innerHTML = "X" + row + "Y" + col;
+
+  // Clear row borders
+  clearRowBoarders(row);
+  btn.style.borderColor = "white";
+  btn.style.color = "white";
+  displayTriggerMessage(btn.id);
+
+  // If a button in the bottom row selected, clear borders on preceeding rows
+  if (row == row_count) {
+    for (var i = 1; i < row_count; i++) {
+      clearRowBoarders(i);
+      setRowColumnBoarder(i, col);
+    }
+
+  }
+
+  /*
+  // UNUSED CODE BLOCKS
+
+  // Toggle border color
+  if (btn.style.borderColor == "white") {
+    btn.style.borderColor = "black";
+  }
+  else {
+    btn.style.borderColor = "white";
+  }
+
+  // Set the background to white
+  btn.style.background = "white";
+  */
+}
+
+function clearPageRowBoarders() {
+
+  // Leverage button id sequence to simplify clear operation logic
+  for (var tid = 200; tid < 203; tid++) {
+    document.getElementById(tid).style.borderColor = "black";
+    document.getElementById(tid).style.color = "black";
+  }
+
+}
+
+
+function selectPageButton(btn) {
+
+  // Clear row borders
+  clearPageRowBoarders();
+  btn.style.borderColor = "white";
+  btn.style.color = "white";
+  displayTriggerMessage(btn.id);
+}
+
+</script>
+
+<style>
+
+.button-container {
+  width: 780px;
+  background: black;
+  overflow-y: auto;
+}
+
+.command-button-container {
+  width: 780px;
+  background: black;
+  overflow-y: auto;
+}
+
+</style>
+
+</script>
+
+</head>
+{% endblock %}
+
+{% block body %}
+<body onload="initPage();">
+
+<div class="menu-container">
+  <div class="button-container">
+  <button id="0"  style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="1"  style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="2"  style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="3"  style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="4"  style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="5"  style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="6"  style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="7"  style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+
+  <button id="8"  style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="9"  style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="10" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="11" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="12" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="13" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="14" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="15" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+
+  <button id="16" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="17" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="18" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="19" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="20" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="21" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="22" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="23" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+
+  <button id="24" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="25" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="26" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="27" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="28" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="29" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="30" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="31" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+
+  <button id="32" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="33" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="34" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="35" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="36" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="37" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="38" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="39" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+
+  <button id="40" style="background:deepskyblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
+  <button id="41" style="background:dodgerblue"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  <button id="42" style="background:lime"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
+  <button id="43" style="background:green"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  <button id="44" style="background:gold"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
+  <button id="45" style="background:orange"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">6</button>
+  <button id="46" style="background:orangered"    onmousedown="mousedownButton(this)" onclick="selectButton(this)">7</button>
+  <button id="47" style="background:red"          onmousedown="mousedownButton(this)" onclick="selectButton(this)">8</button>
+  </div>
+  <div class="command-button-container">
+  <button id="999" style="color:black; font-size: 18px">Point: x</button>
+  <!--
+  <button id="200" style="background:lime; color:black; font-size: 30px"   onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
+  <button id="201" style="background:purple; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
+  <button id="202" style="background:red; color:black; font-size: 30px"    onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
+  -->
+  </div>
+</div>
+
+</body>
+{% endblock %}

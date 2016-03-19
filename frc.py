@@ -28,7 +28,7 @@ from os import path, getenv
 import os
 import time
 import argparse
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 import json
 
 # if PAPARAZZI_SRC not set, then assume the tree containing this file is a reasonable substitute
@@ -100,7 +100,9 @@ def print_aircraft_data():
     for ac_id in aircrafts:
         print( ac_id, aircrafts[ac_id].name )
         for fb_id in aircrafts[ac_id].flightblocks:
-            print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )   
+            print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )
+
+aircraft_client_list = []
 
 
 # --- Helper methods ---
@@ -187,6 +189,23 @@ def aircraft(ac_id):
             alist.append(aircrafts[ac_id].flightblocks[fb_id].fb_name)   
         if curl: print_curl_format()
         return str(alist)    
+    return "unknown id"    
+
+
+@app.route('/aircraft/client/')
+def aircraft_client_all():
+    if curl: print_curl_format()
+    return str(aircraft_client_list)
+
+
+@app.route('/aircraft/client/add/<int:ac_id>')
+def aircraft_client_add(ac_id):
+    ac_id = int(ac_id)
+    if ac_id in aircrafts:
+        if ac_id not in aircraft_client_list:       
+            aircraft_client_list.append(ac_id)
+        if curl: print_curl_format()
+        return str(aircraft_client_list)    
     return "unknown id"    
 
 
@@ -327,6 +346,22 @@ def flightblock(ac_id, fb_id):
     ivy_interface.send(msg)
     if curl: print_curl_format()
     return retval
+
+
+@app.route('/newflightblock/')
+def newflightblock():
+    return render_template('flightblock.html')
+
+
+@app.route('/newguided/')
+def newguided():
+    return render_template('guided.html')
+
+
+@app.route('/newwaypoint/')
+def newwaypoint():
+    return render_template('waypoint.html')
+
 
 
 @app.route('/about')
