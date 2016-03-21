@@ -1,6 +1,6 @@
 # flyingrobotcommander
 
-This is an alpha version 0.0.3 used as a proof-of-concept and is subject to major refactoring.
+This is an alpha version 0.0.4 used as a proof-of-concept and is subject to major refactoring.
 
 ## Video Demos
 
@@ -18,6 +18,7 @@ Here are a couple of informal demo videos of the Flying Robot Commander; capture
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Add Flask/Jinja2 template support and refactor flightblock view using template approach
 - [x] Parse configuration files and populate aircraft data objects on startup
 - [x] Integrate real-time aircraft message handling features(-s switch to subscribe to ivy message bus)
 - [x] Add curl code generation and ivy message interface tracing support(-c and -v, respectively)

@@ -57,10 +57,12 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.0.3"
-verbose       = 0       # Default is disabled(i.e. = 0)
-curl          = 0       # Default is disabled(i.e. = 0)
-subscribe     = 0       # Default is disabled(i.e. = 0)
+frc_version   = "0.0.4"
+verbose       = 0            # Default is disabled(i.e. = 0)
+curl          = 0            # Default is disabled(i.e. = 0)
+subscribe     = 0            # Default is disabled(i.e. = 0)
+server_host   = "127.0.0.1"  # Default to local host)
+server_port   = 5000         # Default it flask port)
 
 
 # --- Aircraft, Flighblock & Message related state/methods
@@ -87,10 +89,10 @@ class Aircraft(object):
 
 aircrafts = {}
 
-def add_new_message( aircraft, msg_class, name, msg):
+def add_new_aircraft_message( aircraft, msg_class, name, msg):
     aircraft.messages[name] = Message(msg_class, name, msg)
 
-def add_new_flightblock( aircraft, fb_id, fb_name):
+def add_new_aircraft_flightblock( aircraft, fb_id, fb_name):
     aircraft.flightblocks[fb_id] = Flightblock(fb_id, fb_name)      
 
 def add_new_aircraft(ac_id, name):
@@ -102,7 +104,8 @@ def print_aircraft_data():
         for fb_id in aircrafts[ac_id].flightblocks:
             print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )
 
-aircraft_client_list = []
+aircraft_client_list    = []   # Used for rows in client; preserve list order
+flightblock_client_list = []   # Used for columns in client; preserve list order
 
 
 # --- Helper methods ---
@@ -122,7 +125,7 @@ def print_ivy_trace(msg):
 import xml.etree.cElementTree as ET    
 PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
 
-def static_init_aircraft_data():
+def static_init_configuration_data():
     tree = ET.parse(os.path.join( PPRZ_SRC_CONF, 'conf.xml' ))
     root = tree.getroot()
 
@@ -141,7 +144,7 @@ def static_init_aircraft_data():
         fproot = fptree.getroot()
         for idx, block in enumerate(fproot.iter('block')):
             name = block.get('name')
-            add_new_flightblock(aircraft, idx, name)
+            add_new_aircraft_flightblock(aircraft, idx, name)
 
 
 def callback_aircraft_messages(ac_id, msg):
@@ -150,7 +153,7 @@ def callback_aircraft_messages(ac_id, msg):
         add_new_aircraft(ac_id, 'unknown')
     aircraft = aircrafts[ac_id]
     # Add the messages and say when last seen
-    add_new_message(aircraft, msg.msg_class, msg.name,msg)
+    add_new_aircraft_message(aircraft, msg.msg_class, msg.name,msg)
     aircrafts[ac_id].messages[msg.name].last_seen = time.time()
     for index in range(0, len(msg.fieldvalues)):
         aircraft.messages[msg.name].field_controls[index]=msg.get_field(index)
@@ -206,7 +209,32 @@ def aircraft_client_add(ac_id):
             aircraft_client_list.append(ac_id)
         if curl: print_curl_format()
         return str(aircraft_client_list)    
-    return "unknown id"    
+    return "unknown aircraft id"    
+
+
+@app.route('/flightblock/noop/')
+def flightblock_noop():
+    if curl: print_curl_format()
+    return "noop"
+
+
+@app.route('/flightblock/client/')
+def flightblock_client_all():
+    if curl: print_curl_format()
+    return str(flightblock_client_list)
+
+
+@app.route('/flightblock/client/add/<int:fb_id>')
+def flightblock_client_add(fb_id):
+    if aircraft_client_list:
+        fb_id = int(fb_id)
+        if fb_id in aircrafts[aircraft_client_list[0]].flightblocks:  # KLUDGE: Use first defined aircraft's flightblocks to verify, assume all aircraft use same flight plan
+            if fb_id not in flightblock_client_list:       
+                flightblock_client_list.append(fb_id)
+            if curl: print_curl_format()
+            return str(flightblock_client_list)    
+        return "unknown flightblock id"
+    return "aircraft list is empty"    
 
 
 @app.route('/message/<int:ac_id>')
@@ -323,12 +351,17 @@ def waypoint(ac_id, wp_id, lat, lon, alt):
 
 
 @app.route('/flightblock/<int:fb_id>')
-def flightblock_all():
+def flightblock_all_aircraft(fb_id):
     retval = ''
 
-    # TBD : Need to query the server for all aircraft id prior to calling this route
-    if verbose: 
-        retval = 'Flightblock: All Aircraft\n'
+    for ac_id in aircraft_client_list:
+        msg = PprzMessage("ground", "JUMP_TO_BLOCK")
+        msg['ac_id']    = ac_id
+        msg['block_id'] = fb_id
+        if verbose: 
+            print_ivy_trace(msg)
+            retval = 'Flightblock All Aircraft: fb_id=%d\n' % (fb_id)
+        ivy_interface.send(msg)
     if curl: print_curl_format()
     return retval
 
@@ -348,18 +381,20 @@ def flightblock(ac_id, fb_id):
     return retval
 
 
-@app.route('/newflightblock/')
-def newflightblock():
-    return render_template('flightblock.html')
+@app.route('/show/flightblock/')
+def showflightblock():
+    return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
+                            p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list)
 
 
-@app.route('/newguided/')
-def newguided():
+@app.route('/show/guided/')
+def showguided():
     return render_template('guided.html')
 
 
-@app.route('/newwaypoint/')
-def newwaypoint():
+@app.route('/show/waypoint/')
+def showwaypoint():
     return render_template('waypoint.html')
 
 
@@ -385,7 +420,7 @@ if __name__ == '__main__':
     try:
         # --- Startup state initialization block
         args = parser.parse_args()
-        static_init_aircraft_data()
+        static_init_configuration_data()
         if args.verbose: 
             print_aircraft_data()
         if args.subscribe: 
@@ -401,6 +436,8 @@ if __name__ == '__main__':
 
         # --- Main loop
         # Supply flask the appropriate ip address and port for the server
+        server_host = args.ip      # Store for use in htlm template generation
+        server_port = args.port    # Store for use in htlm template generation
         app.run(host=args.ip,port=args.port)
 
         # --- Shutdown state block
