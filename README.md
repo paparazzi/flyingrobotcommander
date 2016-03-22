@@ -27,7 +27,8 @@ Open a terminal window and type the following command:
 
     python frc.py
 
-FRC is a `Flask` based application and uses some of the following python packages(versions):
+FRC is a python based `Flask` application. Please reference the [Flask documentation](http://flask.pocoo.org/docs/0.10/)
+for the installation and usage of `Flask`. Here are some of the python packages(versions) needed by `Flask`:
 
 - Flask (0.10.1)
 - itsdangerous (0.24)
@@ -80,13 +81,12 @@ Once the client related data is configured, the various client views of the FRC 
     - Guided Route: show/guided/
     - Waypoint Route: show/waypoint/
 
- Example `bash` script that uses `curl` to start the flight block client view. Remember to configure
- the aircraft and flight block client data prior to accessing a client view.
+ Assuming the server is running, type the following URL into a browser such as Chrome or Firefox to execute the flight block client view. 
 
-    #!/bin/bash
-    host=127.0.0.1
-    port=5000
-    curl http://$host:$port/show/flightblock/
+    localhost:5000/show/flightblock/
+
+ Remember to configure the aircraft and flight block client data prior to accessing a client view.
+
 
 ## Video Demos:
 
