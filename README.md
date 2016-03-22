@@ -97,13 +97,13 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
-- [ ] Remove static html files and associated `img` folder
 - [ ] Investigate issue related to unexpected blocking/hanging http requests
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Remove static html files and associated `img` folder
 - [x] Reduce http requests for group aircraft commands from N to 1
 - [x] Consolidate/share CSS related UI controls across views
 - [x] Integrate the use aircraft/flight plan configurations
