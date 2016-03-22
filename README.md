@@ -81,12 +81,14 @@ Once the client related data is configured, the various client views of the FRC 
     - Guided Route: show/guided/
     - Waypoint Route: show/waypoint/
 
- Assuming the server is running, type the following URL into a browser such as Chrome or Firefox to execute the flight block client view. 
+Assuming the server is running on the local host(ip=127.0.0.1), type one of the following URL's into
+a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view. 
 
     localhost:5000/show/flightblock/
+    localhost:5000/show/guided/
+    localhost:5000/show/waypoint/
 
- Remember to configure the aircraft and flight block client data prior to accessing a client view.
-
+Remember to configure the aircraft and flight block client data prior to accessing a client view.
 
 ## Video Demos:
 
@@ -97,12 +99,14 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
-- [ ] Investigate issue related to unexpected blocking/hanging http requests
+- [ ] Add a mechanism for persisting client configuration information
+- [ ] Investigate issue related to unexpected blocking/hanging http requests when using localhost
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Update route testing script
 - [x] Remove static html files and associated `img` folder
 - [x] Reduce http requests for group aircraft commands from N to 1
 - [x] Consolidate/share CSS related UI controls across views
