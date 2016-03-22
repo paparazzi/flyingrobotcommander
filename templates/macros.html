@@ -13,12 +13,3 @@
 {% macro btn_img_link(id, tooltip, color, icon) %}
   <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}; background-image:url({{ url_for('static', filename = icon) }}); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
 {% endmacro %}
-
-{% macro case_command(id, row, col) %}
-  case {{id}}:    aReq.open("GET", cmd_flightblock + aircraft_id[{{row}}] + '/' + flightblock_id[{{col}}]);  aReq.send(); break;
-{% endmacro %}
-
-{% macro case_command_group(id, col) %}
-  case {{id}}:    bReq.open("GET", cmd_flightblock + flightblock_id[{{col}}]);  bReq.send(); break;
-{% endmacro %}
-

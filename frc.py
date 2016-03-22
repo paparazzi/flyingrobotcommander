@@ -57,7 +57,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.0.4"
+frc_version   = "0.1.0"
 verbose       = 0            # Default is disabled(i.e. = 0)
 curl          = 0            # Default is disabled(i.e. = 0)
 subscribe     = 0            # Default is disabled(i.e. = 0)
@@ -274,6 +274,37 @@ def guidance_all():
 
 
 #Set auto2 mode to GUIDED(value=19) or NAV(value=13).
+@app.route('/guidance/setmode/<int:value>')
+def guidance_setmode_all_aircraft(value):
+    retval = ''
+
+    for ac_id in aircraft_client_list:
+        try:
+            settings = PaparazziACSettings(ac_id)
+        except Exception as e:
+            print(e)
+            return
+        try:
+            index = settings.name_lookup['auto2'].index
+        except Exception as e:
+            print(e)
+            print("auto2 setting not found, mode change not possible.")
+            return
+
+        if index is not None:
+            msg = PprzMessage("ground", "DL_SETTING")
+            msg['ac_id'] = ac_id
+            msg['index'] = index
+            msg['value'] = value
+            if verbose: 
+                print_ivy_trace(msg)
+                retval = 'Guidance Mode All Aircraft: index=%d, value=%d\n' % (index, value)
+            ivy_interface.send(msg)
+    if curl: print_curl_format()
+    return retval
+
+
+#Set auto2 mode to GUIDED(value=19) or NAV(value=13).
 @app.route('/guidance/setmode/<int:ac_id>/<int:value>')
 def guidance_setmode(ac_id, value):
     retval = ''
@@ -301,6 +332,26 @@ def guidance_setmode(ac_id, value):
         ivy_interface.send(msg)
         if curl: print_curl_format()
         return retval
+
+
+@app.route('/guidance/<int:flag>/<x>/<y>/<z>/<yaw>')
+def guidance_all_aircraft(flag, x, y, z, yaw):
+    retval = ''
+
+    for ac_id in aircraft_client_list:
+        msg = PprzMessage("datalink", "GUIDED_SETPOINT_NED")
+        msg['ac_id'] = ac_id
+        msg['flags'] = flag
+        msg['x']     = x
+        msg['y']     = y
+        msg['z']     = z
+        msg['yaw']   = yaw
+        if verbose: 
+            print_ivy_trace(msg)
+            retval = 'Guidance All Aircraft: flag=%d, x=%s, y=%s, z=%s, yaw=%s\n' % (flag, x, y, z, yaw)
+        ivy_interface.send_raw_datalink(msg)
+    if curl: print_curl_format()
+    return retval
 
 
 @app.route('/guidance/<int:ac_id>/<int:flag>/<x>/<y>/<z>/<yaw>')
@@ -390,12 +441,16 @@ def showflightblock():
 
 @app.route('/show/guided/')
 def showguided():
-    return render_template('guided.html')
+    return render_template('guided.html', p_host=server_host, p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
+                            p_col_count=10) 
 
 
 @app.route('/show/waypoint/')
 def showwaypoint():
-    return render_template('waypoint.html')
+    return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
+                            p_col_count=8) 
 
 
 

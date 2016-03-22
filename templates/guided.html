@@ -1,4 +1,21 @@
 {% extends "layout.html" %}
+
+{% macro case_command(id, row, col) %}
+  case {{id}}:    aReq.open("GET", cmd_guidance + aircraft_id[{{row}}] + '/' + flag_mask[2] + '/' + ned_params[{{col}}]);  aReq.send(); break;
+{% endmacro %}
+
+{% macro case_command_mode(id, row, col) %}
+  case {{id}}:    aReq.open("GET", cmd_setmode  + aircraft_id[{{row}}] + '/' + mode[{{col}}]);  aReq.send(); break;
+{% endmacro %}
+
+{% macro case_command_group(id, col) %}
+  case {{id}}:    bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[{{col}}]); bReq.send(); break;
+{% endmacro %}
+
+{% macro case_command_group_mode(id, col) %}
+  case {{id}}:    bReq.open("GET", cmd_setmode + mode[{{col}}]); bReq.send(); break;
+{% endmacro %}
+
 {% block head %}
 <head>
 
@@ -7,69 +24,36 @@
 
 <script>
 
-var row_count       = 6;       // Number of rows
-var col_count       = 10;      // Number of columns
-var msg_btn_id      = "999";   // Id of the message id status button
+var row_count       = {{ p_row_count }} + 1;  // Number of rows + 1 to accomodate group action button row
+var col_count       = {{ p_col_count }};      // Number of columns = number of guided commands + two extra(one for each mode)
+var msg_btn_id      = "999";                  // Id of the message id status button
 
 // Assign defaults for ip address, port number
-var ip_addr         = '127.0.0.1';
-var port_number     =  '5000';
+var ip_addr         = '{{ p_host }}';
+var port_number     = '{{ p_port }}';
 var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
-var url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
 
 // Guidance Command Example: http://127.0.0.1:5000/guidance/217/3//10.0/0.0/0.0/0.0
-var cmd_guidance    = ip_cmd_prefix + '/guidance';
-var aircraft_id     = new Array('/217', '/218', '/219', '/216', '/215');
-var flag_mask       = new Array('/0', '/1', '/3', '/112');  // Velocity flag: 112 = 0x70 
+var cmd_guidance    = ip_cmd_prefix + '/guidance/';
+var aircraft_id     = '{{ p_row_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
+var flag_mask       = new Array('0', '1', '3', '112');  // Velocity flag: 112 = 0x70 
 var ned_params      = new Array(
-                                '/10.0/0.0/0.0/0.0', 
-                                '/-10.0/0.0/0.0/0.0', 
-                                '/0.0/-10.0/0.0/0.0', 
-                                '/0.0/10.0/0.0/0.0', 
-                                '/0.0/0.0/-10.0/0.0', 
-                                '/0.0/0.0/10.0/0.0', 
-                                '/0.0/0.0/0.0/-90.0', 
-                                '/0.0/0.0/0.0/90.0',
-                                '/0.0/0.0/0.0/0.0', 
-                                '/0.0/0.0/0.0/0.0'
+                                '10.0/0.0/0.0/0.0', 
+                                '-10.0/0.0/0.0/0.0', 
+                                '0.0/-10.0/0.0/0.0', 
+                                '0.0/10.0/0.0/0.0', 
+                                '0.0/0.0/-10.0/0.0', 
+                                '0.0/0.0/10.0/0.0', 
+                                '0.0/0.0/0.0/-90.0', 
+                                '0.0/0.0/0.0/90.0',
+                                '0.0/0.0/0.0/0.0', 
+                                '0.0/0.0/0.0/0.0'
                                 );
 
 // Setmode Command Example: http://127.0.0.1:5000/guidance/setmode/217/13
 // Note: uses the aircraft_id values as part of the command, see above
-var cmd_setmode     = ip_cmd_prefix + '/guidance/setmode';
-var mode            = new Array('/19', '/13');  // GUIDED = 19, NAV = 13
-
-// Get a parameter value from the current URL
-function getParam ( sname )
-{
-  var params = location.search.substr(location.search.indexOf("?")+1);
-  var sval = "";
-  params = params.split("&");
-    // split param and value into individual pieces
-    for (var i=0; i<params.length; i++)
-       {
-         temp = params[i].split("=");
-         if ( [temp[0]] == sname ) { sval = temp[1]; }
-       }
-  return sval;
-}
-
-// Initalize any state variables needed for this page
-function initPage()
-{
-  ip_addr = getParam("ipaddr");
-  //alert(ip_addr);
-  port_number = getParam("port");
-  //alert(port_number);
-
-  ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for URL commands that includes the ip address and port
-  cmd_guidance    = ip_cmd_prefix + '/guidance';
-  //alert(cmd_guidance);
-  cmd_setmode    = ip_cmd_prefix + '/guidance/setmode';
-  //alert(cmd_setmode);
-  url_params      = '?' + 'ipaddr=' + ip_addr + '&port=' + port_number;
-  //alert(url_params);
-}
+var cmd_setmode     = ip_cmd_prefix + '/guidance/setmode/';
+var mode            = new Array('19', '13');  // GUIDED = 19, NAV = 13
 
 
 function displayTriggerMessage(msg) {
@@ -80,156 +64,35 @@ function displayTriggerMessage(msg) {
   var dReq = new XMLHttpRequest();
   var eReq = new XMLHttpRequest();
   switch(parseInt(msg)) {
-    case 0:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]);  aReq.send(); break;
-    case 1:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[1]);  aReq.send(); break;
-    case 2:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[2]);  aReq.send(); break;
-    case 3:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[3]);  aReq.send(); break;
-    case 4:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[4]);  aReq.send(); break;
-    case 5:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[5]);  aReq.send(); break;
-    case 6:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[6]);  aReq.send(); break;
-    case 7:    aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[7]);  aReq.send(); break;
-    case 8:    aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[0]);  aReq.send(); break;
-    case 9:    aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[1]);  aReq.send(); break;
 
-    case 10:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]);  bReq.send(); break;
-    case 11:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[1]);  bReq.send(); break;
-    case 12:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[2]);  bReq.send(); break;
-    case 13:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[3]);  bReq.send(); break;
-    case 14:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[4]);  bReq.send(); break;
-    case 15:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[5]);  bReq.send(); break;
-    case 16:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[6]);  bReq.send(); break;
-    case 17:   bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[7]);  bReq.send(); break;
-    case 18:   bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[0]);  bReq.send(); break;
-    case 19:   bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[1]);  bReq.send(); break;
+    {% for row in range(1,p_row_count+1)  %}
+        {% set rowloop = loop %}
+        {% for col in range(1,(p_col_count-2)+1)  %}
+            {{ case_command( ((rowloop.index-1)*p_col_count)+(col-1), rowloop.index-1, col-1 ) }}
+        {% endfor %}
+        {% for col in range(1,3)  %}
+            {{ case_command_mode( ((rowloop.index-1)*p_col_count)+(p_col_count-2)+(col-1), rowloop.index-1, col-1 ) }}
+        {% endfor %}
+    {% endfor %}
 
-    case 20:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]);  cReq.send(); break;
-    case 21:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[1]);  cReq.send(); break;
-    case 22:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[2]);  cReq.send(); break;
-    case 23:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[3]);  cReq.send(); break;
-    case 24:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[4]);  cReq.send(); break;
-    case 25:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[5]);  cReq.send(); break;
-    case 26:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[6]);  cReq.send(); break;
-    case 27:   cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[7]);  cReq.send(); break;
-    case 28:   cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[0]);  cReq.send(); break;
-    case 29:   cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[1]);  cReq.send(); break;
 
-    case 30:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]);  dReq.send(); break;
-    case 31:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[1]);  dReq.send(); break;
-    case 32:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[2]);  dReq.send(); break;
-    case 33:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[3]);  dReq.send(); break;
-    case 34:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[4]);  dReq.send(); break;
-    case 35:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[5]);  dReq.send(); break;
-    case 36:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[6]);  dReq.send(); break;
-    case 37:   dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[7]);  dReq.send(); break;
-    case 38:   dReq.open("GET", cmd_setmode  + aircraft_id[3] + mode[0]);  dReq.send(); break;
-    case 39:   dReq.open("GET", cmd_setmode  + aircraft_id[3] + mode[1]);  dReq.send(); break;
+    {% for col in range(1,(p_col_count-2)+1)  %}
+        {{ case_command_group( (p_row_count*p_col_count)+(col-1), col-1 ) }}
+    {% endfor %}
+    {% for col in range(1,3)  %}
+        {{ case_command_group_mode( (p_row_count*p_col_count)+(p_col_count-2)+(col-1), col-1 ) }}
+    {% endfor %}
 
-    case 40:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]);  eReq.send(); break;
-    case 41:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[1]);  eReq.send(); break;
-    case 42:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[2]);  eReq.send(); break;
-    case 43:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[3]);  eReq.send(); break;
-    case 44:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[4]);  eReq.send(); break;
-    case 45:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[5]);  eReq.send(); break;
-    case 46:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[6]);  eReq.send(); break;
-    case 47:   eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[7]);  eReq.send(); break;
-    case 48:   eReq.open("GET", cmd_setmode  + aircraft_id[4] + mode[0]);  eReq.send(); break;
-    case 49:   eReq.open("GET", cmd_setmode  + aircraft_id[4] + mode[1]);  eReq.send(); break;
 
-    case 50:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]); eReq.send(); 
-               break;
-    case 51:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[1]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[1]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[1]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[1]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[1]); eReq.send(); 
-               break;
-    case 52:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[2]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[2]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[2]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[2]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[2]); eReq.send(); 
-               break;
-    case 53:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[3]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[3]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[3]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[3]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[3]); eReq.send(); 
-               break;
-    case 54:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[4]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[4]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[4]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[4]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[4]); eReq.send(); 
-               break;
-    case 55:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[5]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[5]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[5]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[5]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[5]); eReq.send(); 
-               break;
-    case 56:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[6]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[6]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[6]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[6]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[6]); eReq.send(); 
-               break;
-    case 57:   
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[7]); aReq.send();
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[7]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[7]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[7]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[7]); eReq.send(); 
-               break;
-    case 58:   
-               aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[0]); aReq.send();
-               bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[0]); bReq.send();
-               cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[0]); cReq.send(); 
-               dReq.open("GET", cmd_setmode  + aircraft_id[3] + mode[0]); dReq.send();
-               eReq.open("GET", cmd_setmode  + aircraft_id[4] + mode[0]); eReq.send(); 
-               break;
-    case 59:   
-               aReq.open("GET", cmd_setmode  + aircraft_id[0] + mode[1]); aReq.send();
-               bReq.open("GET", cmd_setmode  + aircraft_id[1] + mode[1]); bReq.send();
-               cReq.open("GET", cmd_setmode  + aircraft_id[2] + mode[1]); cReq.send(); 
-               dReq.open("GET", cmd_setmode  + aircraft_id[3] + mode[1]); dReq.send();
-               eReq.open("GET", cmd_setmode  + aircraft_id[4] + mode[1]); eReq.send(); 
-                break;
     case 200:  
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send(); 
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]); bReq.send();
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]); cReq.send();
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]); dReq.send();
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]); eReq.send();
-               setTimeout(aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]),3000); aReq.send(); 
-               setTimeout(bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]),3000); bReq.send();
-               setTimeout(cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]),3000); cReq.send();
-               setTimeout(dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]),3000); dReq.send();
-               setTimeout(eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]),3000); eReq.send();
+               aReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); aReq.send();
+               setTimeout(bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]),3000); bReq.send();
                break;
     case 201:  
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send(); 
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]); bReq.send(); 
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]); dReq.send(); 
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]); eReq.send(); 
+               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); bReq.send(); 
                break;
     case 202:  
-               aReq.open("GET", cmd_guidance + aircraft_id[0] + flag_mask[2] + ned_params[0]); aReq.send(); 
-               bReq.open("GET", cmd_guidance + aircraft_id[1] + flag_mask[2] + ned_params[0]); bReq.send(); 
-               cReq.open("GET", cmd_guidance + aircraft_id[2] + flag_mask[2] + ned_params[0]); cReq.send(); 
-               dReq.open("GET", cmd_guidance + aircraft_id[3] + flag_mask[2] + ned_params[0]); dReq.send(); 
-               eReq.open("GET", cmd_guidance + aircraft_id[4] + flag_mask[2] + ned_params[0]); eReq.send(); 
+               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); bReq.send(); 
                break;
     default:   aReq.open("GET", cmd_guidance + ''); aReq.send();
   }
@@ -333,75 +196,36 @@ function selectPageButton(btn) {
 {% endblock %}
 
 {% block body %}
-<body onload="initPage();">
+<body>
 
 <div class="menu-container">
   <div class="button-container">
-  <button id="0"  style="background:magenta"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="1"  style="background:purple"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="2"  style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="3"  style="background:dodgerblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="4"  style="background:lime"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="5"  style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="6"  style="background:gold"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="7"  style="background:orange"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="8"  style="background:orangered"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
-  <button id="9"  style="background:red"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">1</button>
 
-  <button id="10" style="background:magenta"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="11" style="background:purple"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="12" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="13" style="background:dodgerblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="14"  style="background:lime"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="15"  style="background:green"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="16" style="background:gold"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="17" style="background:orange"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="18" style="background:orangered"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
-  <button id="19" style="background:red"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">2</button>
+  {% for row in range(1,p_row_count+1)  %}
+      {{ btn_link( ((row-1)*p_col_count)+0,  'Forward',           'magenta',     row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+1,  'Back',              'purple',      row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+2,  'Left',              'deepskyblue', row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+3,  'Right',             'dodgerblue',  row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+4,  'Up',                'lime',        row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+5,  'Down',              'green',       row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+6,  'Counterclockwise',  'gold',        row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+7,  'Clockwise',         'orange',      row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+8,  'Guided',            'orangered',   row ) }}
+      {{ btn_link( ((row-1)*p_col_count)+9,  'Nav',               'red',         row ) }}
+  {% endfor %}
 
-  <button id="20" style="background:magenta"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="21" style="background:purple"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="22" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="23" style="background:dodgerblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="24" style="background:lime"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="25" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="26" style="background:gold"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="27" style="background:orange"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="28" style="background:orangered"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
-  <button id="29" style="background:red"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">3</button>
 
-  <button id="30" style="background:magenta"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="31" style="background:purple"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="32" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="33" style="background:dodgerblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="34" style="background:lime"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="35" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="36" style="background:gold"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="37" style="background:orange"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="38" style="background:orangered"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
-  <button id="39" style="background:red"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">4</button>
+  {{ btn_img_link( (p_row_count*p_col_count)+0,  'Forward',           'magenta',      'arrow-with-circle-up.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+1,  'Back',              'purple',       'arrow-with-circle-down.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+2,  'Left',              'deepskyblue',  'arrow-with-circle-left.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+3,  'Right',             'dodgerblue',   'arrow-with-circle-right.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+4,  'Up',                'lime',         'aircraft-take-off.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+5,  'Down',              'green',        'aircraft-landing.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+6,  'Counterclockwise',  'gold',         'arrows-rotate-counterclockwise.png' ) }}
+  {{ btn_img_link( (p_row_count*p_col_count)+7,  'Clockwise',         'orange',       'arrows-rotate-clockwise.png' ) }}
+  {{ btn_link(     (p_row_count*p_col_count)+8,  'Guided',            'orangered',    'G' ) }}
+  {{ btn_link(     (p_row_count*p_col_count)+9,  'Nav',               'red',          'N' ) }}
 
-  <button id="40" style="background:magenta"     onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="41" style="background:purple"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="42" style="background:deepskyblue" onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="43" style="background:dodgerblue"  onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="44" style="background:lime"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="45" style="background:green"       onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="46" style="background:gold"        onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="47" style="background:orange"      onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="48" style="background:orangered"   onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-  <button id="49" style="background:red"         onmousedown="mousedownButton(this)" onclick="selectButton(this)">5</button>
-
-  <button id="50" title="Forward" style="background:magenta; background-image:url({{ url_for('static', filename = 'arrow-with-circle-up.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="51" title="Back" style="background:purple; background-image:url({{ url_for('static', filename = 'arrow-with-circle-down.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="52" title="Left" style="background:deepskyblue; background-image:url({{ url_for('static', filename = 'arrow-with-circle-left.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="53" title="Right" style="background:dodgerblue; background-image:url({{ url_for('static', filename = 'arrow-with-circle-right.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="54" title="Up" style="background:lime; background-image:url({{ url_for('static', filename = 'aircraft-take-off.png') }}); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="55" title="Down" style="background:green; background-image:url({{ url_for('static', filename = 'aircraft-landing.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="56" title="Clockwise" style="background:gold; background-image:url({{ url_for('static', filename = 'arrows-rotate-counterclockwise.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="57" title="Counterclockwise" style="background:orange; background-image:url({{ url_for('static', filename = 'arrows-rotate-clockwise.png') }}); background-repeat:no-repeat; background-position:6px 6px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
-  <button id="58" title="Clockwise" style="background:orangered" onmousedown="mousedownButton(this)" onclick="selectButton(this)">G</button>
-  <button id="59" title="Counterclockwise" style="background:red" onmousedown="mousedownButton(this)" onclick="selectButton(this)">N</button>
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Guide: x</button>
