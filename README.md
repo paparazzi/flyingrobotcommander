@@ -1,13 +1,12 @@
 # Flying Robot Commander
+![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-
 This is beta version 0.1.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
-
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
-aircraft that use Paparazzi UAV and PPRZLink.
+aircraft that use [Paparazzi UAV](https://github.com/paparazzi/paparazzi) and [PPRZLink](https://github.com/paparazzi/pprzlink).
 
     usage: frc.py [-h] [-i IP] [-p PORT] [-c] [-s] [-v]
 
@@ -22,7 +21,6 @@ aircraft that use Paparazzi UAV and PPRZLink.
 The default values for `IP` and `PORT`, if not specified, are `127.0.0.1` and `5000`, respectively.
 
 ### Running the Flying Robot Command
-
 Open a terminal window and type the following command:
 
     python frc.py
@@ -41,7 +39,6 @@ used to initialize the FRC server. Note that the `--subscribe` option is also us
 runtime related aircraft data that includes `ivy bus messages`.
 
 ### Adding Client Data
-
 Once the FRC server is running, the aircraft and flight block related `client` data need to be
 configured prior to using one of the client views( `show/flightblock`, `show/guided`, `show/waypoint`).
 
@@ -72,7 +69,6 @@ Example `bash` script that uses `curl` to configure client data for five aircraf
     curl http://$host:$port/flightblock/client/add/2
 
 ### Showing Client Views
-
 Once the client related data is configured, the various client views of the FRC are available for use.
 
     Syntax:
@@ -91,19 +87,15 @@ a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view.
 Remember to configure the aircraft and flight block client data prior to accessing a client view.
 
 #### Flight Block View
-
 ![Alt Flight Block View](doc/images/flightblock_screen.png?raw=true "Flight Block View")
 
 #### Guided View
-
 ![Alt Guided View](doc/images/guided_screen.png?raw=true "Guided View")
 
 #### Waypoint View
-
 ![Alt Waypoint View](doc/images/waypoint_screen.png?raw=true "Waypoint View")
 
 ## Video Demos:
-
 Here are a couple of informal demo videos of the Flying Robot Commander; captured from
 Periscope broadcasts:
 
