@@ -90,6 +90,10 @@ a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view.
 
 Remember to configure the aircraft and flight block client data prior to accessing a client view.
 
+![Alt Flight Block View](doc/images/flightblock_screen.png?raw=true "Flight Block View")
+![Alt Guided View](doc/images/guided_screen.png?raw=true "Guided View")
+![Alt Waypoint View](doc/images/waypoint_screen.png?raw=true "Waypoint View")
+
 ## Video Demos:
 
 Here are a couple of informal demo videos of the Flying Robot Commander; captured from
