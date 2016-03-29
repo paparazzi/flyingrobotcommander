@@ -20,7 +20,7 @@ aircraft that use [Paparazzi UAV](https://github.com/paparazzi/paparazzi) and [P
 
 The default values for `IP` and `PORT`, if not specified, are `127.0.0.1` and `5000`, respectively.
 
-### Running the Flying Robot Command
+### Running the Flying Robot Commander
 Open a terminal window and type the following command:
 
     python frc.py
@@ -40,7 +40,7 @@ runtime related aircraft data that includes `ivy bus messages`.
 
 ### Adding Client Data
 Once the FRC server is running, the aircraft and flight block related `client` data need to be
-configured prior to using one of the client views( `show/flightblock`, `show/guided`, `show/waypoint`).
+configured(see syntax below) prior to using one of the client views( `show/flightblock`, `show/guided`, `show/waypoint`).
 
     Syntax:
 
@@ -110,6 +110,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Start the refactoring of waypoint support
 - [x] Update route testing script
 - [x] Remove static html files and associated `img` folder
 - [x] Reduce http requests for group aircraft commands from N to 1

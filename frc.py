@@ -75,6 +75,13 @@ class Message(PprzMessage):
         self.last_seen      = time.clock()
         self.latest_msg     = msg
 
+class Waypoint(object):
+    def __init__(self, wp_id, wp_name, wp_x, wp_y):
+        self.wp_id   = wp_id
+        self.wp_name = wp_name
+        self.wp_x    = wp_x
+        self.wp_y    = wp_y        
+
 class Flightblock(object):
     def __init__(self, fb_id, fb_name):
         self.fb_id   = fb_id
@@ -85,12 +92,16 @@ class Aircraft(object):
         self.ac_id        = ac_id
         self.name         = name
         self.flightblocks = {}
+        self.waypoints    = {}
         self.messages     = {}
 
 aircrafts = {}
 
 def add_new_aircraft_message( aircraft, msg_class, name, msg):
     aircraft.messages[name] = Message(msg_class, name, msg)
+
+def add_new_aircraft_waypoint( aircraft, wp_id, wp_name, wp_x, wp_y):
+    aircraft.waypoints[wp_id] = Waypoint(wp_id, wp_name, wp_x, wp_y)      
 
 def add_new_aircraft_flightblock( aircraft, fb_id, fb_name):
     aircraft.flightblocks[fb_id] = Flightblock(fb_id, fb_name)      
@@ -101,11 +112,14 @@ def add_new_aircraft(ac_id, name):
 def print_aircraft_data():
     for ac_id in aircrafts:
         print( ac_id, aircrafts[ac_id].name )
+        for wp_id in aircrafts[ac_id].waypoints:
+            print( wp_id, aircrafts[ac_id].waypoints[wp_id].wp_name, aircrafts[ac_id].waypoints[wp_id].wp_x, aircrafts[ac_id].waypoints[wp_id].wp_y )
         for fb_id in aircrafts[ac_id].flightblocks:
             print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )
 
 aircraft_client_list    = []   # Used for rows in client; preserve list order
-flightblock_client_list = []   # Used for columns in client; preserve list order
+flightblock_client_list = []   # Used for columns in client view for flightblocks; preserve list order
+waypoint_client_list    = []   # Used for columns in client view for waypoints; preserve list order
 
 
 # --- Helper methods ---
@@ -139,9 +153,19 @@ def static_init_configuration_data():
         add_new_aircraft(acid, name)
         aircraft = aircrafts[acid]
     
-        # Populate flightblock objects
+        # Populate flight plan objects
         fptree = ET.parse(os.path.join( PPRZ_SRC_CONF, flightplanpath )) 
         fproot = fptree.getroot()
+        # Process waypoints
+        # Populate WP_dummy, idx=0, x="42.0" and y="42.0"; note: used values defined in gen_flight_plan.ml
+        add_new_aircraft_waypoint(aircraft, 0, "dummy", "42.0", "42.0")
+        # Waypoints indexes are adjusted by 1 to account for dummy waypoint above
+        for idx, waypoint in enumerate(fproot.iter('waypoint')):
+            name = waypoint.get('name')
+            px   = waypoint.get('x')
+            py   = waypoint.get('y')
+            add_new_aircraft_waypoint(aircraft, idx+1, name, px, py)
+        # Process flightblocks
         for idx, block in enumerate(fproot.iter('block')):
             name = block.get('name')
             add_new_aircraft_flightblock(aircraft, idx, name)
@@ -187,6 +211,11 @@ def aircraft(ac_id):
         alist = []
         alist.append(ac_id)
         alist.append(aircrafts[ac_id].name)
+        for wp_id in aircrafts[ac_id].waypoints:
+            alist.append(wp_id)   
+            alist.append(aircrafts[ac_id].waypoints[wp_id].wp_name)   
+            alist.append(aircrafts[ac_id].waypoints[wp_id].wp_x)   
+            alist.append(aircrafts[ac_id].waypoints[wp_id].wp_y)   
         for fb_id in aircrafts[ac_id].flightblocks:
             alist.append(fb_id)   
             alist.append(aircrafts[ac_id].flightblocks[fb_id].fb_name)   
@@ -234,6 +263,25 @@ def flightblock_client_add(fb_id):
             if curl: print_curl_format()
             return str(flightblock_client_list)    
         return "unknown flightblock id"
+    return "aircraft list is empty"    
+
+
+@app.route('/waypoint/client/')
+def waypoint_client_all():
+    if curl: print_curl_format()
+    return str(waypoint_client_list)
+
+
+@app.route('/waypoint/client/add/<int:wp_id>')
+def waypoint_client_add(wp_id):
+    if aircraft_client_list:
+        wp_id = int(wp_id)
+        if wp_id in aircrafts[aircraft_client_list[0]].waypoints:  # KLUDGE: Use first defined aircraft's waypoints to verify, assume all aircraft use same flight plan
+            if wp_id not in waypoint_client_list:       
+                waypoint_client_list.append(wp_id)
+            if curl: print_curl_format()
+            return str(waypoint_client_list)    
+        return "unknown waypoint id"
     return "aircraft list is empty"    
 
 
@@ -379,6 +427,25 @@ def waypoint_all():
 
     if verbose: 
         retval = 'Waypoint: All\n'
+    if curl: print_curl_format()
+    return retval
+
+
+@app.route('/waypoint/<int:wp_id>/<lat>/<lon>/<alt>')
+def waypoint_all_aircraft(wp_id, lat, lon, alt):
+    retval = ''
+
+    for ac_id in aircraft_client_list:
+        msg = PprzMessage("ground", "MOVE_WAYPOINT")
+        msg['ac_id'] = ac_id
+        msg['wp_id'] = wp_id
+        msg['lat']   = lat
+        msg['long']  = lon
+        msg['alt']   = alt
+        if verbose: 
+            print_ivy_trace(msg)
+            retval = 'Waypoint All Aircraft: wp_id=%d, lat=%s, lon=%s, alt=%s\n' % (wp_id, lat, lon, alt)
+        ivy_interface.send(msg)
     if curl: print_curl_format()
     return retval
 
