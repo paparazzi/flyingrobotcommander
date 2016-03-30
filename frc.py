@@ -117,9 +117,9 @@ def print_aircraft_data():
         for fb_id in aircrafts[ac_id].flightblocks:
             print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )
 
-aircraft_client_list    = []   # Used for rows in client; preserve list order
-flightblock_client_list = []   # Used for columns in client view for flightblocks; preserve list order
-waypoint_client_list    = []   # Used for columns in client view for waypoints; preserve list order
+aircraft_client_list       = []   # Used for rows in client; preserve list order
+flightblock_client_list    = []   # Used for columns in client view for flightblocks; preserve list order
+waypoint_client_list       = []   # Used for columns in client view for waypoints; preserve list order
 
 
 # --- Helper methods ---
@@ -516,6 +516,13 @@ def showguided():
 @app.route('/show/waypoint/')
 def showwaypoint():
     return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
+                            p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list) 
+
+
+@app.route('/show/waypointhover/')
+def showwaypointhover():
+    return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_col_count=8) 
 

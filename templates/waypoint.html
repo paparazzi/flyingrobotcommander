@@ -1,33 +1,21 @@
 {% extends "layout.html" %}
 
+{% macro btn_containter_width(width) %}
+  width: {{width}}px;
+{% endmacro %}
+
 {% macro case_command(id, row, col) %}
-{% if row is equalto 0 %}
-  case {{id}}:    aReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  aReq.send(); break;
-{% elif row is equalto 1 %}
-  case {{id}}:    bReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  bReq.send(); break;
-{% elif row is equalto 2 %}
-  case {{id}}:    cReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  cReq.send(); break;
-{% elif row is equalto 3 %}
-  case {{id}}:    dReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  dReq.send(); break;
-{% else %}
-  case {{id}}:    eReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  eReq.send(); break;
-{% endif %}
+  case {{id}}:    aReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + waypoint_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]); aReq.send(); break;
 {% endmacro %}
 
 {% macro case_command_group(id, col) %}
-  case {{id}}:
-      aReq.open("GET", cmd_wp + aircraft_id[0] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]); aReq.send();
-      bReq.open("GET", cmd_wp + aircraft_id[1] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  bReq.send();
-      cReq.open("GET", cmd_wp + aircraft_id[2] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  cReq.send(); 
-      dReq.open("GET", cmd_wp + aircraft_id[3] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  dReq.send();
-      eReq.open("GET", cmd_wp + aircraft_id[4] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  eReq.send();
-      break;
+  case {{id}}:    bReq.open("GET", cmd_wp + waypoint_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]); bReq.send(); break;
 {% endmacro %}
 
 {% block head %}
 <head>
 
-<title>Waypoint Hover: Flying Robot Commander</title>
+<title>Waypoint: Flying Robot Commander</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
 <script>
@@ -43,6 +31,7 @@ var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for UR
 var cmd_wp          = ip_cmd_prefix + '/waypoint/';
 
 var aircraft_id     = '{{ p_row_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
+var waypoint_id     = '{{ p_col_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
 // Default Waypoints for: Standby, WP_1, WP_2, WP_3, WP_4, WP_HOV, WP_1_mod, WP_2_mod
 // Mostly here for reference while playing with waypoint configurations
 /*
@@ -50,8 +39,7 @@ var wp_id           = new Array('/3', '/4', '/5', '/6', '/7', '/8', '/4', '/5');
 var wp_lat          = new Array(  45.5641310,   45.5644588,   45.5642158,   45.5644687,   45.5642239,   45.5642671,   45.5641310,   45.5644588);
 var wp_long         = new Array(-122.6224349, -122.6224673, -122.6219449, -122.6219406, -122.6224702, -122.6222098, -122.6224349, -122.6224673);
 */
-// Testing with the WP_HOV waypoint
-var wp_id           = new Array('8', '8', '8', '8', '8', '8', '8', '8');
+// Testing waypoint data
 var wp_lat          = new Array(  45.5642,   45.5645,   45.5643,   45.5641,   45.5643,   45.5645,   45.5642,   45.5642);
 var wp_long         = new Array(-122.6222, -122.6222, -122.6225, -122.6222, -122.6219, -122.6219, -122.6222, -122.6222);
 var wp_alt          = new Array(  61.0,      61.0,      61.0,      61.0,      61.0,      61.0,      81.0,     101.0);
@@ -66,9 +54,7 @@ function displayTriggerMessage(msg) {
 
   var aReq = new XMLHttpRequest();
   var bReq = new XMLHttpRequest();
-  var cReq = new XMLHttpRequest();
-  var dReq = new XMLHttpRequest();
-  var eReq = new XMLHttpRequest();
+
   switch(parseInt(msg)) {
 
     {% for row in range(1,p_row_count+1)  %}
@@ -189,13 +175,13 @@ function selectPageButton(btn) {
 <style>
 
 .button-container {
-  width: 780px;
+  {{ btn_containter_width( (p_col_count*80)+140 ) }}
   background: black;
   overflow-y: auto;
 }
 
 .command-button-container {
-  width: 780px;
+  {{ btn_containter_width( (p_col_count*80)+140 ) }}
   background: black;
   overflow-y: auto;
 }
@@ -214,25 +200,16 @@ function selectPageButton(btn) {
   <div class="button-container">
 
   {% for row in range(1,p_row_count+1)  %}
-      {{ btn_link( ((row-1)*p_col_count)+0,  '',      'deepskyblue',   row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+1,  '',      'dodgerblue',    row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+2,  '',      'lime',          row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+3,  '',      'green',         row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+4,  '',      'gold',          row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+5,  '',      'orange',        row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+6,  '',      'orangered',     row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+7,  '',      'red',           row ) }}
+        {% set rowloop = loop %}
+        {% for col in range(1,p_col_count+1)  %}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index ) }}
+        {% endfor %}      
   {% endfor %}
 
-  {{ btn_link( (p_row_count*p_col_count)+0,  '',      'deepskyblue',   '1' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+1,  '',      'dodgerblue',    '2' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+2,  '',      'lime',          '3' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+3,  '',      'green',         '4' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+4,  '',      'gold',          '5' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+5,  '',      'orange',        '6' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+6,  '',      'orangered',     '7' ) }}
-  {{ btn_link( (p_row_count*p_col_count)+7,  '',      'red',           '8' ) }}
-
+  {% for col in range(1,p_col_count+1)  %}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), col ) }}
+  {% endfor %}      
+ 
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Point: x</button>
