@@ -192,6 +192,19 @@ function selectPageButton(btn) {
 
 </script>
 
+<style>
+
+.button-container {
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
+}
+
+.command-button-container {
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
+}
+
+</style>
+
+
 </head>
 {% endblock %}
 
@@ -202,18 +215,11 @@ function selectPageButton(btn) {
   <div class="button-container">
 
   {% for row in range(1,p_row_count+1)  %}
-      {{ btn_link( ((row-1)*p_col_count)+0,  'Forward',           'magenta',     row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+1,  'Back',              'purple',      row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+2,  'Left',              'deepskyblue', row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+3,  'Right',             'dodgerblue',  row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+4,  'Up',                'lime',        row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+5,  'Down',              'green',       row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+6,  'Counterclockwise',  'gold',        row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+7,  'Clockwise',         'orange',      row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+8,  'Guided',            'orangered',   row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+9,  'Nav',               'red',         row ) }}
+        {% set rowloop = loop %}
+        {% for col in range(1,p_col_count+1)  %}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav'), loop.cycle('magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index ) }}
+        {% endfor %}      
   {% endfor %}
-
 
   {{ btn_img_link( (p_row_count*p_col_count)+0,  'Forward',           'magenta',      'arrow-with-circle-up.png' ) }}
   {{ btn_img_link( (p_row_count*p_col_count)+1,  'Back',              'purple',       'arrow-with-circle-down.png' ) }}

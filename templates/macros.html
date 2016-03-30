@@ -6,6 +6,12 @@
 {% endif %}
 {% endmacro %}
 
+{% macro btn_container_style(width) %}
+  width: {{width}}px;
+  background: black;
+  overflow-y: auto;
+{% endmacro %}
+
 {% macro btn_link(id, tooltip, color, name) %}
   <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}" onmousedown="mousedownButton(this)" onclick="selectButton(this)">{{name}}</button>
 {% endmacro %}

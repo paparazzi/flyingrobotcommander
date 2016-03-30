@@ -1,9 +1,5 @@
 {% extends "layout.html" %}
 
-{% macro btn_containter_width(width) %}
-  width: {{width}}px;
-{% endmacro %}
-
 {% macro case_command(id, row, col) %}
   case {{id}}:    aReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + waypoint_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]); aReq.send(); break;
 {% endmacro %}
@@ -175,20 +171,15 @@ function selectPageButton(btn) {
 <style>
 
 .button-container {
-  {{ btn_containter_width( (p_col_count*80)+140 ) }}
-  background: black;
-  overflow-y: auto;
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
 }
 
 .command-button-container {
-  {{ btn_containter_width( (p_col_count*80)+140 ) }}
-  background: black;
-  overflow-y: auto;
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
 }
 
 </style>
 
-</script>
 
 </head>
 {% endblock %}

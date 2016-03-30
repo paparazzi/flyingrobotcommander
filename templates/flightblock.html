@@ -167,6 +167,19 @@ function selectPageButton(btn) {
 
 </script>
 
+<style>
+
+.button-container {
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
+}
+
+.command-button-container {
+  {{ btn_container_style( (p_col_count*80)+140 ) }}
+}
+
+</style>
+
+
 </head>
 {% endblock %}
 
@@ -177,16 +190,10 @@ function selectPageButton(btn) {
   <div class="button-container">
 
   {% for row in range(1,p_row_count+1)  %}
-      {{ btn_link( ((row-1)*p_col_count)+0,  'Props On',  'lime',        row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+1,  'Takeoff',   'green',       row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+2,  '',          'deepskyblue', row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+3,  '',          'dodgerblue',  row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+4,  '',          'gold',        row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+5,  '',          'orange',      row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+6,  '',          'darkorange',  row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+7,  'Land Here', 'orangered',   row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+8,  'Land',      'red',         row ) }}
-      {{ btn_link( ((row-1)*p_col_count)+9,  'Props Off', 'darkred',     row ) }}
+        {% set rowloop = loop %}
+        {% for col in range(1,p_col_count+1)  %}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), rowloop.index ) }}
+        {% endfor %}      
   {% endfor %}
  
   {{ btn_img_link( (p_row_count*p_col_count)+0,  'Props On',   'lime',         'propeller.png' ) }}
