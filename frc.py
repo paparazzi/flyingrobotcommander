@@ -567,7 +567,7 @@ if __name__ == '__main__':
         # Supply flask the appropriate ip address and port for the server
         server_host = args.ip      # Store for use in htlm template generation
         server_port = args.port    # Store for use in htlm template generation
-        app.run(host=args.ip,port=args.port)
+        app.run(host=args.ip,port=args.port,threaded=True)
 
         # --- Shutdown state block
         ivy_interface.shutdown()

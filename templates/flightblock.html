@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% macro case_command(id, row, col) %}
-  case {{id}}:    aReq.open("GET", cmd_flightblock + aircraft_id[{{row}}] + '/' + flightblock_id[{{col}}]);  aReq.send(); break;
+  case {{id}}:    aReq.open("GET", cmd_flightblock + aircraft_id[{{row}}] + '/' + flightblock_id[{{col}}], true);  aReq.send(); break;
 {% endmacro %}
 
 {% macro case_command_group(id, col) %}
-  case {{id}}:    bReq.open("GET", cmd_flightblock + flightblock_id[{{col}}]);  bReq.send(); break;
+  case {{id}}:    bReq.open("GET", cmd_flightblock + flightblock_id[{{col}}], true);  bReq.send(); break;
 {% endmacro %}
 
 {% block head %}
@@ -58,18 +58,18 @@ function displayTriggerMessage(msg) {
 
 
     case 200:  
-               aReq.open("GET", cmd_flightblock + flightblock_id[0]); aReq.send();
-               setTimeout(bReq.open("GET", cmd_flightblock + flightblock_id[1]),2000); setTimeout(bReq.send(),3000);
+               aReq.open("GET", cmd_flightblock + flightblock_id[0], true); aReq.send();
+               setTimeout(bReq.open("GET", cmd_flightblock + flightblock_id[1], true),2000); setTimeout(bReq.send(),3000);
                break;
-    case 201:  aReq.open("GET", cmd_flightblock + flightblock_id[6]); aReq.send(); break;
-    case 202:  aReq.open("GET", cmd_flightblock + flightblock_id[8]); aReq.send(); break;
+    case 201:  aReq.open("GET", cmd_flightblock + flightblock_id[6], true); aReq.send(); break;
+    case 202:  aReq.open("GET", cmd_flightblock + flightblock_id[8], true); aReq.send(); break;
     case 300:  
                break;
     case 301:  
                break;
     case 302:  
                break;
-    default:   aReq.open("GET", cmd_flightblock + 'noop'); aReq.send();
+    default:   aReq.open("GET", cmd_flightblock + 'noop', true); aReq.send();
   }
 
   document.getElementById(msg_btn_id).style.color = "black";

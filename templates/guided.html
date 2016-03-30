@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 
 {% macro case_command(id, row, col) %}
-  case {{id}}:    aReq.open("GET", cmd_guidance + aircraft_id[{{row}}] + '/' + flag_mask[2] + '/' + ned_params[{{col}}]);  aReq.send(); break;
+  case {{id}}:    aReq.open("GET", cmd_guidance + aircraft_id[{{row}}] + '/' + flag_mask[2] + '/' + ned_params[{{col}}], true);  aReq.send(); break;
 {% endmacro %}
 
 {% macro case_command_mode(id, row, col) %}
-  case {{id}}:    aReq.open("GET", cmd_setmode  + aircraft_id[{{row}}] + '/' + mode[{{col}}]);  aReq.send(); break;
+  case {{id}}:    aReq.open("GET", cmd_setmode  + aircraft_id[{{row}}] + '/' + mode[{{col}}], true);  aReq.send(); break;
 {% endmacro %}
 
 {% macro case_command_group(id, col) %}
-  case {{id}}:    bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[{{col}}]); bReq.send(); break;
+  case {{id}}:    bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[{{col}}], true); bReq.send(); break;
 {% endmacro %}
 
 {% macro case_command_group_mode(id, col) %}
-  case {{id}}:    bReq.open("GET", cmd_setmode + mode[{{col}}]); bReq.send(); break;
+  case {{id}}:    bReq.open("GET", cmd_setmode + mode[{{col}}], true); bReq.send(); break;
 {% endmacro %}
 
 {% block head %}
@@ -85,16 +85,16 @@ function displayTriggerMessage(msg) {
 
 
     case 200:  
-               aReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); aReq.send();
-               setTimeout(bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]),3000); bReq.send();
+               aReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); aReq.send();
+               setTimeout(bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true),3000); bReq.send();
                break;
     case 201:  
-               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); bReq.send(); 
+               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); bReq.send(); 
                break;
     case 202:  
-               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0]); bReq.send(); 
+               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); bReq.send(); 
                break;
-    default:   aReq.open("GET", cmd_guidance + ''); aReq.send();
+    default:   aReq.open("GET", cmd_guidance + '', true); aReq.send();
   }
 
   document.getElementById(msg_btn_id).style.color = "black";

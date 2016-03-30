@@ -2,25 +2,25 @@
 
 {% macro case_command(id, row, col) %}
 {% if row is equalto 0 %}
-  case {{id}}:    aReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  aReq.send(); break;
+  case {{id}}:    aReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true);  aReq.send(); break;
 {% elif row is equalto 1 %}
-  case {{id}}:    bReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  bReq.send(); break;
+  case {{id}}:    bReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}], true);  bReq.send(); break;
 {% elif row is equalto 2 %}
-  case {{id}}:    cReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  cReq.send(); break;
+  case {{id}}:    cReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}], true);  cReq.send(); break;
 {% elif row is equalto 3 %}
-  case {{id}}:    dReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  dReq.send(); break;
+  case {{id}}:    dReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true);  dReq.send(); break;
 {% else %}
-  case {{id}}:    eReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  eReq.send(); break;
+  case {{id}}:    eReq.open("GET", cmd_wp + aircraft_id[{{row}}] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true);  eReq.send(); break;
 {% endif %}
 {% endmacro %}
 
 {% macro case_command_group(id, col) %}
   case {{id}}:
-      aReq.open("GET", cmd_wp + aircraft_id[0] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]); aReq.send();
-      bReq.open("GET", cmd_wp + aircraft_id[1] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  bReq.send();
-      cReq.open("GET", cmd_wp + aircraft_id[2] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}]);  cReq.send(); 
-      dReq.open("GET", cmd_wp + aircraft_id[3] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  dReq.send();
-      eReq.open("GET", cmd_wp + aircraft_id[4] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}]);  eReq.send();
+      aReq.open("GET", cmd_wp + aircraft_id[0] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true); aReq.send();
+      bReq.open("GET", cmd_wp + aircraft_id[1] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] - wp_incr).toFixed(4) + '/' + wp_alt[{{col}}], true);  bReq.send();
+      cReq.open("GET", cmd_wp + aircraft_id[2] + '/' + wp_id[{{col}}] + '/' + wp_lat[{{col}}] + '/' + (wp_long[{{col}}] + wp_incr).toFixed(4) + '/' + wp_alt[{{col}}], true);  cReq.send(); 
+      dReq.open("GET", cmd_wp + aircraft_id[3] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] - wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true);  dReq.send();
+      eReq.open("GET", cmd_wp + aircraft_id[4] + '/' + wp_id[{{col}}] + '/' + (wp_lat[{{col}}] + wp_incr).toFixed(4) + '/' + wp_long[{{col}}] + '/' + wp_alt[{{col}}], true);  eReq.send();
       break;
 {% endmacro %}
 
@@ -88,7 +88,7 @@ function displayTriggerMessage(msg) {
                break;
     case 202:  
                break;
-    default:   aReq.open("GET", cmd_wp + ''); aReq.send();
+    default:   aReq.open("GET", cmd_wp + '', true); aReq.send();
   }
 
   document.getElementById(msg_btn_id).style.color = "black";

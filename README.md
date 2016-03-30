@@ -104,13 +104,13 @@ Periscope broadcasts:
 
 ## TODO:
 - [ ] Add a mechanism for persisting client configuration information
-- [ ] Investigate issue related to unexpected blocking/hanging http requests when using localhost
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
-- [x] Start the refactoring of waypoint support
+- [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method
+- [x] Refactoring of template views to better deal with dynamic button matrices
 - [x] Update route testing script
 - [x] Remove static html files and associated `img` folder
 - [x] Reduce http requests for group aircraft commands from N to 1
