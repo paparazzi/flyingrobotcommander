@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.1 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -43,7 +43,7 @@ client related data( see `frc_conf.xml` for an example of the default client con
 
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
-be completed using the <object>/client/add/<id> routes; where `object` is one of aircraft, flightblock,
+be completed using the `object`/client/add/`id` routes; where `object` is one of aircraft, flightblock,
 or waypoint and `id` is a valid object id. The aircraft, flight block, and waypoint related `client` data 
 need to be configured(see syntax below) prior to using one of the client views( `show/flightblock`, 
 `show/guided`, `show/waypoint`).
@@ -119,11 +119,13 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
+- [ ] Add client routes by name (i.e. waypoint/client/add/stay_p1)
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added client configuration by name="string" in `frc_conf.xml` (i.e. name="stay_p1")
 - [x] Add a client configuration file(-f switch to specify file name)
 - [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method
 - [x] Refactoring of template views to better deal with dynamic button matrices

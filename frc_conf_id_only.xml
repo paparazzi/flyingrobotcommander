@@ -1,0 +1,25 @@
+<client>
+	<aircraft ac_id="215" />
+	<aircraft ac_id="216" />
+	<aircraft ac_id="217" />
+	<aircraft ac_id="218" />
+	<aircraft ac_id="219" />
+	<flightblock fb_id="3"  />
+	<flightblock fb_id="4"  />
+	<flightblock fb_id="6"  />
+	<flightblock fb_id="7"  />
+	<flightblock fb_id="8"  />
+	<flightblock fb_id="9"  />
+	<flightblock fb_id="12" />
+	<flightblock fb_id="32" />
+	<flightblock fb_id="33" />
+	<flightblock fb_id="2"  />
+	<waypoint wp_id="3"  />
+	<waypoint wp_id="4"  />
+	<waypoint wp_id="5"  />
+	<waypoint wp_id="6"  />
+	<waypoint wp_id="7"  />
+	<waypoint wp_id="8"  />
+	<waypoint wp_id="9"  />
+	<waypoint wp_id="10" />
+</client>

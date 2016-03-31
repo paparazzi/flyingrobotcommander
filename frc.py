@@ -57,7 +57,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.0"
+frc_version   = "0.2.1"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -142,20 +142,34 @@ PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
 def static_init_client_configuration_data(fname):
     tree = ET.parse(fname)
     root = tree.getroot()
+    tmp_ac_id = 0   # Assuming all aircraft use the same flight plan, we cache an aircraft index
 
     # Populate aircraft client objects
     for aircraft in root.findall('aircraft'):
-        ac_id = int(aircraft.get('ac_id'))
+        ac_id = int(aircraft.get('ac_id')) if aircraft.get('ac_id') else None
+        name  = aircraft.get('name')
+        if name: 
+            ac_id = next((idx for idx in aircrafts if aircrafts[idx].name == name), None)
+            #print("Found aircraft name: %s" % aircrafts[ac_id].name)
         aircraft_client_add(ac_id)
+        tmp_ac_id = ac_id  # Cache the current aircraft index for use in flightblock and waypoint search
 
     # Populate flightblock client objects
     for flightblock in root.findall('flightblock'):
-        fb_id = int(flightblock.get('fb_id'))
+        fb_id = int(flightblock.get('fb_id')) if flightblock.get('fb_id') else None
+        name = flightblock.get('name')
+        if name: 
+            fb_id = next((idx for idx in aircrafts[tmp_ac_id].flightblocks if aircrafts[tmp_ac_id].flightblocks[idx].fb_name == name), None)
+            #print("Found flightblock name: %s" % aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
         flightblock_client_add(fb_id)
 
     # Populate waypoint client objects
     for waypoint in root.findall('waypoint'):
-        wp_id = int(waypoint.get('wp_id'))
+        wp_id = int(waypoint.get('wp_id')) if waypoint.get('wp_id') else None
+        name = waypoint.get('name')
+        if name: 
+            wp_id = next((idx for idx in aircrafts[tmp_ac_id].waypoints if aircrafts[tmp_ac_id].waypoints[idx].wp_name == name), None)
+            #print("Found waypoint name: %s" % aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
         waypoint_client_add(wp_id)
     
 

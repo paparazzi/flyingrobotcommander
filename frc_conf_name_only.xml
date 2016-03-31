@@ -1,0 +1,25 @@
+<client>
+	<aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_B" />
+	<aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_A" />
+	<aircraft  name="Teensy_Fly_Quad_Elle0"        />
+	<aircraft  name="Teensy_Fly_Quad"              />
+	<aircraft  name="Teensy_Fly_Hexa"              />
+	<flightblock  name="Start Motors"  />
+	<flightblock  name="Takeoff"       />
+	<flightblock  name="Standby"       />
+	<flightblock  name="stay_p1"       />
+	<flightblock  name="stay_p2"       />
+	<flightblock  name="stay_p3"       />
+	<flightblock  name="stay_p4"       />
+	<flightblock  name="land here"     />
+	<flightblock  name="land"          />
+	<flightblock  name="Holding point" />
+	<waypoint  name="STDBY" />
+	<waypoint  name="p1"    />
+	<waypoint  name="p2"    />
+	<waypoint  name="p3"    />
+	<waypoint  name="p4"    />
+	<waypoint  name="HOV"   />
+	<waypoint  name="CAM"   />
+	<waypoint  name="S1"    />
+</client>
