@@ -572,8 +572,7 @@ if __name__ == '__main__':
         # --- Startup state initialization block
         args = parser.parse_args()
         static_init_configuration_data()
-        if args.file:
-            static_init_client_configuration_data(args.file)
+        static_init_client_configuration_data(args.file)
         if args.verbose: 
             print_aircraft_data()
         if args.subscribe: 

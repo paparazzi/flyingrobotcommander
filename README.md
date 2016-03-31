@@ -8,17 +8,18 @@ This is beta version 0.2.0 of the Flying Robot Commander(FRC) and subject to maj
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
 aircraft that use [Paparazzi UAV](https://github.com/paparazzi/paparazzi) and [PPRZLink](https://github.com/paparazzi/pprzlink).
 
-    usage: frc.py [-h] [-i IP] [-p PORT] [-c] [-s] [-v]
+    usage: frc.py [-h] [-i IP] [-p PORT] [-f FILE] [-c] [-s] [-v]
 
     optional arguments:
       -h, --help            show this help message and exit
       -i IP, --ip IP        ip address
       -p PORT, --port PORT  port number
+      -f FILE, --file FILE  client configuration file
       -c, --curl            dump actions as curl commands
       -s, --subscribe       subscribe to the ivy bus
       -v, --verbose         verbose mode
 
-The default values for `IP` and `PORT`, if not specified, are `127.0.0.1` and `5000`, respectively.
+The default values for `IP`, `PORT`, and `FILE`, if not specified, are `127.0.0.1`, `5000`, and `frc_conf.xml`, respectively.
 
 ### Running the Flying Robot Commander
 Open a terminal window and type the following command:
@@ -36,11 +37,16 @@ for the installation and usage of `Flask`. Here are some of the python packages(
 On startup, the FRC reads the main Paparazzi UAV configuration file `$PPRZ_HOME/conf/conf.xml`. 
 Configuration data contained in the `conf.xml` and the associated airframe/flight plan files is 
 used to initialize the FRC server. Note that the `--subscribe` option is also used to initialize 
-runtime related aircraft data that includes `ivy bus messages`.
+runtime related aircraft data that includes `ivy bus messages`. The `--file` is used to configure
+client related data( see `frc_conf.xml` for an example of the default client configuration file).
 
-### Adding Client Data
-Once the FRC server is running, the aircraft and flight block related `client` data need to be
-configured(see syntax below) prior to using one of the client views( `show/flightblock`, `show/guided`, `show/waypoint`).
+
+### Adding Client Data via Routes
+If the `--file` option is not used when starting the FRC server, the client related configuration must
+be completed using the <object>/client/add/<id> routes; where `object` is one of aircraft, flightblock,
+or waypoint and `id` is a valid object id. The aircraft, flight block, and waypoint related `client` data 
+need to be configured(see syntax below) prior to using one of the client views( `show/flightblock`, 
+`show/guided`, `show/waypoint`).
 
     Syntax:
 
