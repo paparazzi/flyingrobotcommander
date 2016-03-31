@@ -57,12 +57,12 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.1.0"
-verbose       = 0            # Default is disabled(i.e. = 0)
-curl          = 0            # Default is disabled(i.e. = 0)
-subscribe     = 0            # Default is disabled(i.e. = 0)
-server_host   = "127.0.0.1"  # Default to local host)
-server_port   = 5000         # Default it flask port)
+frc_version   = "0.2.0"
+verbose       = 0              # Default is disabled(i.e. = 0)
+curl          = 0              # Default is disabled(i.e. = 0)
+subscribe     = 0              # Default is disabled(i.e. = 0)
+server_host   = "127.0.0.1"    # Default to local host)
+server_port   = 5000           # Default it flask port)
 
 
 # --- Aircraft, Flighblock & Message related state/methods
@@ -139,6 +139,26 @@ def print_ivy_trace(msg):
 import xml.etree.cElementTree as ET    
 PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
 
+def static_init_client_configuration_data(fname):
+    tree = ET.parse(fname)
+    root = tree.getroot()
+
+    # Populate aircraft client objects
+    for aircraft in root.findall('aircraft'):
+        ac_id = int(aircraft.get('ac_id'))
+        aircraft_client_add(ac_id)
+
+    # Populate flightblock client objects
+    for flightblock in root.findall('flightblock'):
+        fb_id = int(flightblock.get('fb_id'))
+        flightblock_client_add(fb_id)
+
+    # Populate waypoint client objects
+    for waypoint in root.findall('waypoint'):
+        wp_id = int(waypoint.get('wp_id'))
+        waypoint_client_add(wp_id)
+    
+
 def static_init_configuration_data():
     tree = ET.parse(os.path.join( PPRZ_SRC_CONF, 'conf.xml' ))
     root = tree.getroot()
@@ -187,10 +207,10 @@ def callback_aircraft_messages(ac_id, msg):
 
 @app.route('/')
 def index():
-    retval = ''
+    retval = 'Flying Robot Commander Server Running....'
 
     if verbose: 
-        retval = 'Index Page\n'
+        retval = 'Flying Robot Commander Server Running....\n'
     if curl: print_curl_format()
     return retval
 
@@ -542,6 +562,8 @@ if __name__ == '__main__':
                         help="ip address")
     parser.add_argument("-p","--port", type=int, default=5000,
                         help="port number")
+    parser.add_argument("-f","--file", type=str, default="frc_conf.xml",
+                        help="client configuration file")
     parser.add_argument("-c","--curl",      action="store_true", help="dump actions as curl commands")
     parser.add_argument("-s","--subscribe", action="store_true", help="subscribe to the ivy bus")
     parser.add_argument("-v","--verbose",   action="store_true", help="verbose mode")
@@ -550,6 +572,8 @@ if __name__ == '__main__':
         # --- Startup state initialization block
         args = parser.parse_args()
         static_init_configuration_data()
+        if args.file:
+            static_init_client_configuration_data(args.file)
         if args.verbose: 
             print_aircraft_data()
         if args.subscribe: 

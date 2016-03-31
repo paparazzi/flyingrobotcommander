@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.1.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -46,8 +46,10 @@ configured(see syntax below) prior to using one of the client views( `show/fligh
 
     - Aircraft Route: aircraft/client/add/<ac_id>
     - Flight Block Route: flightblock/client/add/<fb_id>
+    - Waypoint Route: waypoint/client/add/<wp_id>
 
-Example `bash` script that uses `curl` to configure client data for five aircraft with 10 shared flight blocks:
+Example `bash` script that uses `curl` to configure client data for five aircraft with 10 shared flight blocks and
+8 shared waypoints:
 
     #!/bin/bash
     host=127.0.0.1
@@ -67,6 +69,14 @@ Example `bash` script that uses `curl` to configure client data for five aircraf
     curl http://$host:$port/flightblock/client/add/32
     curl http://$host:$port/flightblock/client/add/33
     curl http://$host:$port/flightblock/client/add/2
+    curl http://$host:$port/waypoint/client/add/3
+    curl http://$host:$port/waypoint/client/add/5
+    curl http://$host:$port/waypoint/client/add/6
+    curl http://$host:$port/waypoint/client/add/7
+    curl http://$host:$port/waypoint/client/add/8
+    curl http://$host:$port/waypoint/client/add/9
+    curl http://$host:$port/waypoint/client/add/10
+
 
 ### Showing Client Views
 Once the client related data is configured, the various client views of the FRC are available for use.
@@ -103,12 +113,12 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
-- [ ] Add a mechanism for persisting client configuration information
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Add a client configuration file(-f switch to specify file name)
 - [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method
 - [x] Refactoring of template views to better deal with dynamic button matrices
 - [x] Update route testing script
