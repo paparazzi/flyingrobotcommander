@@ -4,6 +4,7 @@
 	<aircraft  name="Teensy_Fly_Quad_Elle0"        />
 	<aircraft  name="Teensy_Fly_Quad"              />
 	<aircraft  name="Teensy_Fly_Hexa"              />
+    <aircraft  name="Racer_PEX_Quad"               />
 	<flightblock  name="Start Motors"  />
 	<flightblock  name="Takeoff"       />
 	<flightblock  name="Standby"       />

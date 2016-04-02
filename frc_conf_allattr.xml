@@ -4,6 +4,7 @@
 	<aircraft ac_id="217" name="Teensy_Fly_Quad_Elle0"        />
 	<aircraft ac_id="218" name="Teensy_Fly_Quad"              />
 	<aircraft ac_id="219" name="Teensy_Fly_Hexa"              />
+	<aircraft ac_id="220" name="Racer_PEX_Quad"               />
 	<flightblock fb_id="3"  name="Start Motors"  />
 	<flightblock fb_id="4"  name="Takeoff"       />
 	<flightblock fb_id="5"  name="Standby"       />
