@@ -193,12 +193,12 @@ function selectPageButton(btn) {
   {% for row in range(1,p_row_count+1)  %}
         {% set rowloop = loop %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index ) }}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index, '' ) }}
         {% endfor %}      
   {% endfor %}
 
   {% for col in range(1,p_col_count+1)  %}
-        {{ btn_link( (p_row_count*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), col ) }}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  '', loop.cycle('deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), col, '' ) }}
   {% endfor %}      
  
   </div>

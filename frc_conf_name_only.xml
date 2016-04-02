@@ -11,6 +11,7 @@
 	<flightblock  name="stay_p2"       />
 	<flightblock  name="stay_p3"       />
 	<flightblock  name="stay_p4"       />
+	<flightblock  name="stay_HOV"      />
 	<flightblock  name="land here"     />
 	<flightblock  name="land"          />
 	<flightblock  name="Holding point" />

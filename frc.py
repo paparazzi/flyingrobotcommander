@@ -57,7 +57,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.1"
+frc_version   = "0.2.2"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)

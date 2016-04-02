@@ -192,20 +192,13 @@ function selectPageButton(btn) {
   {% for row in range(1,p_row_count+1)  %}
         {% set rowloop = loop %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), rowloop.index ) }}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), rowloop.index, '' ) }}
         {% endfor %}      
   {% endfor %}
  
-  {{ btn_img_link( (p_row_count*p_col_count)+0,  'Props On',   'lime',         'propeller.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+1,  'Takeoff',    'green',        'aircraft-take-off.png' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+2,  '',           'deepskyblue',  '1' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+3,  '',           'dodgerblue',   '2' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+4,  '',           'gold',         '3' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+5,  '',           'orange',       '4' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+6,  '',           'darkorange',   'H' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+7,  'Land Here',  'orangered',    'aircraft-landing.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+8,  'Land',       'red',          'aircraft-landing.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+9,  'Props Off',  'darkred',      'propeller.png' ) }}
+  {% for col in range(1,p_col_count+1)  %}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), loop.cycle('', '', 'S', '1', '2', '3', '4', 'H', '', '', ''), loop.cycle('propeller.png', 'aircraft-take-off.png', '', '', '', '', '', '', 'aircraft-landing.png', 'aircraft-landing.png', 'propeller.png') ) }}
+  {% endfor %}      
   
   </div>
   <div class="command-button-container">

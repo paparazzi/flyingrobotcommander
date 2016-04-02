@@ -217,20 +217,13 @@ function selectPageButton(btn) {
   {% for row in range(1,p_row_count+1)  %}
         {% set rowloop = loop %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav'), loop.cycle('magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index ) }}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav'), loop.cycle('magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), rowloop.index, '' ) }}
         {% endfor %}      
   {% endfor %}
 
-  {{ btn_img_link( (p_row_count*p_col_count)+0,  'Forward',           'magenta',      'arrow-with-circle-up.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+1,  'Back',              'purple',       'arrow-with-circle-down.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+2,  'Left',              'deepskyblue',  'arrow-with-circle-left.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+3,  'Right',             'dodgerblue',   'arrow-with-circle-right.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+4,  'Up',                'lime',         'aircraft-take-off.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+5,  'Down',              'green',        'aircraft-landing.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+6,  'Counterclockwise',  'gold',         'arrows-rotate-counterclockwise.png' ) }}
-  {{ btn_img_link( (p_row_count*p_col_count)+7,  'Clockwise',         'orange',       'arrows-rotate-clockwise.png' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+8,  'Guided',            'orangered',    'G' ) }}
-  {{ btn_link(     (p_row_count*p_col_count)+9,  'Nav',               'red',          'N' ) }}
+  {% for col in range(1,p_col_count+1)  %}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  loop.cycle('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav'), loop.cycle('magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'), loop.cycle('', '', '', '', '', '', '', '', 'G', 'N'), loop.cycle('arrow-with-circle-up.png', 'arrow-with-circle-down.png', 'arrow-with-circle-left.png', 'arrow-with-circle-right.png', 'aircraft-take-off.png', 'aircraft-landing.png', 'arrows-rotate-counterclockwise.png', 'arrows-rotate-clockwise.png', '', '') ) }}
+  {% endfor %}      
 
   </div>
   <div class="command-button-container">

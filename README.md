@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.1 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.2 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -125,6 +125,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Completed refactoring of template views to handle dynamic button matrices
 - [x] Added client configuration by name="string" in `frc_conf.xml` (i.e. name="stay_p1")
 - [x] Add a client configuration file(-f switch to specify file name)
 - [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method

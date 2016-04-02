@@ -1,0 +1,26 @@
+<client>
+	<aircraft ac_id="215" name="Teensy_Fly_Quad_Elle0_v1_2_B" />
+	<aircraft ac_id="216" name="Teensy_Fly_Quad_Elle0_v1_2_A" />
+	<aircraft ac_id="217" name="Teensy_Fly_Quad_Elle0"        />
+	<aircraft ac_id="218" name="Teensy_Fly_Quad"              />
+	<aircraft ac_id="219" name="Teensy_Fly_Hexa"              />
+	<flightblock fb_id="3"  name="Start Motors"  />
+	<flightblock fb_id="4"  name="Takeoff"       />
+	<flightblock fb_id="5"  name="Standby"       />
+	<flightblock fb_id="6"  name="stay_p1"       />
+	<flightblock fb_id="7"  name="stay_p2"       />
+	<flightblock fb_id="8"  name="stay_p3"       />
+	<flightblock fb_id="9"  name="stay_p4"       />
+	<flightblock fb_id="12" name="stay_HOV"      />
+	<flightblock fb_id="32" name="land here"     />
+	<flightblock fb_id="33" name="land"          />
+	<flightblock fb_id="2"  name="Holding point" />
+	<waypoint wp_id="3"  name="STDBY" />
+	<waypoint wp_id="4"  name="p1"    />
+	<waypoint wp_id="5"  name="p2"    />
+	<waypoint wp_id="6"  name="p3"    />
+	<waypoint wp_id="7"  name="p4"    />
+	<waypoint wp_id="8"  name="HOV"   />
+	<waypoint wp_id="9"  name="CAM"   />
+	<waypoint wp_id="10" name="S1"    />
+</client>
