@@ -88,9 +88,10 @@ class Flightblock(object):
         self.fb_name = fb_name
 
 class Aircraft(object):
-    def __init__(self, ac_id, name):
+    def __init__(self, ac_id, name, color):
         self.ac_id        = ac_id
         self.name         = name
+        self.color        = color
         self.flightblocks = {}
         self.waypoints    = {}
         self.messages     = {}
@@ -106,12 +107,12 @@ def add_new_aircraft_waypoint( aircraft, wp_id, wp_name, wp_x, wp_y):
 def add_new_aircraft_flightblock( aircraft, fb_id, fb_name):
     aircraft.flightblocks[fb_id] = Flightblock(fb_id, fb_name)      
 
-def add_new_aircraft(ac_id, name):
-    aircrafts[ac_id] = Aircraft(ac_id, name)
+def add_new_aircraft(ac_id, name, color):
+    aircrafts[ac_id] = Aircraft(ac_id, name, color)
 
 def print_aircraft_data():
     for ac_id in aircrafts:
-        print( ac_id, aircrafts[ac_id].name )
+        print( ac_id, aircrafts[ac_id].name, aircrafts[ac_id].color )
         for wp_id in aircrafts[ac_id].waypoints:
             print( wp_id, aircrafts[ac_id].waypoints[wp_id].wp_name, aircrafts[ac_id].waypoints[wp_id].wp_x, aircrafts[ac_id].waypoints[wp_id].wp_y )
         for fb_id in aircrafts[ac_id].flightblocks:
@@ -183,8 +184,8 @@ def static_init_configuration_data():
         name           = aircraft.get('name')
         flightplanpath = aircraft.get('flight_plan')
         #airframepath   = aircraft.get('airframe')
-        #color          = aircraft.get('gui_color')
-        add_new_aircraft(acid, name)
+        color          = aircraft.get('gui_color')
+        add_new_aircraft(acid, name, color)
         aircraft = aircrafts[acid]
     
         # Populate flight plan objects
@@ -208,7 +209,7 @@ def static_init_configuration_data():
 def callback_aircraft_messages(ac_id, msg):
     # Possibly add the aircraft to the list
     if ac_id not in aircrafts:
-        add_new_aircraft(ac_id, 'unknown')
+        add_new_aircraft(ac_id, 'unknown', 'unknown')
     aircraft = aircrafts[ac_id]
     # Add the messages and say when last seen
     add_new_aircraft_message(aircraft, msg.msg_class, msg.name,msg)
@@ -245,6 +246,7 @@ def aircraft(ac_id):
         alist = []
         alist.append(ac_id)
         alist.append(aircrafts[ac_id].name)
+        alist.append(aircrafts[ac_id].color)
         for wp_id in aircrafts[ac_id].waypoints:
             alist.append(wp_id)   
             alist.append(aircrafts[ac_id].waypoints[wp_id].wp_name)   
