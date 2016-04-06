@@ -1,27 +1,27 @@
 <client>
-	<aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red" />
-	<aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"/>
-	<aircraft  name="Teensy_Fly_Quad_Elle0"        color="green" />
-	<aircraft  name="Teensy_Fly_Quad"              color="deepskyblue"/>
-	<aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"/>
+    <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red" />
+    <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"/>
+    <aircraft  name="Teensy_Fly_Quad_Elle0"        color="green" />
+    <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue"/>
+    <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"/>
     <aircraft  name="Racer_PEX_Quad"               color="purple"/>
-	<flightblock  name="Start Motors"  />
-	<flightblock  name="Takeoff"       />
-	<flightblock  name="Standby"       />
-	<flightblock  name="stay_p1"       />
-	<flightblock  name="stay_p2"       />
-	<flightblock  name="stay_p3"       />
-	<flightblock  name="stay_p4"       />
-	<flightblock  name="stay_HOV"      />
-	<flightblock  name="land here"     />
-	<flightblock  name="land"          />
-	<flightblock  name="Holding point" />
-	<waypoint  name="STDBY" />
-	<waypoint  name="p1"    />
-	<waypoint  name="p2"    />
-	<waypoint  name="p3"    />
-	<waypoint  name="p4"    />
-	<waypoint  name="HOV"   />
-	<waypoint  name="CAM"   />
-	<waypoint  name="S1"    />
+    <flightblock  name="Start Motors"  />
+    <flightblock  name="Takeoff"       />
+    <flightblock  name="Standby"       />
+    <flightblock  name="stay_p1"       />
+    <flightblock  name="stay_p2"       />
+    <flightblock  name="stay_p3"       />
+    <flightblock  name="stay_p4"       />
+    <flightblock  name="stay_HOV"      />
+    <flightblock  name="land here"     />
+    <flightblock  name="land"          />
+    <flightblock  name="Holding point" />
+    <waypoint  name="STDBY" />
+    <waypoint  name="p1"    />
+    <waypoint  name="p2"    />
+    <waypoint  name="p3"    />
+    <waypoint  name="p4"    />
+    <waypoint  name="HOV"   />
+    <waypoint  name="CAM"   />
+    <waypoint  name="S1"    />
 </client>
