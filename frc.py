@@ -152,6 +152,9 @@ def static_init_client_configuration_data(fname):
         if name: 
             ac_id = next((idx for idx in aircrafts if aircrafts[idx].name == name), None)
             #print("Found aircraft name: %s" % aircrafts[ac_id].name)
+        color = aircraft.get('color')
+        if color:  #Override current conf.xml gui_color value if defined in frc_conf.xml
+            aircrafts[ac_id].color = color
         aircraft_client_add(ac_id)
         tmp_ac_id = ac_id  # Cache the current aircraft index for use in flightblock and waypoint search
 
