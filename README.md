@@ -119,6 +119,8 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
+- [ ] Add a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row
+- [ ] Research ivy messaging inconsistencies when running live multi-MAV system tests
 - [ ] Add client routes by name (i.e. waypoint/client/add/stay_p1)
 - [ ] Revisit/refactor the button-to-command binding model
 - [ ] Add wiki topic/page in paparazziuav.org wiki
