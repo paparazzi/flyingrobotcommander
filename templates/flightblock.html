@@ -186,15 +186,19 @@ function selectPageButton(btn) {
 <div class="menu-container">
   <div class="button-container">
 
+  {% set tooltip = cycler('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off') %}
+  {% set color   = cycler('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred') %}
+  {% set label   = cycler('', '', 'S', '1', '2', '3', '4', 'H', '', '', '') %}
+  {% set icon    = cycler('propeller.png', 'aircraft-take-off.png', '', '', '', '', '', '', 'aircraft-landing.png', 'aircraft-landing.png', 'propeller.png') %}
   {% for row in range(1,p_row_count+1)  %}
         {% set rowloop = loop %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), rowloop.index, '' ) }}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  tooltip.next(), color.next(), rowloop.index, '' ) }}
         {% endfor %}      
   {% endfor %}
  
   {% for col in range(1,p_col_count+1)  %}
-        {{ btn_link( (p_row_count*p_col_count)+(col-1),  loop.cycle('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off'), loop.cycle('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'), loop.cycle('', '', 'S', '1', '2', '3', '4', 'H', '', '', ''), loop.cycle('propeller.png', 'aircraft-take-off.png', '', '', '', '', '', '', 'aircraft-landing.png', 'aircraft-landing.png', 'propeller.png') ) }}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  tooltip.next(), color.next(), label.next(), icon.next() ) }}
   {% endfor %}      
   
   </div>
