@@ -40,6 +40,74 @@ used to initialize the FRC server. Note that the `--subscribe` option is also us
 runtime related aircraft data that includes `ivy bus messages`. The `--file` is used to configure
 client related data( see `frc_conf.xml` for an example of the default client configuration file).
 
+### Configuration File: frc_conf.xml
+The `frc_conf.xml` is an XML file used to configure the FRC views. The general syntax for this file is as follows:
+
+    <client>
+        <aircraft>
+            ac_id = "<aircraft id>"
+            name  = "<aircraft name>"
+            color = "<color>"
+        </aircraft>
+        <flightblock>
+            fb_id = "<flight block id>"
+            name  = "<flight block name>"
+            color = "<color>"
+        </flightblock>
+        <waypoint>
+            wp_id = "<waypoint id>"
+            name  = "<waypoint name>"
+            color = "<color>"
+        </waypoint>
+        <guided>
+            gd_id = "<guided id>"
+            name  = "<guided name>"
+            color = "<color>"
+        </guided>
+    </client>
+
+Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
+Either a valid block `id` or `name` attribute must be present in each block. If both are used, the `name` attribute overrideds the `id` attribute. The `color` attribute in a given block is used to specify the color to use when rendering the corrosponding button in the FRC. If the `color` attribute is not specified, the button defaults to `white`.
+
+Example `frc_conf.xml` file:
+
+    <client>
+        <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red"         />
+        <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"      />
+        <aircraft  name="Teensy_Fly_Quad_Elle0"        color="green"       />
+        <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue" />
+        <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"  />
+        <aircraft  name="Racer_PEX_Quad"               color="purple"      />
+        <flightblock  name="Start Motors"  color="lime"        />
+        <flightblock  name="Takeoff"       color="green"       />
+        <flightblock  name="Standby"       color="deepskyblue" />
+        <flightblock  name="stay_p1"       color="dodgerblue"  />
+        <flightblock  name="stay_p2"       color="yellow"      />
+        <flightblock  name="stay_p3"       color="gold"        />
+        <flightblock  name="stay_p4"       color="orange"      />
+        <flightblock  name="stay_HOV"      color="darkorange"  />
+        <flightblock  name="land here"     color="orangered"   />
+        <flightblock  name="land"          color="red"         />
+        <flightblock  name="Holding point" color="darkred"     />
+        <waypoint  name="STDBY" color="deepskyblue" />
+        <waypoint  name="p1"    color="dodgerblue"  />
+        <waypoint  name="p2"    color="lime"        />
+        <waypoint  name="p3"    color="green"       />
+        <waypoint  name="p4"    color="gold"        />
+        <waypoint  name="HOV"   color="orange"      />
+        <waypoint  name="CAM"   color="orangered"   />
+        <waypoint  name="S1"    color="red"         />
+        <guided  name="Forward"          color="magenta"     />
+        <guided  name="Back"             color="purple"      />
+        <guided  name="Left"             color="deepskyblue" />
+        <guided  name="Right"            color="dodgerblue"  />
+        <guided  name="Up"               color="lime"        />
+        <guided  name="Down"             color="green"       />
+        <guided  name="Counterclockwise" color="gold"        />
+        <guided  name="Clockwise"        color="orange"      />
+        <guided  name="Guided"           color="orangered"   />
+        <guided  name="Nav"              color="red"         />
+    </client>
 
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
