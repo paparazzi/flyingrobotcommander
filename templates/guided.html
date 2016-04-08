@@ -213,7 +213,7 @@ function selectPageButton(btn) {
   <div class="button-container">
 
   {% set tooltip = cycler('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav') %}
-  {% set color   = cycler('magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red') %}
+  {% set color   = cycler(*p_color_list) %}
   {% set label   = cycler('', '', '', '', '', '', '', '', 'G', 'N') %}
   {% set icon    = cycler('arrow-with-circle-up.png', 'arrow-with-circle-down.png', 'arrow-with-circle-left.png', 'arrow-with-circle-right.png', 'aircraft-take-off.png', 'aircraft-landing.png', 'arrows-rotate-counterclockwise.png', 'arrows-rotate-clockwise.png', '', '') %}
   {% for row in range(1,p_row_count+1)  %}

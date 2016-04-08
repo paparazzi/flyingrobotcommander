@@ -65,7 +65,7 @@ server_host   = "127.0.0.1"    # Default to local host)
 server_port   = 5000           # Default it flask port)
 
 
-# --- Aircraft, Flighblock & Message related state/methods
+# --- Aircraft, Flighblock, Waypoint, Guided & Message related state/methods
 
 class Message(PprzMessage):
     def __init__(self, class_name, name, msg):
@@ -81,6 +81,15 @@ class Waypoint(object):
         self.wp_name = wp_name
         self.wp_x    = wp_x
         self.wp_y    = wp_y        
+
+class Guided(object):
+    def __init__(self, gd_id, gd_name, gd_x, gd_y, gd_z, gd_yaw):
+        self.gd_id   = gd_id
+        self.gd_name = gd_name
+        self.gd_x    = gd_x
+        self.gd_y    = gd_y
+        self.gd_z    = gd_z
+        self.gd_yaw  = gd_yaw        
 
 class Flightblock(object):
     def __init__(self, fb_id, fb_name):
@@ -120,7 +129,12 @@ def print_aircraft_data():
 
 aircraft_client_list       = []   # Used for rows in client; preserve list order
 flightblock_client_list    = []   # Used for columns in client view for flightblocks; preserve list order
+guided_client_list         = []   # Used for columns in client view for guided; preserve list order
 waypoint_client_list       = []   # Used for columns in client view for waypoints; preserve list order
+#fb_color_list              = ['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred']
+fb_color_list              = []   # Used for flight block color cycler
+gd_color_list              = ['magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
+wp_color_list              = ['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
 
 
 # --- Helper methods ---
@@ -165,6 +179,11 @@ def static_init_client_configuration_data(fname):
         if name: 
             fb_id = next((idx for idx in aircrafts[tmp_ac_id].flightblocks if aircrafts[tmp_ac_id].flightblocks[idx].fb_name == name), None)
             #print("Found flightblock name: %s" % aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
+        color = flightblock.get('color')
+        if color:  # Add it to the flight block color list, TODO: possibly add color attribute to flightblock object
+            fb_color_list.append(color)
+        if not fb_color_list:
+            fb_color_list.append('white') # if the color list is empty set the default to white
         flightblock_client_add(fb_id)
 
     # Populate waypoint client objects
@@ -542,28 +561,30 @@ def flightblock(ac_id, fb_id):
 def showflightblock():
     return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
-                            p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list)
+                            p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
+                            p_color_list=fb_color_list)
 
 
 @app.route('/show/guided/')
 def showguided():
     return render_template('guided.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_col_count=10) 
+                            p_col_count=10, p_color_list=gd_color_list) 
 
 
 @app.route('/show/waypoint/')
 def showwaypoint():
     return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list) 
+                            p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list,
+                            p_color_list=wp_color_list) 
 
 
 @app.route('/show/waypointhover/')
 def showwaypointhover():
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_col_count=8) 
+                            p_col_count=8, p_color_list=wp_color_list) 
 
 
 

@@ -187,7 +187,7 @@ function selectPageButton(btn) {
   <div class="button-container">
 
   {% set tooltip = cycler('Props On', 'Takeoff', 'Stdby', '', '', '', '', '', 'Land Here', 'Land', 'Props Off') %}
-  {% set color   = cycler('lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred') %}
+  {% set color   = cycler(*p_color_list) %}
   {% set label   = cycler('', '', 'S', '1', '2', '3', '4', 'H', '', '', '') %}
   {% set icon    = cycler('propeller.png', 'aircraft-take-off.png', '', '', '', '', '', '', 'aircraft-landing.png', 'aircraft-landing.png', 'propeller.png') %}
   {% for row in range(1,p_row_count+1)  %}
