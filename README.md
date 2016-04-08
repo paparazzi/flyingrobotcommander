@@ -41,7 +41,9 @@ runtime related aircraft data that includes `ivy bus messages`. The `--file` is 
 client related data( see `frc_conf.xml` for an example of the default client configuration file).
 
 ### Configuration File: frc_conf.xml
-The `frc_conf.xml` is an XML file used to configure the FRC views. The general syntax for this file is as follows:
+The `frc_conf.xml` is an XML file used to configure the FRC views.
+
+    Format/Syntax:
 
     <client>
         <aircraft>
