@@ -132,9 +132,11 @@ flightblock_client_list    = []   # Used for columns in client view for flightbl
 guided_client_list         = []   # Used for columns in client view for guided; preserve list order
 waypoint_client_list       = []   # Used for columns in client view for waypoints; preserve list order
 #fb_color_list              = ['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred']
-fb_color_list              = []   # Used for flight block color cycler
-gd_color_list              = ['magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
-wp_color_list              = ['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
+#gd_color_list              = ['magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
+#wp_color_list              = ['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
+fb_color_list              = []   # Used by flight block view color cycler
+gd_color_list              = []   # Used by guided view color cycler
+wp_color_list              = []   # Used by the waypoint view color cycler
 
 
 # --- Helper methods ---
@@ -186,6 +188,20 @@ def static_init_client_configuration_data(fname):
             fb_color_list.append('white') # if the color list is empty set the default to white
         flightblock_client_add(fb_id)
 
+    # Populate guided client objects
+    for guided in root.findall('guided'):
+        gd_id = int(guided.get('gd_id')) if guided.get('gd_id') else None
+        name = guided.get('name')
+        #if name: 
+            #gd_id = next((idx for idx in aircrafts[tmp_ac_id].guideds if aircrafts[tmp_ac_id].guideds[idx].gd_name == name), None)
+            #print("Found guided name: %s" % aircrafts[tmp_ac_id].guideds[gd_id].gd_name)
+        color = guided.get('color')
+        if color:  # Add it to the guided color list, TODO: possibly add color attribute to guided object
+            gd_color_list.append(color)
+        if not gd_color_list:
+            gd_color_list.append('white') # if the color list is empty set the default to white
+        #guided_client_add(gd_id)
+
     # Populate waypoint client objects
     for waypoint in root.findall('waypoint'):
         wp_id = int(waypoint.get('wp_id')) if waypoint.get('wp_id') else None
@@ -193,6 +209,11 @@ def static_init_client_configuration_data(fname):
         if name: 
             wp_id = next((idx for idx in aircrafts[tmp_ac_id].waypoints if aircrafts[tmp_ac_id].waypoints[idx].wp_name == name), None)
             #print("Found waypoint name: %s" % aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
+        color = waypoint.get('color')
+        if color:  # Add it to the waypoint color list, TODO: possibly add color attribute to waypoint object
+            wp_color_list.append(color)
+        if not wp_color_list:
+            wp_color_list.append('white') # if the color list is empty set the default to white
         waypoint_client_add(wp_id)
     
 
