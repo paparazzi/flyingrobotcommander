@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.2 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.3 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -47,25 +47,34 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
 
     <client>
         <aircraft>
-            ac_id = "<aircraft id>"
-            name  = "<aircraft name>"
-            color = "<color>"
+            ac_id   = "<aircraft id>"
+            name    = "<aircraft name>"
+            color   = "<color>"
         </aircraft>
         <flightblock>
-            fb_id = "<flight block id>"
-            name  = "<flight block name>"
-            color = "<color>"
+            fb_id   = "<flight block id>"
+            name    = "<flight block name>"
+            color   = "<color>"
+            label   = "<label>"
+            icon    = "<icon>"
+            tooltip = "<tooltip>"
         </flightblock>
         <waypoint>
-            wp_id = "<waypoint id>"
-            name  = "<waypoint name>"
-            color = "<color>"
+            wp_id   = "<waypoint id>"
+            name    = "<waypoint name>"
+            color   = "<color>"
+            label   = "<label>"
+            icon    = "<icon>"
+            tooltip = "<tooltip>"
         </waypoint>
         <guided>
-            gd_id = "<guided id>"
-            name  = "<guided name>"
-            color = "<color>"
-        </guided>
+            gd_id   = "<guided id>"
+            name    = "<guided name>"
+            color   = "<color>"
+            label   = "<label>"
+            icon    = "<icon>"
+            tooltip = "<tooltip>"
+       </guided>
     </client>
 
 Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
@@ -80,37 +89,37 @@ Example `frc_conf.xml` file:
         <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue" />
         <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"  />
         <aircraft  name="Racer_PEX_Quad"               color="purple"      />
-        <flightblock  name="Start Motors"  color="lime"        />
-        <flightblock  name="Takeoff"       color="green"       />
-        <flightblock  name="Standby"       color="deepskyblue" />
-        <flightblock  name="stay_p1"       color="dodgerblue"  />
-        <flightblock  name="stay_p2"       color="yellow"      />
-        <flightblock  name="stay_p3"       color="gold"        />
-        <flightblock  name="stay_p4"       color="orange"      />
-        <flightblock  name="stay_HOV"      color="darkorange"  />
-        <flightblock  name="land here"     color="orangered"   />
-        <flightblock  name="land"          color="red"         />
-        <flightblock  name="Holding point" color="darkred"     />
-        <waypoint  name="STDBY" color="deepskyblue" />
-        <waypoint  name="p1"    color="dodgerblue"  />
-        <waypoint  name="p2"    color="lime"        />
-        <waypoint  name="p3"    color="green"       />
-        <waypoint  name="p4"    color="gold"        />
-        <waypoint  name="HOV"   color="orange"      />
-        <waypoint  name="CAM"   color="orangered"   />
-        <waypoint  name="S1"    color="red"         />
-        <guided  name="Forward"          color="magenta"     />
-        <guided  name="Back"             color="purple"      />
-        <guided  name="Left"             color="deepskyblue" />
-        <guided  name="Right"            color="dodgerblue"  />
-        <guided  name="Up"               color="lime"        />
-        <guided  name="Down"             color="green"       />
-        <guided  name="Counterclockwise" color="gold"        />
-        <guided  name="Clockwise"        color="orange"      />
-        <guided  name="Guided"           color="orangered"   />
-        <guided  name="Nav"              color="red"         />
+        <flightblock  name="Start Motors"  color="lime"        label=""  icon="propeller.png" tooltip="Props On" />
+        <flightblock  name="Takeoff"       color="green"       label=""  icon="aircraft-take-off.png" tooltip="Takeoff" />
+        <flightblock  name="Standby"       color="deepskyblue" label="S" icon="" tooltip="Stdby" />
+        <flightblock  name="stay_p1"       color="dodgerblue"  label="1" icon="" tooltip="" />
+        <flightblock  name="stay_p2"       color="yellow"      label="2" icon="" tooltip="" />
+        <flightblock  name="stay_p3"       color="gold"        label="3" icon="" tooltip="" />
+        <flightblock  name="stay_p4"       color="orange"      label="4" icon="" tooltip="" />
+        <flightblock  name="stay_HOV"      color="darkorange"  label="H" icon="" tooltip="" />
+        <flightblock  name="land here"     color="orangered"   label=""  icon="aircraft-landing.png" tooltip="Land Here" />
+        <flightblock  name="land"          color="red"         label=""  icon="aircraft-landing.png" tooltip="Land" />
+        <flightblock  name="Holding point" color="darkred"     label=""  icon="propeller.png" tooltip="Props Off" />
+        <waypoint  name="STDBY" color="deepskyblue" label="" icon="" tooltip="" />
+        <waypoint  name="p1"    color="dodgerblue"  label="" icon="" tooltip="" />
+        <waypoint  name="p2"    color="lime"        label="" icon="" tooltip="" />
+        <waypoint  name="p3"    color="green"       label="" icon="" tooltip="" />
+        <waypoint  name="p4"    color="gold"        label="" icon="" tooltip="" />
+        <waypoint  name="HOV"   color="orange"      label="" icon="" tooltip="" />
+        <waypoint  name="CAM"   color="orangered"   label="" icon="" tooltip="" />
+        <waypoint  name="S1"    color="red"         label="" icon="" tooltip="" />
+        <guided  name="Forward"          color="magenta"     label=""  icon="arrow-with-circle-up.png" tooltip="Forward" />
+        <guided  name="Back"             color="purple"      label=""  icon="arrow-with-circle-down.png" tooltip="Back" />
+        <guided  name="Left"             color="deepskyblue" label=""  icon="arrow-with-circle-left.png" tooltip="Left" />
+        <guided  name="Right"            color="dodgerblue"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />
+        <guided  name="Up"               color="lime"        label=""  icon="aircraft-take-off.png" tooltip="Up" />
+        <guided  name="Down"             color="green"       label=""  icon="aircraft-landing.png" tooltip="Down" />
+        <guided  name="Counterclockwise" color="gold"        label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />
+        <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
+        <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
+        <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
     </client>
-
+    
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
 be completed using the `object`/client/add/`id` routes; where `object` is one of aircraft, flightblock,
@@ -197,9 +206,11 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added support for the following view attributes: `color`, `label`, `icon` and `tooltip` 
+- [x] Added refactoring of template views to handle dynamic button matrices
 - [x] Completed refactoring of template views to handle dynamic button matrices
 - [x] Added client configuration by name="string" in `frc_conf.xml` (i.e. name="stay_p1")
-- [x] Add a client configuration file(-f switch to specify file name)
+- [x] Added a client configuration file(-f switch to specify file name)
 - [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method
 - [x] Refactoring of template views to better deal with dynamic button matrices
 - [x] Update route testing script
@@ -209,12 +220,12 @@ Periscope broadcasts:
 - [x] Integrate the use aircraft/flight plan configurations
 - [x] Consolidate network related configurations with respect to IP addresses and port assignments
 - [x] Completed first pass at Flask/Jinja2 template support for flightblock, guided and waypoint views
-- [x] Add Flask/Jinja2 template support and refactor flightblock view using template approach
+- [x] Added Flask/Jinja2 template support and refactor flightblock view using template approach
 - [x] Parse configuration files and populate aircraft data objects on startup
 - [x] Integrate real-time aircraft message handling features(-s switch to subscribe to ivy message bus)
-- [x] Add curl code generation and ivy message interface tracing support(-c and -v, respectively)
+- [x] Added curl code generation and ivy message interface tracing support(-c and -v, respectively)
 - [x] Refactor frc.py with direct calls to the IvyMessagesInterface
-- [x] Remove external python scripts: flightblock.py, guidance.py, waypoint.py
+- [x] Removed external python scripts: flightblock.py, guidance.py, waypoint.py
 - [x] Refactor code to use updated IvyMessagesInterface
 - [x] Refactor python modules to use the pprzlink interface
 

@@ -57,7 +57,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.2"
+frc_version   = "0.2.3"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -134,9 +134,21 @@ waypoint_client_list       = []   # Used for columns in client view for waypoint
 #fb_color_list              = ['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred']
 #gd_color_list              = ['magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
 #wp_color_list              = ['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
+
 fb_color_list              = []   # Used by flight block view color cycler
+fb_label_list              = []   # Used by flight block view label cycler
+fb_icon_list               = []   # Used by flight block view icon cycler
+fb_tooltip_list            = []   # Used by flight block view tooltip cycler
+
 gd_color_list              = []   # Used by guided view color cycler
-wp_color_list              = []   # Used by the waypoint view color cycler
+gd_label_list              = []   # Used by guided view label cycler
+gd_icon_list               = []   # Used by guided view icon cycler
+gd_tooltip_list            = []   # Used by guided view tooltip cycler
+
+wp_color_list              = []   # Used by waypoint view color cycler
+wp_label_list              = []   # Used by waypoint view label cycler
+wp_icon_list               = []   # Used by waypoint view icon cycler
+wp_tooltip_list            = []   # Used by waypoint view tooltip cycler
 
 
 # --- Helper methods ---
@@ -155,6 +167,28 @@ def print_ivy_trace(msg):
 
 import xml.etree.cElementTree as ET    
 PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
+
+def view_attributelist_helper(view, view_color_list, view_label_list, view_icon_list, view_tooltip_list):
+    color = view.get('color')
+    if color:  # Add it to the flight block color list, TODO: possibly add color attribute to flightblock object
+        view_color_list.append(color)
+    else:
+        view_color_list.append('white') # if the color list is empty set the default to white
+    label = view.get('label')
+    if label:
+        view_label_list.append(label)
+    else:
+        view_label_list.append('')            
+    icon = view.get('icon')
+    if icon:
+        view_icon_list.append(icon)
+    else:
+        view_icon_list.append('')
+    tooltip = view.get('tooltip')
+    if tooltip:
+        view_tooltip_list.append(tooltip)
+    else:
+        view_tooltip_list.append('')
 
 def static_init_client_configuration_data(fname):
     tree = ET.parse(fname)
@@ -181,11 +215,7 @@ def static_init_client_configuration_data(fname):
         if name: 
             fb_id = next((idx for idx in aircrafts[tmp_ac_id].flightblocks if aircrafts[tmp_ac_id].flightblocks[idx].fb_name == name), None)
             #print("Found flightblock name: %s" % aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
-        color = flightblock.get('color')
-        if color:  # Add it to the flight block color list, TODO: possibly add color attribute to flightblock object
-            fb_color_list.append(color)
-        if not fb_color_list:
-            fb_color_list.append('white') # if the color list is empty set the default to white
+        view_attributelist_helper(flightblock, fb_color_list, fb_label_list, fb_icon_list, fb_tooltip_list)
         flightblock_client_add(fb_id)
 
     # Populate guided client objects
@@ -195,11 +225,7 @@ def static_init_client_configuration_data(fname):
         #if name: 
             #gd_id = next((idx for idx in aircrafts[tmp_ac_id].guideds if aircrafts[tmp_ac_id].guideds[idx].gd_name == name), None)
             #print("Found guided name: %s" % aircrafts[tmp_ac_id].guideds[gd_id].gd_name)
-        color = guided.get('color')
-        if color:  # Add it to the guided color list, TODO: possibly add color attribute to guided object
-            gd_color_list.append(color)
-        if not gd_color_list:
-            gd_color_list.append('white') # if the color list is empty set the default to white
+        view_attributelist_helper(guided, gd_color_list, gd_label_list, gd_icon_list, gd_tooltip_list)
         #guided_client_add(gd_id)
 
     # Populate waypoint client objects
@@ -209,11 +235,7 @@ def static_init_client_configuration_data(fname):
         if name: 
             wp_id = next((idx for idx in aircrafts[tmp_ac_id].waypoints if aircrafts[tmp_ac_id].waypoints[idx].wp_name == name), None)
             #print("Found waypoint name: %s" % aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
-        color = waypoint.get('color')
-        if color:  # Add it to the waypoint color list, TODO: possibly add color attribute to waypoint object
-            wp_color_list.append(color)
-        if not wp_color_list:
-            wp_color_list.append('white') # if the color list is empty set the default to white
+        view_attributelist_helper(waypoint, wp_color_list, wp_label_list, wp_icon_list, wp_tooltip_list)
         waypoint_client_add(wp_id)
     
 
@@ -583,14 +605,16 @@ def showflightblock():
     return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
-                            p_color_list=fb_color_list)
+                            p_color_list=fb_color_list, p_label_list=fb_label_list,
+                            p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
 
 
 @app.route('/show/guided/')
 def showguided():
     return render_template('guided.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_col_count=10, p_color_list=gd_color_list) 
+                            p_col_count=10, p_color_list=gd_color_list, p_label_list=gd_label_list,
+                            p_icon_list=gd_icon_list, p_tooltip_list=gd_tooltip_list) 
 
 
 @app.route('/show/waypoint/')
@@ -598,14 +622,16 @@ def showwaypoint():
     return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list,
-                            p_color_list=wp_color_list) 
+                            p_color_list=wp_color_list, p_label_list=wp_label_list,
+                            p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
 
 
 @app.route('/show/waypointhover/')
 def showwaypointhover():
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_col_count=8, p_color_list=wp_color_list) 
+                            p_col_count=8, p_color_list=wp_color_list, p_label_list=wp_label_list,
+                            p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
 
 
 

@@ -212,10 +212,10 @@ function selectPageButton(btn) {
 <div class="menu-container">
   <div class="button-container">
 
-  {% set tooltip = cycler('Forward', 'Back', 'Left', 'Right', 'Up', 'Down', 'Counterclockwise', 'Clockwise', 'Guided', 'Nav') %}
+  {% set tooltip = cycler(*p_tooltip_list) %}
   {% set color   = cycler(*p_color_list) %}
-  {% set label   = cycler('', '', '', '', '', '', '', '', 'G', 'N') %}
-  {% set icon    = cycler('arrow-with-circle-up.png', 'arrow-with-circle-down.png', 'arrow-with-circle-left.png', 'arrow-with-circle-right.png', 'aircraft-take-off.png', 'aircraft-landing.png', 'arrows-rotate-counterclockwise.png', 'arrows-rotate-clockwise.png', '', '') %}
+  {% set label   = cycler(*p_label_list) %}
+  {% set icon    = cycler(*p_icon_list) %}
   {% for row in range(1,p_row_count+1)  %}
         {% set rowloop = loop %}
         {% for col in range(1,p_col_count+1)  %}

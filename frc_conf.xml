@@ -5,34 +5,34 @@
     <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue" />
     <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"  />
     <aircraft  name="Racer_PEX_Quad"               color="purple"      />
-    <flightblock  name="Start Motors"  color="lime"        />
-    <flightblock  name="Takeoff"       color="green"       />
-    <flightblock  name="Standby"       color="deepskyblue" />
-    <flightblock  name="stay_p1"       color="dodgerblue"  />
-    <flightblock  name="stay_p2"       color="yellow"      />
-    <flightblock  name="stay_p3"       color="gold"        />
-    <flightblock  name="stay_p4"       color="orange"      />
-    <flightblock  name="stay_HOV"      color="darkorange"  />
-    <flightblock  name="land here"     color="orangered"   />
-    <flightblock  name="land"          color="red"         />
-    <flightblock  name="Holding point" color="darkred"     />
-    <waypoint  name="STDBY" color="deepskyblue" />
-    <waypoint  name="p1"    color="dodgerblue"  />
-    <waypoint  name="p2"    color="lime"        />
-    <waypoint  name="p3"    color="green"       />
-    <waypoint  name="p4"    color="gold"        />
-    <waypoint  name="HOV"   color="orange"      />
-    <waypoint  name="CAM"   color="orangered"   />
-    <waypoint  name="S1"    color="red"         />
-    <guided  name="Forward"          color="magenta"     />
-    <guided  name="Back"             color="purple"      />
-    <guided  name="Left"             color="deepskyblue" />
-    <guided  name="Right"            color="dodgerblue"  />
-    <guided  name="Up"               color="lime"        />
-    <guided  name="Down"             color="green"       />
-    <guided  name="Counterclockwise" color="gold"        />
-    <guided  name="Clockwise"        color="orange"      />
-    <guided  name="Guided"           color="orangered"   />
-    <guided  name="Nav"              color="red"         />
+    <flightblock  name="Start Motors"  color="lime"        label=""  icon="propeller.png" tooltip="Props On" />
+    <flightblock  name="Takeoff"       color="green"       label=""  icon="aircraft-take-off.png" tooltip="Takeoff" />
+    <flightblock  name="Standby"       color="deepskyblue" label="S" icon="" tooltip="Stdby" />
+    <flightblock  name="stay_p1"       color="dodgerblue"  label="1" icon="" tooltip="" />
+    <flightblock  name="stay_p2"       color="yellow"      label="2" icon="" tooltip="" />
+    <flightblock  name="stay_p3"       color="gold"        label="3" icon="" tooltip="" />
+    <flightblock  name="stay_p4"       color="orange"      label="4" icon="" tooltip="" />
+    <flightblock  name="stay_HOV"      color="darkorange"  label="H" icon="" tooltip="" />
+    <flightblock  name="land here"     color="orangered"   label=""  icon="aircraft-landing.png" tooltip="Land Here" />
+    <flightblock  name="land"          color="red"         label=""  icon="aircraft-landing.png" tooltip="Land" />
+    <flightblock  name="Holding point" color="darkred"     label=""  icon="propeller.png" tooltip="Props Off" />
+    <waypoint  name="STDBY" color="deepskyblue" label="" icon="" tooltip="" />
+    <waypoint  name="p1"    color="dodgerblue"  label="" icon="" tooltip="" />
+    <waypoint  name="p2"    color="lime"        label="" icon="" tooltip="" />
+    <waypoint  name="p3"    color="green"       label="" icon="" tooltip="" />
+    <waypoint  name="p4"    color="gold"        label="" icon="" tooltip="" />
+    <waypoint  name="HOV"   color="orange"      label="" icon="" tooltip="" />
+    <waypoint  name="CAM"   color="orangered"   label="" icon="" tooltip="" />
+    <waypoint  name="S1"    color="red"         label="" icon="" tooltip="" />
+    <guided  name="Forward"          color="magenta"     label=""  icon="arrow-with-circle-up.png" tooltip="Forward" />
+    <guided  name="Back"             color="purple"      label=""  icon="arrow-with-circle-down.png" tooltip="Back" />
+    <guided  name="Left"             color="deepskyblue" label=""  icon="arrow-with-circle-left.png" tooltip="Left" />
+    <guided  name="Right"            color="dodgerblue"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />
+    <guided  name="Up"               color="lime"        label=""  icon="aircraft-take-off.png" tooltip="Up" />
+    <guided  name="Down"             color="green"       label=""  icon="aircraft-landing.png" tooltip="Down" />
+    <guided  name="Counterclockwise" color="gold"        label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />
+    <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
+    <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
+    <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
 </client>
 
