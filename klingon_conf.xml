@@ -5,17 +5,17 @@
     <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue" />
     <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"  />
     <aircraft  name="Racer_PEX_Quad"               color="purple"      />
-    <flightblock  name="Start Motors"  color="lime"        label=""  icon="klingon/klingon_props.png" tooltip="Props On" />
+    <flightblock  name="Start Motors"  color="lime"        label=""  icon="klingon/klingon_props.png"   tooltip="Props On" />
     <flightblock  name="Takeoff"       color="green"       label=""  icon="klingon/klingon_takeoff.png" tooltip="Takeoff" />
-    <flightblock  name="Standby"       color="deepskyblue" label=""  icon="klingon/klingon_s.png" tooltip="Stdby" />
-    <flightblock  name="stay_p1"       color="dodgerblue"  label=""  icon="klingon/klingon_1.png" tooltip="" />
-    <flightblock  name="stay_p2"       color="yellow"      label=""  icon="klingon/klingon_2.png" tooltip="" />
-    <flightblock  name="stay_p3"       color="gold"        label=""  icon="klingon/klingon_3.png" tooltip="" />
-    <flightblock  name="stay_p4"       color="orange"      label=""  icon="klingon/klingon_4.png" tooltip="" />
-    <flightblock  name="stay_HOV"      color="darkorange"  label=""  icon="klingon/klingon_h.png" tooltip="" />
-    <flightblock  name="land here"     color="orangered"   label=""  icon="klingon/klingon_land.png" tooltip="Land Here" />
-    <flightblock  name="land"          color="red"         label=""  icon="klingon/klingon_land.png" tooltip="Land" />
-    <flightblock  name="Holding point" color="darkred"     label=""  icon="klingon/klingon_props.png" tooltip="Props Off" />
+    <flightblock  name="Standby"       color="deepskyblue" label=""  icon="klingon/klingon_s.png"       tooltip="Stdby" />
+    <flightblock  name="stay_p1"       color="dodgerblue"  label=""  icon="klingon/klingon_1.png"       tooltip="" />
+    <flightblock  name="stay_p2"       color="yellow"      label=""  icon="klingon/klingon_2.png"       tooltip="" />
+    <flightblock  name="stay_p3"       color="gold"        label=""  icon="klingon/klingon_3.png"       tooltip="" />
+    <flightblock  name="stay_p4"       color="orange"      label=""  icon="klingon/klingon_4.png"       tooltip="" />
+    <flightblock  name="stay_HOV"      color="darkorange"  label=""  icon="klingon/klingon_h.png"       tooltip="" />
+    <flightblock  name="land here"     color="orangered"   label=""  icon="klingon/klingon_land.png"    tooltip="Land Here" />
+    <flightblock  name="land"          color="red"         label=""  icon="klingon/klingon_land.png"    tooltip="Land" />
+    <flightblock  name="Holding point" color="darkred"     label=""  icon="klingon/klingon_props.png"   tooltip="Props Off" />
     <waypoint  name="STDBY" color="deepskyblue" label="" icon="" tooltip="" />
     <waypoint  name="p1"    color="dodgerblue"  label="" icon="" tooltip="" />
     <waypoint  name="p2"    color="lime"        label="" icon="" tooltip="" />
@@ -24,15 +24,15 @@
     <waypoint  name="HOV"   color="orange"      label="" icon="" tooltip="" />
     <waypoint  name="CAM"   color="orangered"   label="" icon="" tooltip="" />
     <waypoint  name="S1"    color="red"         label="" icon="" tooltip="" />
-    <guided  name="Forward"          color="magenta"     label=""  icon="arrow-with-circle-up.png" tooltip="Forward" />
-    <guided  name="Back"             color="purple"      label=""  icon="arrow-with-circle-down.png" tooltip="Back" />
-    <guided  name="Left"             color="deepskyblue" label=""  icon="arrow-with-circle-left.png" tooltip="Left" />
-    <guided  name="Right"            color="dodgerblue"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />
-    <guided  name="Up"               color="lime"        label=""  icon="klingon/klingon_takeoff.png" tooltip="Up" />
-    <guided  name="Down"             color="green"       label=""  icon="klingon/klingon_land.png" tooltip="Down" />
-    <guided  name="Counterclockwise" color="gold"        label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />
-    <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
-    <guided  name="Guided"           color="orangered"   label=""  icon="klingon/klingon_g.png" tooltip="Guided" />
-    <guided  name="Nav"              color="red"         label=""  icon="klingon/klingon_n.png" tooltip="Nav" />
+    <guided  name="Forward"          color="magenta"     label=""  icon="klingon/klingon_forward.png"          tooltip="Forward" />
+    <guided  name="Back"             color="purple"      label=""  icon="klingon/klingon_back.png"             tooltip="Back" />
+    <guided  name="Left"             color="deepskyblue" label=""  icon="klingon/klingon_left.png"             tooltip="Left" />
+    <guided  name="Right"            color="dodgerblue"  label=""  icon="klingon/klingon_right.png"            tooltip="Right" />
+    <guided  name="Up"               color="lime"        label=""  icon="klingon/klingon_takeoff.png"          tooltip="Up" />
+    <guided  name="Down"             color="green"       label=""  icon="klingon/klingon_land.png"             tooltip="Down" />
+    <guided  name="Counterclockwise" color="gold"        label=""  icon="klingon/klingon_counterclockwise.png" tooltip="Counterclockwise" />
+    <guided  name="Clockwise"        color="orange"      label=""  icon="klingon/klingon_clockwise.png"        tooltip="Clockwise" />
+    <guided  name="Guided"           color="orangered"   label=""  icon="klingon/klingon_g.png"                tooltip="Guided" />
+    <guided  name="Nav"              color="red"         label=""  icon="klingon/klingon_n.png"                tooltip="Nav" />
 </client>
 
