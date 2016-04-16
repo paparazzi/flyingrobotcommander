@@ -16,6 +16,6 @@
 {% if icon is equalto "" %}
   <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}" onmousedown="mousedownButton(this)" onclick="selectButton(this)">{{name}}</button>
 {% else %}
-  <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}; background-image:url({{ url_for('static', filename = icon) }}); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
+  <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}; background-image:url({{ url_for('static', filename='images/icon') }}); background-repeat:no-repeat; background-position:6px 8px" onmousedown="mousedownButton(this)" onclick="selectButton(this)"></button>
 {% endif %}
 {% endmacro %}
