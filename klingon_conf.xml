@@ -28,11 +28,11 @@
     <guided  name="Back"             color="purple"      label=""  icon="arrow-with-circle-down.png" tooltip="Back" />
     <guided  name="Left"             color="deepskyblue" label=""  icon="arrow-with-circle-left.png" tooltip="Left" />
     <guided  name="Right"            color="dodgerblue"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />
-    <guided  name="Up"               color="lime"        label=""  icon="aircraft-take-off.png" tooltip="Up" />
-    <guided  name="Down"             color="green"       label=""  icon="aircraft-landing.png" tooltip="Down" />
+    <guided  name="Up"               color="lime"        label=""  icon="klingon/klingon_takeoff.png" tooltip="Up" />
+    <guided  name="Down"             color="green"       label=""  icon="klingon/klingon_land.png" tooltip="Down" />
     <guided  name="Counterclockwise" color="gold"        label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />
     <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
-    <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
-    <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
+    <guided  name="Guided"           color="orangered"   label=""  icon="klingon/klingon_g.png" tooltip="Guided" />
+    <guided  name="Nav"              color="red"         label=""  icon="klingon/klingon_n.png" tooltip="Nav" />
 </client>
 
