@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.3 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.4 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -50,6 +50,9 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
             ac_id   = "<aircraft id>"
             name    = "<aircraft name>"
             color   = "<color>"
+            label   = "<label>"
+            icon    = "<icon>"
+            tooltip = "<tooltip>"
         </aircraft>
         <flightblock>
             fb_id   = "<flight block id>"
@@ -78,17 +81,17 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
     </client>
 
 Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
-Either a valid block `id` or `name` attribute must be present in each block. If both are used, the `name` attribute overrideds the `id` attribute. The `color` attribute in a given block is used to specify the color to use when rendering the corrosponding button in the FRC. If the `color` attribute is not specified, the button defaults to `white`.
+Either a valid block `id` or `name` attribute must be present in each block. If both are used, the `name` attribute overrideds the `id` attribute. The `color` attribute in a given block is used to specify the color to use when rendering the corrosponding button in the FRC. If the `color` attribute is not specified, the button defaults to `white`. The `label` attribute defines the text to display on a given button unless the `icon` attribute is specified. The `icon` attribute overrides the `label` attribute.
 
 Example `frc_conf.xml` file:
 
     <client>
-        <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red"         />
-        <aircraft  name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"      />
-        <aircraft  name="Teensy_Fly_Quad_Elle0"        color="green"       />
-        <aircraft  name="Teensy_Fly_Quad"              color="deepskyblue" />
-        <aircraft  name="Teensy_Fly_Hexa"              color="dodgerblue"  />
-        <aircraft  name="Racer_PEX_Quad"               color="purple"      />
+        <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red"         label="1" icon="" tooltip="" />
+        <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"      label="2" icon="" tooltip="" />
+        <aircraft     name="Teensy_Fly_Quad_Elle0"        color="green"       label="3" icon="" tooltip="" />
+        <aircraft     name="Teensy_Fly_Quad"              color="deepskyblue" label="4" icon="" tooltip="" />
+        <aircraft     name="Teensy_Fly_Hexa"              color="dodgerblue"  label="5" icon="" tooltip="" />
+        <aircraft     name="Racer_PEX_Quad"               color="purple"      label="6" icon="" tooltip="" />
         <flightblock  name="Start Motors"  color="lime"        label=""  icon="propeller.png" tooltip="Props On" />
         <flightblock  name="Takeoff"       color="green"       label=""  icon="aircraft-take-off.png" tooltip="Takeoff" />
         <flightblock  name="Standby"       color="deepskyblue" label="S" icon="" tooltip="Stdby" />
@@ -206,6 +209,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added support in `frc_conf.xml` for the following aircraft attributes: `color`, `label`, `icon` and `tooltip` 
 - [x] Added support for the following view attributes: `color`, `label`, `icon` and `tooltip` 
 - [x] Added refactoring of template views to handle dynamic button matrices
 - [x] Completed refactoring of template views to handle dynamic button matrices

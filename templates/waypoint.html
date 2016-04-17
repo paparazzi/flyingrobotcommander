@@ -190,14 +190,22 @@ function selectPageButton(btn) {
 <div class="menu-container">
   <div class="button-container">
 
-  {% set tooltip = cycler(*p_tooltip_list) %}
-  {% set color   = cycler(*p_color_list) %}
-  {% set label   = cycler(*p_label_list) %}
-  {% set icon    = cycler(*p_icon_list) %}
+  {% set ac_tooltip = cycler(*p_ac_tooltip_list) %}
+  {% set ac_color   = cycler(*p_ac_color_list) %}
+  {% set ac_label   = cycler(*p_ac_label_list) %}
+  {% set ac_icon    = cycler(*p_ac_icon_list) %}
+  {% set tooltip    = cycler(*p_tooltip_list) %}
+  {% set color      = cycler(*p_color_list) %}
+  {% set label      = cycler(*p_label_list) %}
+  {% set icon       = cycler(*p_icon_list) %}
   {% for row in range(1,p_row_count+1)  %}
-        {% set rowloop = loop %}
+        {% set rowloop    = loop %}
+        {% set rowtooltip = ac_tooltip.next() %}
+        {% set rowcolor   = ac_color.next() %}
+        {% set rowlabel   = ac_label.next() %}
+        {% set rowicon    = ac_icon.next() %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', color.next(), rowloop.index, '' ) }}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', color.next(), rowlabel, rowicon ) }}
         {% endfor %}      
   {% endfor %}
 
