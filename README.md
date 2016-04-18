@@ -2,19 +2,20 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.4 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.5 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
 aircraft that use [Paparazzi UAV](https://github.com/paparazzi/paparazzi) and [PPRZLink](https://github.com/paparazzi/pprzlink).
 
-    usage: frc.py [-h] [-i IP] [-p PORT] [-f FILE] [-c] [-s] [-v]
+    usage: frc.py [-h] [-i IP] [-p PORT] [-f FILE] [-g] [-c] [-s] [-v]
 
     optional arguments:
       -h, --help            show this help message and exit
       -i IP, --ip IP        ip address
       -p PORT, --port PORT  port number
-      -f FILE, --file FILE  client configuration file
+      -f FILE, --file FILE  use the specified client configuration file
+      -g, --generate        generate a client configuration stub
       -c, --curl            dump actions as curl commands
       -s, --subscribe       subscribe to the ivy bus
       -v, --verbose         verbose mode
@@ -209,12 +210,13 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added the option to generate a configuration file stub(`-g`)
 - [x] Added support in `frc_conf.xml` for the following aircraft attributes: `color`, `label`, `icon` and `tooltip` 
 - [x] Added support for the following view attributes: `color`, `label`, `icon` and `tooltip` 
 - [x] Added refactoring of template views to handle dynamic button matrices
 - [x] Completed refactoring of template views to handle dynamic button matrices
 - [x] Added client configuration by name="string" in `frc_conf.xml` (i.e. name="stay_p1")
-- [x] Added a client configuration file(-f switch to specify file name)
+- [x] Added a client configuration file(`-f` switch to specify file name)
 - [x] Fixed blocking/hanging http requests when using development server by setting threaded=True in app.run() method
 - [x] Refactoring of template views to better deal with dynamic button matrices
 - [x] Update route testing script
@@ -227,7 +229,7 @@ Periscope broadcasts:
 - [x] Added Flask/Jinja2 template support and refactor flightblock view using template approach
 - [x] Parse configuration files and populate aircraft data objects on startup
 - [x] Integrate real-time aircraft message handling features(-s switch to subscribe to ivy message bus)
-- [x] Added curl code generation and ivy message interface tracing support(-c and -v, respectively)
+- [x] Added curl code generation and ivy message interface tracing support(`-c` and `-v`, respectively)
 - [x] Refactor frc.py with direct calls to the IvyMessagesInterface
 - [x] Removed external python scripts: flightblock.py, guidance.py, waypoint.py
 - [x] Refactor code to use updated IvyMessagesInterface

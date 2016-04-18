@@ -57,7 +57,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.4"
+frc_version   = "0.2.5"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -126,6 +126,31 @@ def print_aircraft_data():
             print( wp_id, aircrafts[ac_id].waypoints[wp_id].wp_name, aircrafts[ac_id].waypoints[wp_id].wp_x, aircrafts[ac_id].waypoints[wp_id].wp_y )
         for fb_id in aircrafts[ac_id].flightblocks:
             print( fb_id, aircrafts[ac_id].flightblocks[fb_id].fb_name )
+
+def generate_configuration_stub():
+    tmp_ac_id = 0   # Assuming all aircraft use the same flight plan, we cache an aircraft index
+    curline = ''
+
+    print('<client>')
+
+    for ac_id in aircrafts:
+        curline = '    <aircraft name="%s" color="%s" label="" icon="" tooltip="" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color)
+        print( curline  )
+        tmp_ac_id = ac_id
+
+
+    for fb_id in aircrafts[tmp_ac_id].flightblocks:
+        curline = '    <flightblock name="%s" color="" label="" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
+        print( curline )
+
+    for wp_id in aircrafts[tmp_ac_id].waypoints:
+        curline = '    <waypoint name="%s" color="" label="" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
+        print( curline )
+    
+    print( '    <guided  name="Back" color="purple" label=""  icon="arrow-with-circle-down.png" tooltip="Back" />')
+
+    print('</client>')
+
 
 aircraft_client_list       = []   # Used for rows in client; preserve list order
 flightblock_client_list    = []   # Used for columns in client view for flightblocks; preserve list order
@@ -665,7 +690,8 @@ if __name__ == '__main__':
     parser.add_argument("-p","--port", type=int, default=5000,
                         help="port number")
     parser.add_argument("-f","--file", type=str, default="frc_conf.xml",
-                        help="client configuration file")
+                        help="use the specified client configuration file")
+    parser.add_argument("-g","--generate",  action="store_true", help="generate a client configuration stub")
     parser.add_argument("-c","--curl",      action="store_true", help="dump actions as curl commands")
     parser.add_argument("-s","--subscribe", action="store_true", help="subscribe to the ivy bus")
     parser.add_argument("-v","--verbose",   action="store_true", help="verbose mode")
@@ -677,6 +703,9 @@ if __name__ == '__main__':
         static_init_client_configuration_data(args.file)
         if args.verbose: 
             print_aircraft_data()
+        if args.generate:
+            generate_configuration_stub()
+            sys.exit(0)
         if args.subscribe: 
             ivy_interface.subscribe(callback_aircraft_messages)
         ivy_interface.start()
