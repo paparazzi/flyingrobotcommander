@@ -53,7 +53,7 @@ function displayTriggerMessage(msg) {
         {{ case_command_group( (p_row_count*p_col_count)+(col-1), col-1 ) }}
     {% endfor %}
 
-
+/*
     case 200:  
                aReq.open("GET", cmd_flightblock + flightblock_id[0], true); aReq.send();
                setTimeout(bReq.open("GET", cmd_flightblock + flightblock_id[1], true),2000); setTimeout(bReq.send(),3000);
@@ -66,6 +66,7 @@ function displayTriggerMessage(msg) {
                break;
     case 302:  
                break;
+*/
     default:   aReq.open("GET", cmd_flightblock + 'noop', true); aReq.send();
   }
 
@@ -212,9 +213,11 @@ function selectPageButton(btn) {
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Block: x</button>
+<!--
   <button id="200" style="background:lime; color:black; font-size: 30px"        onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
   <button id="201" style="background:deepskyblue; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
   <button id="202" style="background:red; color:black; font-size: 30px"         onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
+-->
   </div>
 </div>
 

@@ -1,0 +1,38 @@
+<client>
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red"         label="1" icon="" tooltip="" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"      label="2" icon="" tooltip="" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0"        color="green"       label="3" icon="" tooltip="" />
+    <aircraft     name="Teensy_Fly_Quad"              color="deepskyblue" label="4" icon="" tooltip="" />
+    <aircraft     name="Teensy_Fly_Hexa"              color="dodgerblue"  label="5" icon="" tooltip="" />
+    <aircraft     name="Racer_PEX_Quad"               color="purple"      label="6" icon="" tooltip="" />
+    <flightblock  name="Start Motors"                 color="darkslategrey"   abel=""  icon="propeller.png" tooltip="Props On" />
+    <flightblock  name="Takeoff"                      color="darkslategrey"   label=""  icon="aircraft-take-off.png" tooltip="Takeoff" />
+    <flightblock  name="Standby"                      color="darkolivegreen"  label="S" icon="" tooltip="Stdby" />
+    <flightblock  name="stay_p1"                      color="darkolivegreen"  label="1" icon="" tooltip="" />
+    <flightblock  name="stay_p2"                      color="darkolivegreen"  label="2" icon="" tooltip="" />
+    <flightblock  name="stay_p3"                      color="darkolivegreen"  label="3" icon="" tooltip="" />
+    <flightblock  name="stay_p4"                      color="darkolivegreen"  label="4" icon="" tooltip="" />
+    <flightblock  name="stay_HOV"                     color="darkolivegreen"  label="H" icon="" tooltip="" />
+    <flightblock  name="land here"                    color="darkslategrey"   label=""  icon="aircraft-landing.png" tooltip="Land Here" />
+    <flightblock  name="land"                         color="darkslategrey"   label=""  icon="aircraft-landing.png" tooltip="Land" />
+    <flightblock  name="Holding point"                color="darkslategrey"   label=""  icon="propeller.png" tooltip="Props Off" />
+    <waypoint     name="STDBY"                        color="darkslategrey"   label=""  icon="" tooltip="" />
+    <waypoint     name="p1"                           color="darkolivegreen"  label=""  icon="" tooltip="" />
+    <waypoint     name="p2"                           color="darkolivegreen"  label=""  icon="" tooltip="" />
+    <waypoint     name="p3"                           color="darkolivegreen"  label=""  icon="" tooltip="" />
+    <waypoint     name="p4"                           color="darkolivegreen"  label=""  icon="" tooltip="" />
+    <waypoint     name="HOV"                          color="darkolivegreen"  label=""  icon="" tooltip="" />
+    <waypoint     name="CAM"                          color="darkslategrey"   label=""  icon="" tooltip="" />
+    <waypoint     name="S1"                           color="darkslategrey"   label=""  icon="" tooltip="" />
+    <guided       name="Forward"                      color="darkslategrey"   label=""  icon="arrow-with-circle-up.png" tooltip="Forward" />
+    <guided       name="Back"                         color="darkolivegreen"  label=""  icon="arrow-with-circle-down.png" tooltip="Back" />
+    <guided       name="Left"                         color="darkslategrey"   label=""  icon="arrow-with-circle-left.png" tooltip="Left" />
+    <guided       name="Right"                        color="darkolivegreen"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />
+    <guided       name="Up"                           color="darkslategrey"   label=""  icon="aircraft-take-off.png" tooltip="Up" />
+    <guided       name="Down"                         color="darkolivegreen"  label=""  icon="aircraft-landing.png" tooltip="Down" />
+    <guided       name="Counterclockwise"             color="darkslategrey"   label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />
+    <guided       name="Clockwise"                    color="darkolivegreen"  label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
+    <guided       name="Guided"                       color="darkslategrey"   label="G" icon="" tooltip="Guided" />
+    <guided       name="Nav"                          color="darkolivegreen"  label="N" icon="" tooltip="Nav" />
+</client>
+
