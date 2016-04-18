@@ -58,7 +58,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.5"
+frc_version   = "0.2.6"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -203,7 +203,7 @@ def print_curl_format():
 def print_ivy_trace(msg):
     print("Sending ivy message interface: %s" % msg)
 
-import xml.etree.cElementTree as ET    
+from lxml import etree  as ET    
 PPRZ_SRC_CONF = os.path.join(PPRZ_SRC, "conf")
 
 def view_attributelist_helper(view, view_color_list, view_label_list, view_icon_list, view_tooltip_list):
@@ -294,7 +294,8 @@ def static_init_configuration_data():
         aircraft = aircrafts[acid]
     
         # Populate flight plan objects
-        fptree = ET.parse(os.path.join( PPRZ_SRC_CONF, flightplanpath )) 
+        parser = ET.XMLParser(recover=True)
+        fptree = ET.parse(os.path.join( PPRZ_SRC_CONF, flightplanpath ), parser) 
         fproot = fptree.getroot()
         # Process waypoints
         # Populate WP_dummy, idx=0, x="42.0" and y="42.0"; note: used values defined in gen_flight_plan.ml

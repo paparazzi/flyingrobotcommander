@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.5 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.2.6 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -210,6 +210,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Started parsing XML with `lxml` library instead of `ElementTree` to hopefully improve parsing robustness
 - [x] Added the option to generate a configuration file stub(`-g`)
 - [x] Added support in `frc_conf.xml` for the following aircraft attributes: `color`, `label`, `icon` and `tooltip` 
 - [x] Added support for the following view attributes: `color`, `label`, `icon` and `tooltip` 
