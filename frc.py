@@ -30,6 +30,7 @@ import time
 import argparse
 from flask import Flask, request, Response, render_template
 import json
+from itertools import cycle
 
 # if PAPARAZZI_SRC not set, then assume the tree containing this file is a reasonable substitute
 PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abspath(__file__)), '~/paparazzi/')))
@@ -133,19 +134,26 @@ def generate_configuration_stub():
 
     print('<client>')
 
+    label = 1
     for ac_id in aircrafts:
-        curline = '    <aircraft name="%s" color="%s" label="" icon="" tooltip="" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color)
+        curline = '    <aircraft name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color, label)
         print( curline  )
+        label += 1
         tmp_ac_id = ac_id
 
-
+    color = cycle(['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'])
+    label = 1
     for fb_id in aircrafts[tmp_ac_id].flightblocks:
-        curline = '    <flightblock name="%s" color="" label="" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
+        curline = '    <flightblock name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name, color.next(), label)
         print( curline )
+        label += 1
 
+    color = cycle(['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
+    label = 1
     for wp_id in aircrafts[tmp_ac_id].waypoints:
-        curline = '    <waypoint name="%s" color="" label="" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
+        curline = '    <waypoint name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].waypoints[wp_id].wp_name, color.next(), label)
         print( curline )
+        label += 1
     
     print( '    <guided  name="Back" color="purple" label=""  icon="arrow-with-circle-down.png" tooltip="Back" />')
 
