@@ -640,6 +640,17 @@ def flightblock(ac_id, fb_id):
     return retval
 
 
+@app.route('/show/view/<name>/')
+def showview(name):
+    return render_template(name+'.html', p_host=server_host, p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
+                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
+                            p_color_list=fb_color_list, p_label_list=fb_label_list,
+                            p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
+
+
 @app.route('/show/flightblock/')
 def showflightblock():
     return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
