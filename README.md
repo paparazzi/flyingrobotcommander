@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.2.6 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -123,6 +123,20 @@ Example `frc_conf.xml` file:
         <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
         <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
     </client>
+
+### Creating Customized Themes
+
+FRC supports the creation of customized themes(i.e. colors, labels and icons). Here's an example of a `klingon` theme
+through the use of a `new_theme_name`_conf.xml file and a set of theme specific icon images. The new theme related icon 
+images should reside in `./static/images/new_theme_name` folder. So, for our `klingon` example, there's a `klingon_conf.xml` file
+along with a set of icon images located at `./static/images/kilingon`
+
+Links to our custom theme configuration file and the associated icons:
+[klingon_conf.xml](blob/master/klingon_conf.xml)
+[klingon icons folder](tree/master/static/images/klingon)
+
+Screenshot:
+![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
     
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
@@ -210,6 +224,8 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Add documentation around adding a custom theme(i.e. klingon)
+- [x] Updated PPRZLINK imports and bumped the version to 0.3.0
 - [x] Started parsing XML with `lxml` library instead of `ElementTree` to hopefully improve parsing robustness
 - [x] Added the option to generate a configuration file stub(`-g`)
 - [x] Added support in `frc_conf.xml` for the following aircraft attributes: `color`, `label`, `icon` and `tooltip` 

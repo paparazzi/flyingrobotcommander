@@ -38,7 +38,7 @@ PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abs
 sys.path.append(PPRZ_SRC + "/sw/lib/python")
 sys.path.append(PPRZ_SRC + "/sw/ext/pprzlink/lib/v1.0/python")
 
-from ivy_msg_interface  import IvyMessagesInterface
+from pprzlink.ivy       import IvyMessagesInterface
 from pprzlink.message   import PprzMessage
 from settings_xml_parse import PaparazziACSettings
 
@@ -58,7 +58,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.2.6"
+frc_version   = "0.3.0"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
