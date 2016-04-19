@@ -126,14 +126,14 @@ Example `frc_conf.xml` file:
 
 ### Creating Customized Themes
 
-FRC supports the creation of customized themes(i.e. colors, labels and icons). Here's an example of a `klingon` theme
-through the use of a `new_theme_name`_conf.xml file and a set of theme specific icon images. The new theme related icon 
+FRC supports the creation of customized themes(i.e. colors, labels and icons). Here's an example of a custom `klingon` theme
+that uses a `new_theme_name`_conf.xml file and a set of theme specific icon images. The new theme related icon 
 images should reside in `./static/images/new_theme_name` folder. So, for our `klingon` example, there's a `klingon_conf.xml` file
 along with a set of icon images located at `./static/images/kilingon`
 
 Links to our custom theme configuration file and the associated icons:
-- [klingon_conf.xml](blob/master/klingon_conf.xml)
-- [klingon icons folder](tree/master/static/images/klingon)
+- [klingon_conf.xml](https://github.com/paparazzi/flyingrobotcommander/blob/master/klingon_conf.xml)
+- [klingon icons folder](https://github.com/paparazzi/flyingrobotcommander/tree/master/static/images/klingon)
 
 **Screenshot:**
 ![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
