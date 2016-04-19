@@ -132,10 +132,10 @@ images should reside in `./static/images/new_theme_name` folder. So, for our `kl
 along with a set of icon images located at `./static/images/kilingon`
 
 Links to our custom theme configuration file and the associated icons:
-[klingon_conf.xml](blob/master/klingon_conf.xml)
-[klingon icons folder](tree/master/static/images/klingon)
+- [klingon_conf.xml](blob/master/klingon_conf.xml)
+- [klingon icons folder](tree/master/static/images/klingon)
 
-Screenshot:
+**Screenshot:**
 ![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
     
 ### Adding Client Data via Routes
