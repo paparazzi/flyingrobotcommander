@@ -25,7 +25,7 @@ The default values for `IP`, `PORT`, and `FILE`, if not specified, are `127.0.0.
 ### Running the Flying Robot Commander
 Open a terminal window and type the following command:
 
-    python frc.py
+    $ python frc.py
 
 FRC is a python based `Flask` application. Please reference the [Flask documentation](http://flask.pocoo.org/docs/0.10/)
 for the installation and usage of `Flask`. Here are some of the python packages(versions) needed by `Flask`:
@@ -136,7 +136,7 @@ Links to our custom theme configuration file and the associated icons:
 
 **Invocation & Screenshot:**
 
-`python frc.py -f klingon_conf.xml`
+    $ python frc.py -f klingon_conf.xml
 
 ![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
     
@@ -149,6 +149,9 @@ the colors assigned to each aircraft for each row's color, set the `view_mode` U
 
 Each row of aircraft buttons will use the respective color assigned to each aircraft in the `frc_conf.xml` file, 
 a row major view.
+
+![Alt Flight Block view_mode=row View](doc/images/flightblock_viewmode_screen.png?raw=true "Flight Block view_mode=row View")
+
 
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
