@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.3.0 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.1 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -125,7 +125,6 @@ Example `frc_conf.xml` file:
     </client>
 
 ### Creating Customized Themes
-
 FRC supports the creation of customized themes(i.e. colors, labels and icons). Here's an example of a custom `klingon` theme
 that uses a `new_theme_name`_conf.xml file and a set of theme specific icon images. The new theme related icon 
 images should reside in `./static/images/new_theme_name` folder. So, for our `klingon` example, there's a `klingon_conf.xml` file
@@ -135,9 +134,22 @@ Links to our custom theme configuration file and the associated icons:
 - [klingon_conf.xml](https://github.com/paparazzi/flyingrobotcommander/blob/master/klingon_conf.xml)
 - [klingon icons folder](https://github.com/paparazzi/flyingrobotcommander/tree/master/static/images/klingon)
 
-**Screenshot:**
+**Invocation & Screenshot:**
+
+`python frc.py -f klingon_conf.xml`
+
 ![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
     
+### Aircraft Coloring Scheme via URL Parameters
+Each row of aircraft buttons default to the colors specified for each block function, a column major view. 
+This behavior can be overriden through the use of the `view_mode` URL parameter. If you would like to preserve/use
+the colors assigned to each aircraft for each row's color, set the `view_mode` URL paramater to `row`.
+
+    localhost:5000/show/flightblock/?view_mode=row
+
+Each row of aircraft buttons will use the respective color assigned to each aircraft in the `frc_conf.xml` file, 
+a row major view.
+
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
 be completed using the `object`/client/add/`id` routes; where `object` is one of aircraft, flightblock,
@@ -224,7 +236,8 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
-- [x] Add documentation around adding a custom theme(i.e. klingon)
+- [x] Added `view_mode` URL parameters to enable/disable aircraft button color/tooltip attributes
+- [x] Added documentation around adding a custom theme(i.e. klingon)
 - [x] Updated PPRZLINK imports and bumped the version to 0.3.0
 - [x] Started parsing XML with `lxml` library instead of `ElementTree` to hopefully improve parsing robustness
 - [x] Added the option to generate a configuration file stub(`-g`)

@@ -1,10 +1,10 @@
 <client>
-    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="red"         label="1" icon="klingon/klingon_1.png" tooltip="" />
-    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="orange"      label="2" icon="klingon/klingon_2.png" tooltip="" />
-    <aircraft     name="Teensy_Fly_Quad_Elle0"        color="green"       label="3" icon="klingon/klingon_3.png" tooltip="" />
-    <aircraft     name="Teensy_Fly_Quad"              color="deepskyblue" label="4" icon="klingon/klingon_4.png" tooltip="" />
-    <aircraft     name="Teensy_Fly_Hexa"              color="dodgerblue"  label="5" icon="klingon/klingon_5.png" tooltip="" />
-    <aircraft     name="Racer_PEX_Quad"               color="purple"      label="6" icon="klingon/klingon_6.png" tooltip="" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="darkslategrey"   label="1" icon="klingon/klingon_1.png" tooltip="TFQ_Elle_B" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="darkolivegreen"  label="2" icon="klingon/klingon_2.png" tooltip="TFQ_Elle_A" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0"        color="darkslategrey"   label="3" icon="klingon/klingon_3.png" tooltip="TFQ_Elle" />
+    <aircraft     name="Teensy_Fly_Quad"              color="darkolivegreen"  label="4" icon="klingon/klingon_4.png" tooltip="TFQ_Lisa" />
+    <aircraft     name="Teensy_Fly_Hexa"              color="darkslategrey"   label="5" icon="klingon/klingon_5.png" tooltip="TFH_Lisa" />
+    <aircraft     name="Racer_PEX_Quad"               color="darkolivegreen"  label="6" icon="klingon/klingon_6.png" tooltip="RPQ_Lisa" />
     <flightblock  name="Start Motors"  color="darkslategrey"  label=""  icon="klingon/klingon_props.png"   tooltip="Props On" />
     <flightblock  name="Takeoff"       color="darkslategrey"  label=""  icon="klingon/klingon_takeoff.png" tooltip="Takeoff" />
     <flightblock  name="Standby"       color="darkolivegreen" label=""  icon="klingon/klingon_s.png"       tooltip="Stdby" />

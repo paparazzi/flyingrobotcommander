@@ -58,7 +58,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.3.0"
+frc_version   = "0.3.1"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -643,10 +643,12 @@ def flightblock(ac_id, fb_id):
 
 @app.route('/show/view/<name>/')
 def showview(name):
+    view_mode = request.args.get('view_mode', 'col')
     return render_template(name+'.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_view_mode=view_mode,
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
                             p_color_list=fb_color_list, p_label_list=fb_label_list,
                             p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
@@ -654,10 +656,12 @@ def showview(name):
 
 @app.route('/show/flightblock/')
 def showflightblock():
+    view_mode = request.args.get('view_mode', 'col')
     return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_view_mode=view_mode,
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
                             p_color_list=fb_color_list, p_label_list=fb_label_list,
                             p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
@@ -665,20 +669,25 @@ def showflightblock():
 
 @app.route('/show/guided/')
 def showguided():
+    view_mode = request.args.get('view_mode', 'col')
     return render_template('guided.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
-                            p_col_count=10, p_color_list=gd_color_list, p_label_list=gd_label_list,
+                            p_view_mode=view_mode,
+                            p_col_count=10, 
+                            p_color_list=gd_color_list, p_label_list=gd_label_list,
                             p_icon_list=gd_icon_list, p_tooltip_list=gd_tooltip_list) 
 
 
 @app.route('/show/waypoint/')
 def showwaypoint():
+    view_mode = request.args.get('view_mode', 'col')
     return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_view_mode=view_mode,
                             p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list,
                             p_color_list=wp_color_list, p_label_list=wp_label_list,
                             p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
@@ -686,11 +695,14 @@ def showwaypoint():
 
 @app.route('/show/waypointhover/')
 def showwaypointhover():
+    view_mode = request.args.get('view_mode', 'col')
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
-                            p_col_count=8, p_color_list=wp_color_list, p_label_list=wp_label_list,
+                            p_view_mode=view_mode,
+                            p_col_count=8, 
+                            p_color_list=wp_color_list, p_label_list=wp_label_list,
                             p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
 
 

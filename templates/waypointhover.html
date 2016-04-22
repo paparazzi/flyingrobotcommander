@@ -223,7 +223,13 @@ function selectPageButton(btn) {
         {% set rowlabel   = ac_label.next() %}
         {% set rowicon    = ac_icon.next() %}
         {% for col in range(1,p_col_count+1)  %}
-            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  '', color.next(), rowlabel, rowicon ) }}
+            {% set curcolor   = color.next() %}
+            {% set curtooltip = tooltip.next() %}
+            {% if p_view_mode is equalto "row" %}
+                {% set curtooltip = rowtooltip %}
+                {% set curcolor   = rowcolor %}
+            {% endif %}
+            {{ btn_link( ((rowloop.index-1)*p_col_count)+(col-1),  curtooltip, curcolor, rowlabel, rowicon ) }}
         {% endfor %}      
   {% endfor %}
 
