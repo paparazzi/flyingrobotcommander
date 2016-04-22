@@ -136,7 +136,7 @@ def generate_configuration_stub():
 
     label = 1
     for ac_id in aircrafts:
-        curline = '    <aircraft name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color, label)
+        curline = '    <aircraft name="%s" color="%s" label="%d" icon="" tooltip="%s" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color, label, aircrafts[ac_id].name)
         print( curline  )
         label += 1
         tmp_ac_id = ac_id
@@ -144,14 +144,14 @@ def generate_configuration_stub():
     color = cycle(['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'])
     label = 1
     for fb_id in aircrafts[tmp_ac_id].flightblocks:
-        curline = '    <flightblock name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name, color.next(), label)
+        curline = '    <flightblock name="%s" color="%s" label="%d" icon="" tooltip="%s" />' % (aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name, color.next(), label, aircrafts[tmp_ac_id].flightblocks[fb_id].fb_name)
         print( curline )
         label += 1
 
     color = cycle(['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
     label = 1
     for wp_id in aircrafts[tmp_ac_id].waypoints:
-        curline = '    <waypoint name="%s" color="%s" label="%d" icon="" tooltip="" />' % (aircrafts[tmp_ac_id].waypoints[wp_id].wp_name, color.next(), label)
+        curline = '    <waypoint name="%s" color="%s" label="%d" icon="" tooltip="%s" />' % (aircrafts[tmp_ac_id].waypoints[wp_id].wp_name, color.next(), label, aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
         print( curline )
         label += 1
     

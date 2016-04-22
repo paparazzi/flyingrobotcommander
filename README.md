@@ -124,6 +124,32 @@ Example `frc_conf.xml` file:
         <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
     </client>
 
+### Generating a Configuration Stub
+The generate switch (`-g`, `--generate`) parses the Paparazzi `conf.xml` file and generates a FRC compliant xml
+for use in a custom FRC configuration file.
+
+    $ python frc.py -g
+    $ python frc.py --generate
+
+    <client>
+        <aircraft name="Teensy_Fly_Quad_Elle0_v1_2_B" color="orange" label="6" icon="" tooltip="Teensy_Fly_Quad_Elle0_v1_2_B" />
+        <aircraft name="Teensy_Fly_Quad_Elle0_v1_2_A" color="yellow" label="7" icon="" tooltip="Teensy_Fly_Quad_Elle0_v1_2_A" />
+        ...
+        <aircraft name="Racer_PEX_Octo" color="purple" label="13" icon="" tooltip="Racer_PEX_Octo" />
+        <flightblock name="Wait GPS" color="lime" label="1" icon="" tooltip="Wait GPS" />
+        <flightblock name="Geo init" color="green" label="2" icon="" tooltip="Geo init" />
+        ...
+        <flightblock name="land" color="darkred" label="22" icon="" tooltip="land" />
+        <waypoint name="STDBY" color="green" label="4" icon="" tooltip="STDBY" />
+        <waypoint name="p1" color="gold" label="5" icon="" tooltip="p1" />
+        ...
+        <waypoint name="CAM" color="dodgerblue" label="10" icon="" tooltip="CAM" />
+    </client>
+
+More likely than not, you will probably need to prune the output of this switch to only those aircraft, flight blocks and waypoints
+that are applicable to your use case.
+
+
 ### Creating Customized Themes
 FRC supports the creation of customized themes(i.e. colors, labels and icons). Here's an example of a custom `klingon` theme
 that uses a `new_theme_name`_conf.xml file and a set of theme specific icon images. The new theme related icon 
@@ -239,6 +265,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Improve the output for the switch that generates a configuration file stub(`-g`)
 - [x] Added `view_mode` URL parameters to enable/disable aircraft button color/tooltip attributes
 - [x] Added documentation around adding a custom theme(i.e. klingon)
 - [x] Updated PPRZLINK imports and bumped the version to 0.3.0
