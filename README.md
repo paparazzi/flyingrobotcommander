@@ -265,7 +265,8 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
-- [x] Improve the output for the switch that generates a configuration file stub(`-g`)
+- [x] Added `Cam Circle` flightblock to configuration files along with tooltip verbiage
+- [x] Improved the output for the switch that generates a configuration file stub(`-g`)
 - [x] Added `view_mode` URL parameters to enable/disable aircraft button color/tooltip attributes
 - [x] Added documentation around adding a custom theme(i.e. klingon)
 - [x] Updated PPRZLINK imports and bumped the version to 0.3.0

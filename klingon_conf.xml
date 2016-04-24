@@ -7,23 +7,23 @@
     <aircraft     name="Racer_PEX_Quad"               color="darkolivegreen"  label="6" icon="klingon/klingon_6.png" tooltip="RPQ_Lisa" />
     <flightblock  name="Start Motors"  color="darkslategrey"  label=""  icon="klingon/klingon_props.png"   tooltip="Props On" />
     <flightblock  name="Takeoff"       color="darkslategrey"  label=""  icon="klingon/klingon_takeoff.png" tooltip="Takeoff" />
-    <flightblock  name="Standby"       color="darkolivegreen" label=""  icon="klingon/klingon_s.png"       tooltip="Stdby" />
-    <flightblock  name="stay_p1"       color="darkolivegreen" label=""  icon="klingon/klingon_1.png"       tooltip="" />
-    <flightblock  name="stay_p2"       color="darkolivegreen" label=""  icon="klingon/klingon_2.png"       tooltip="" />
-    <flightblock  name="stay_p3"       color="darkolivegreen" label=""  icon="klingon/klingon_3.png"       tooltip="" />
-    <flightblock  name="stay_p4"       color="darkolivegreen" label=""  icon="klingon/klingon_4.png"       tooltip="" />
-    <flightblock  name="stay_HOV"      color="darkolivegreen" label=""  icon="klingon/klingon_h.png"       tooltip="" />
+    <flightblock  name="Standby"       color="darkolivegreen" label=""  icon="klingon/klingon_s.png"       tooltip="Standby" />
+    <flightblock  name="stay_p1"       color="darkolivegreen" label=""  icon="klingon/klingon_1.png"       tooltip="Waypoint 1" />
+    <flightblock  name="stay_p2"       color="darkolivegreen" label=""  icon="klingon/klingon_2.png"       tooltip="Waypoint 2" />
+    <flightblock  name="stay_p3"       color="darkolivegreen" label=""  icon="klingon/klingon_3.png"       tooltip="Waypoint 3" />
+    <flightblock  name="stay_p4"       color="darkolivegreen" label=""  icon="klingon/klingon_4.png"       tooltip="Waypoint 4" />
+    <flightblock  name="stay_HOV"      color="darkolivegreen" label=""  icon="klingon/klingon_h.png"       tooltip="Hover" />
     <flightblock  name="land here"     color="darkslategrey"  label=""  icon="klingon/klingon_land.png"    tooltip="Land Here" />
     <flightblock  name="land"          color="darkslategrey"  label=""  icon="klingon/klingon_land.png"    tooltip="Land" />
     <flightblock  name="Holding point" color="darkslategrey"  label=""  icon="klingon/klingon_props.png"   tooltip="Props Off" />
-    <waypoint     name="STDBY" color="darkslategrey"  label="" icon="" tooltip="" />
-    <waypoint     name="p1"    color="darkolivegreen" label="" icon="" tooltip="" />
-    <waypoint     name="p2"    color="darkolivegreen" label="" icon="" tooltip="" />
-    <waypoint     name="p3"    color="darkolivegreen" label="" icon="" tooltip="" />
-    <waypoint     name="p4"    color="darkolivegreen" label="" icon="" tooltip="" />
-    <waypoint     name="HOV"   color="darkolivegreen" label="" icon="" tooltip="" />
-    <waypoint     name="CAM"   color="darkslategrey"  label="" icon="" tooltip="" />
-    <waypoint     name="S1"    color="darkslategrey"  label="" icon="" tooltip="" />
+    <waypoint     name="STDBY" color="darkslategrey"  label="" icon="" tooltip="Standby"    />
+    <waypoint     name="p1"    color="darkolivegreen" label="" icon="" tooltip="Waypoint 1" />
+    <waypoint     name="p2"    color="darkolivegreen" label="" icon="" tooltip="Waypoint 2" />
+    <waypoint     name="p3"    color="darkolivegreen" label="" icon="" tooltip="Waypoint 3" />
+    <waypoint     name="p4"    color="darkolivegreen" label="" icon="" tooltip="Waypoint 4" />
+    <waypoint     name="HOV"   color="darkolivegreen" label="" icon="" tooltip="Hover"      />
+    <waypoint     name="CAM"   color="darkslategrey"  label="" icon="" tooltip="Camera"     />
+    <waypoint     name="S1"    color="darkslategrey"  label="" icon="" tooltip="Survey"     />
     <guided       name="Forward"          color="darkslategrey"  label=""  icon="klingon/klingon_forward.png"          tooltip="Forward" />
     <guided       name="Back"             color="darkolivegreen" label=""  icon="klingon/klingon_back.png"             tooltip="Back" />
     <guided       name="Left"             color="darkslategrey"  label=""  icon="klingon/klingon_left.png"             tooltip="Left" />

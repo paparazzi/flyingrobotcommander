@@ -234,7 +234,7 @@ function selectPageButton(btn) {
   {% endfor %}
 
   {% for col in range(1,p_col_count+1)  %}
-        {{ btn_link( (p_row_count*p_col_count)+(col-1),  '', color.next(), col, '' ) }}
+        {{ btn_link( (p_row_count*p_col_count)+(col-1),  tooltip.next(), color.next(), col, '' ) }}
   {% endfor %}      
 
   </div>
