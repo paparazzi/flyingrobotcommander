@@ -1,10 +1,11 @@
 <client>
-    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="darkslategrey"   label="1" icon="" tooltip="TFQ_Elle_B" />
-    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="darkolivegreen"  label="2" icon="" tooltip="TFQ_Elle_A" />
-    <aircraft     name="Teensy_Fly_Quad_Elle0"        color="darkslategrey"   label="3" icon="" tooltip="TFQ_Elle"   />
-    <aircraft     name="Teensy_Fly_Quad"              color="darkolivegreen"  label="4" icon="" tooltip="TFQ_Lisa"   />
-    <aircraft     name="Teensy_Fly_Hexa"              color="darkslategrey"   label="5" icon="" tooltip="TFH_Lisa"   />
-    <aircraft     name="Racer_PEX_Quad"               color="darkolivegreen"  label="6" icon="" tooltip="RPQ_Lisa"   />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_C" color="darkslategrey"   label="1" icon="" tooltip="TFQ_Elle_C" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_B" color="darkolivegreen"  label="2" icon="" tooltip="TFQ_Elle_B" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0_v1_2_A" color="darkslategrey"   label="3" icon="" tooltip="TFQ_Elle_A" />
+    <aircraft     name="Teensy_Fly_Quad_Elle0"        color="darkolivegreen"  label="4" icon="" tooltip="TFQ_Elle"   />
+    <aircraft     name="Teensy_Fly_Quad"              color="darkslategrey"   label="5" icon="" tooltip="TFQ_Lisa"   />
+    <aircraft     name="Teensy_Fly_Hexa"              color="darkolivegreen"  label="6" icon="" tooltip="TFH_Lisa"   />
+    <aircraft     name="Racer_PEX_Quad"               color="darkslategrey"   label="7" icon="" tooltip="RPQ_Lisa"   />
     <flightblock  name="Start Motors"                 color="darkslategrey"   label=""  icon="propeller.png" tooltip="Props On" />
     <flightblock  name="Takeoff"                      color="darkslategrey"   label=""  icon="aircraft-take-off.png" tooltip="Takeoff" />
     <flightblock  name="Standby"                      color="darkolivegreen"  label="S" icon="" tooltip="Standby" />
