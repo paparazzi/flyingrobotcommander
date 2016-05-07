@@ -131,7 +131,7 @@ Example `frc_conf.xml` file:
         <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
         <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
         <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
-        <status       name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="" tooltip="GPS Position Accuracy" />
+        <status  name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="" tooltip="GPS Position Accuracy" />
         <status  name="GPS_SC"       msg_name="GPS_INT"               msg_key="numsv"        color="purple"      label="SN" icon="" tooltip="GPS Satellite Count" />
         <status  name="GPS_STAT"     msg_name="ROTORCRAFT_STATUS"     msg_key="gps_status"   color="deepskyblue" label="GS" icon="" tooltip="GPS Status" />
         <status  name="RC_STAT"      msg_name="ROTORCRAFT_STATUS"     msg_key="rc_status"    color="dodgerblue"  label="RS" icon="" tooltip="RC Status" />
