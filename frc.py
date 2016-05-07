@@ -164,6 +164,9 @@ def generate_configuration_stub():
     
     print( '    <guided  name="Back" color="purple" label=""  icon="arrow-with-circle-down.png" tooltip="Back" />')
 
+    color = cycle(['magenta', 'purple','deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
+    label = 1
+
     print('</client>')
 
 
@@ -495,31 +498,28 @@ def message_byname(ac_id, messagename):
 @app.route('/message/<int:ac_id>/<messagename>/<messagekey>')
 def message_byattribute(ac_id, messagename, messagekey):
     # If the message is valid, return the latest message
+    status_val = ''
     ac_id = int(ac_id)
     if ac_id in aircrafts:
         if messagename in aircrafts[ac_id].messages:
             if messagekey in aircrafts[ac_id].messages[messagename].latest_msg.to_json():
                 if curl: print_curl_format()
                 messagevalue = json.loads(aircrafts[ac_id].messages[messagename].latest_msg.to_json())
-                return Response( str(messagevalue[messagekey]) )
-            else:
-            	return "unknown message attribute"
-        else:
-            return "unknown message name"
-    else:
-        return "unknown aircraft id"
+                status_val = str(messagevalue[messagekey])
+    return Response( status_val )
 
 
 @app.route('/message/<messagename>/<messagekey>')
 def message_all_byattribute(messagename, messagekey):
     messagelist = []
-    for ac in aircrafts:
+    for ac in aircraft_client_list:
+        status_val = ''
     	ac_id = int(ac)
         if messagename in aircrafts[ac_id].messages:
             if messagekey in aircrafts[ac_id].messages[messagename].latest_msg.to_json():
                 messagevalue = json.loads(aircrafts[ac_id].messages[messagename].latest_msg.to_json())
-                # messagelist.append( str(ac_id) )
-                messagelist.append( str(messagevalue[messagekey]) )
+                status_val = str(messagevalue[messagekey])
+        messagelist.append( status_val )
     if curl: print_curl_format()
     return Response( str(json.dumps(messagelist)) )
 
@@ -711,6 +711,11 @@ def flightblock(ac_id, fb_id):
     if curl: print_curl_format()
     return retval
 
+@app.route('/template/configuration/')
+def template_configuration():
+    generate_configuration_stub()
+    return
+ 
 
 @app.route('/show/view/<name>/')
 def showview(name):
@@ -820,7 +825,7 @@ if __name__ == '__main__':
         if args.verbose: 
             print_aircraft_data()
         if args.generate:
-            generate_configuration_stub()
+            template_configuration()
             sys.exit(0)
         if args.subscribe: 
             ivy_interface.subscribe(callback_aircraft_messages)
