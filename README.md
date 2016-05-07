@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.3.1 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.2 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -79,6 +79,15 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
             icon    = "<icon>"
             tooltip = "<tooltip>"
        </guided>
+        <status>
+            name      = "<status name>"
+            msg_name  = "<status name>"
+            msg_key   = "<status name>"
+            color     = "<color>"
+            label     = "<label>"
+            icon      = "<icon>"
+            tooltip   = "<tooltip>"
+       </status>
     </client>
 
 Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
@@ -122,6 +131,15 @@ Example `frc_conf.xml` file:
         <guided  name="Clockwise"        color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
         <guided  name="Guided"           color="orangered"   label="G" icon="" tooltip="Guided" />
         <guided  name="Nav"              color="red"         label="N" icon="" tooltip="Nav" />
+        <status       name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="" tooltip="GPS Position Accuracy" />
+        <status  name="GPS_SC"       msg_name="GPS_INT"               msg_key="numsv"        color="purple"      label="SN" icon="" tooltip="GPS Satellite Count" />
+        <status  name="GPS_STAT"     msg_name="ROTORCRAFT_STATUS"     msg_key="gps_status"   color="deepskyblue" label="GS" icon="" tooltip="GPS Status" />
+        <status  name="RC_STAT"      msg_name="ROTORCRAFT_STATUS"     msg_key="rc_status"    color="dodgerblue"  label="RS" icon="" tooltip="RC Status" />
+        <status  name="VOLT_STAT"    msg_name="ROTORCRAFT_STATUS"     msg_key="vsupply"      color="lime"        label="VS" icon="" tooltip="Voltage Status" />
+        <status  name="MOTOR_STAT"   msg_name="ROTORCRAFT_STATUS"     msg_key="ap_motors_on" color="green"       label="M"  icon="" tooltip="Motors On/Off" />
+        <status  name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="" tooltip="Aircraft On Ground/In Flight" />
+        <status  name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="" tooltip="Autopilot Mode" />
+        <status  name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="" tooltip="Navigation Block" />
     </client>
 
 ### Generating a Configuration Stub
@@ -230,6 +248,7 @@ Once the client related data is configured, the various client views of the FRC 
     - Flight Block Route: show/flightblock/
     - Guided Route: show/guided/
     - Waypoint Route: show/waypoint/
+    - Status Route: show/status/
 
 Assuming the server is running on the local host(ip=127.0.0.1), type one of the following URL's into
 a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view. 
@@ -237,6 +256,7 @@ a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view.
     localhost:5000/show/flightblock/
     localhost:5000/show/guided/
     localhost:5000/show/waypoint/
+    localhost:5000/show/status/
 
 Remember to configure the aircraft and flight block client data prior to accessing a client view.
 
@@ -249,6 +269,9 @@ Remember to configure the aircraft and flight block client data prior to accessi
 #### Waypoint View
 ![Alt Waypoint View](doc/images/waypoint_screen.png?raw=true "Waypoint View")
 
+#### Status View
+![Alt Status View](doc/images/status_screen.png?raw=true "Status View")
+
 ## Video Demos:
 Here are a couple of informal demo videos of the Flying Robot Commander; captured from
 Periscope broadcasts:
@@ -257,7 +280,7 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
-- [ ] Add a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row
+- [ ] Add support for `status` view generation via `-g` switch, note `-s` switch dependency
 - [ ] Research ivy messaging inconsistencies when running live multi-MAV system tests
 - [ ] Add client routes by name (i.e. waypoint/client/add/stay_p1)
 - [ ] Revisit/refactor the button-to-command binding model
@@ -265,6 +288,8 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added initial support for a `Status` view
+- [x] Added a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row(`?view_mode=row`)
 - [x] Added `Cam Circle` flightblock to configuration files along with tooltip verbiage
 - [x] Improved the output for the switch that generates a configuration file stub(`-g`)
 - [x] Added `view_mode` URL parameters to enable/disable aircraft button color/tooltip attributes

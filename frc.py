@@ -58,7 +58,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.3.1"
+frc_version   = "0.3.2"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -66,7 +66,14 @@ server_host   = "127.0.0.1"    # Default to local host)
 server_port   = 5000           # Default it flask port)
 
 
-# --- Aircraft, Flighblock, Waypoint, Guided & Message related state/methods
+# --- Aircraft, Flighblock, Waypoint, Guided, Message, and Status related state/methods
+
+class Status(object):
+    def __init__(self, st_name, st_msg_name, st_msg_key):
+        self.st_name     = st_name
+        self.st_msg_name = st_msg_name
+        self.st_msg_key  = st_msg_key
+        self.st_msg_val  = None
 
 class Message(PprzMessage):
     def __init__(self, class_name, name, msg):
@@ -164,6 +171,9 @@ aircraft_client_list       = []   # Used for rows in client; preserve list order
 flightblock_client_list    = []   # Used for columns in client view for flightblocks; preserve list order
 guided_client_list         = []   # Used for columns in client view for guided; preserve list order
 waypoint_client_list       = []   # Used for columns in client view for waypoints; preserve list order
+status_client_list           = []   # Used for columns in client view for status; preserve list order
+status_client_list_msg_name  = []   # Used for columns in client view for status; preserve list order
+status_client_list_msg_key   = []   # Used for columns in client view for status; preserve list order
 #fb_color_list              = ['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred']
 #gd_color_list              = ['magenta', 'purple', 'deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
 #wp_color_list              = ['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red']
@@ -187,6 +197,11 @@ wp_color_list              = []   # Used by waypoint view color cycler
 wp_label_list              = []   # Used by waypoint view label cycler
 wp_icon_list               = []   # Used by waypoint view icon cycler
 wp_tooltip_list            = []   # Used by waypoint view tooltip cycler
+
+st_color_list              = []   # Used by status view color cycler
+st_label_list              = []   # Used by status view label cycler
+st_icon_list               = []   # Used by status view icon cycler
+st_tooltip_list            = []   # Used by status view tooltip cycler
 
 
 # --- Helper methods ---
@@ -277,6 +292,14 @@ def static_init_client_configuration_data(fname):
             #print("Found waypoint name: %s" % aircrafts[tmp_ac_id].waypoints[wp_id].wp_name)
         view_attributelist_helper(waypoint, wp_color_list, wp_label_list, wp_icon_list, wp_tooltip_list)
         waypoint_client_add(wp_id)
+
+    # Populate status client objects
+    for status in root.findall('status'):
+        st_name      = status.get('name')
+        st_msg_name  = status.get('msg_name')
+        st_msg_key   = status.get('msg_key')
+        view_attributelist_helper(status, st_color_list, st_label_list, st_icon_list, st_tooltip_list)
+        status_client_add(st_name, st_msg_name, st_msg_key)
     
 
 def static_init_configuration_data():
@@ -427,6 +450,22 @@ def waypoint_client_add(wp_id):
     return "aircraft list is empty"    
 
 
+@app.route('/status/client/')
+def status_client_all():
+    if curl: print_curl_format()
+    return str(status_client_list) + str(status_client_list_msg_name) + str(status_client_list_msg_key)
+
+
+@app.route('/status/client/add/<st_name>/<st_msg_name>/<st_msg_key>')
+def status_client_add(st_name, st_msg_name, st_msg_key):
+    if st_name not in status_client_list:       
+        status_client_list.append(st_name)
+        status_client_list_msg_name.append(st_msg_name)
+        status_client_list_msg_key.append(st_msg_key)
+    if curl: print_curl_format()
+    return str(status_client_list) + str(status_client_list_msg_name) + str(status_client_list_msg_key)   
+
+
 @app.route('/message/<int:ac_id>')
 def message(ac_id):
     ac_id = int(ac_id)
@@ -436,7 +475,7 @@ def message(ac_id):
             messagelist.append(key)
         if curl: print_curl_format()
         return str(json.dumps(messagelist))
-    return "unknown id"    
+    return "unknown aircraft id"    
 
 
 @app.route('/message/<int:ac_id>/<messagename>')
@@ -446,11 +485,43 @@ def message_byname(ac_id, messagename):
     if ac_id in aircrafts:
         if messagename in aircrafts[ac_id].messages:
             if curl: print_curl_format()
-            return Response(str(aircrafts[ac_id].messages[messagename].latest_msg.to_json()))
+            return Response( str(aircrafts[ac_id].messages[messagename].latest_msg.to_json()) )
         else:
-            return "unknown message"
+            return "unknown message name"
     else:
-        return "unknown id"
+        return "unknown aircraft id"
+
+
+@app.route('/message/<int:ac_id>/<messagename>/<messagekey>')
+def message_byattribute(ac_id, messagename, messagekey):
+    # If the message is valid, return the latest message
+    ac_id = int(ac_id)
+    if ac_id in aircrafts:
+        if messagename in aircrafts[ac_id].messages:
+            if messagekey in aircrafts[ac_id].messages[messagename].latest_msg.to_json():
+                if curl: print_curl_format()
+                messagevalue = json.loads(aircrafts[ac_id].messages[messagename].latest_msg.to_json())
+                return Response( str(messagevalue[messagekey]) )
+            else:
+            	return "unknown message attribute"
+        else:
+            return "unknown message name"
+    else:
+        return "unknown aircraft id"
+
+
+@app.route('/message/<messagename>/<messagekey>')
+def message_all_byattribute(messagename, messagekey):
+    messagelist = []
+    for ac in aircrafts:
+    	ac_id = int(ac)
+        if messagename in aircrafts[ac_id].messages:
+            if messagekey in aircrafts[ac_id].messages[messagename].latest_msg.to_json():
+                messagevalue = json.loads(aircrafts[ac_id].messages[messagename].latest_msg.to_json())
+                # messagelist.append( str(ac_id) )
+                messagelist.append( str(messagevalue[messagekey]) )
+    if curl: print_curl_format()
+    return Response( str(json.dumps(messagelist)) )
 
 
 @app.route('/guidance/')
@@ -644,67 +715,80 @@ def flightblock(ac_id, fb_id):
 @app.route('/show/view/<name>/')
 def showview(name):
     view_mode = request.args.get('view_mode', 'col')
-    return render_template(name+'.html', p_host=server_host, p_port=server_port, 
-                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
-                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
-                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+    return render_template(name+'.html', p_host=server_host,          p_port=server_port, 
+                            p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
+                            p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,              p_ac_tooltip_list=ac_tooltip_list,
                             p_view_mode=view_mode,
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
-                            p_color_list=fb_color_list, p_label_list=fb_label_list,
-                            p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
+                            p_color_list=fb_color_list,               p_label_list=fb_label_list,
+                            p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list)
 
 
 @app.route('/show/flightblock/')
 def showflightblock():
     view_mode = request.args.get('view_mode', 'col')
-    return render_template('flightblock.html', p_host=server_host, p_port=server_port, 
-                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
-                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
-                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+    return render_template('flightblock.html', p_host=server_host,    p_port=server_port, 
+                            p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
+                            p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,              p_ac_tooltip_list=ac_tooltip_list,
                             p_view_mode=view_mode,
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
-                            p_color_list=fb_color_list, p_label_list=fb_label_list,
-                            p_icon_list=fb_icon_list, p_tooltip_list=fb_tooltip_list)
+                            p_color_list=fb_color_list,               p_label_list=fb_label_list,
+                            p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list)
 
 
 @app.route('/show/guided/')
 def showguided():
     view_mode = request.args.get('view_mode', 'col')
-    return render_template('guided.html', p_host=server_host, p_port=server_port, 
+    return render_template('guided.html', p_host=server_host,      p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
-                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
                             p_view_mode=view_mode,
                             p_col_count=10, 
-                            p_color_list=gd_color_list, p_label_list=gd_label_list,
-                            p_icon_list=gd_icon_list, p_tooltip_list=gd_tooltip_list) 
+                            p_color_list=gd_color_list,            p_label_list=gd_label_list,
+                            p_icon_list=gd_icon_list,              p_tooltip_list=gd_tooltip_list) 
 
 
 @app.route('/show/waypoint/')
 def showwaypoint():
     view_mode = request.args.get('view_mode', 'col')
-    return render_template('waypoint.html', p_host=server_host, p_port=server_port, 
+    return render_template('waypoint.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
-                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
                             p_view_mode=view_mode,
                             p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list,
-                            p_color_list=wp_color_list, p_label_list=wp_label_list,
-                            p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
+                            p_color_list=wp_color_list,            p_label_list=wp_label_list,
+                            p_icon_list=wp_icon_list,              p_tooltip_list=wp_tooltip_list) 
 
 
 @app.route('/show/waypointhover/')
 def showwaypointhover():
     view_mode = request.args.get('view_mode', 'col')
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
-                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
-                            p_ac_color_list=ac_color_list, p_ac_label_list=ac_label_list,
-                            p_ac_icon_list=ac_icon_list, p_ac_tooltip_list=ac_tooltip_list,
+                            p_row_count=len(aircraft_client_list),   p_row_list=aircraft_client_list,
+                            p_ac_color_list=ac_color_list,           p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,             p_ac_tooltip_list=ac_tooltip_list,
                             p_view_mode=view_mode,
                             p_col_count=8, 
-                            p_color_list=wp_color_list, p_label_list=wp_label_list,
-                            p_icon_list=wp_icon_list, p_tooltip_list=wp_tooltip_list) 
+                            p_color_list=wp_color_list,              p_label_list=wp_label_list,
+                            p_icon_list=wp_icon_list,                p_tooltip_list=wp_tooltip_list) 
 
+
+@app.route('/show/status/')
+def showstatus():
+    view_mode = request.args.get('view_mode', 'col')
+    return render_template('status.html', p_host=server_host,      p_port=server_port, 
+                            p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
+                            p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
+                            p_view_mode=view_mode,
+                            p_col_count=len(status_client_list),   p_col_list=status_client_list,
+                            p_col_list_msg_name=status_client_list_msg_name, p_col_list_msg_key=status_client_list_msg_key,
+                            p_color_list=st_color_list,            p_label_list=st_label_list,
+                            p_icon_list=st_icon_list,              p_tooltip_list=st_tooltip_list)
 
 
 @app.route('/about')
