@@ -81,8 +81,8 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
        </guided>
         <status>
             name      = "<status name>"
-            msg_name  = "<status name>"
-            msg_key   = "<status name>"
+            msg_name  = "<message name>"
+            msg_key   = "<message key>"
             color     = "<color>"
             label     = "<label>"
             icon      = "<icon>"
