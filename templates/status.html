@@ -25,6 +25,20 @@
       break;
 {% endmacro %}
 
+{% macro update_status_group(id, col) %}
+      var bReq{{col}} = new XMLHttpRequest();
+      bReq{{col}}.open("GET", cmd_status + status_msg_name[{{col}}] + '/' + status_msg_key[{{col}}], true);  bReq{{col}}.send(); 
+      bReq{{col}}.onreadystatechange = function() {
+          if (bReq{{col}}.readyState == 4 && bReq{{col}}.status == 200) {
+              var value_list = bReq{{col}}.responseText.replace( / |\[|\]|\"/g, '' ).split(',');
+              for (var row = 0; row < value_list.length; row++) {
+                  document.getElementById( (row*col_count)+{{col}} ).innerHTML = value_list[row];
+              }
+          }
+      }
+{% endmacro %}
+
+
 {% block head %}
 <head>
 
@@ -47,6 +61,20 @@ var aircraft_id     = '{{ p_row_list }}'.replace( / |\[|\]/g, '' ).split(',');  
 var status_name     = '{{ p_col_list|tojson|safe }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
 var status_msg_name   = '{{ p_col_list_msg_name|tojson|safe }}'.replace( / |\[|\]|\"/g, '' ).split(',');    // Strips space, square brackets, and quotes from list before splitting
 var status_msg_key    = '{{ p_col_list_msg_key|tojson|safe  }}'.replace( / |\[|\]|\"/g, '' ).split(',');    // Strips space, square brackets, and quotes from list before splitting
+var intervalHndl;   // Used to setup an interval timer
+
+
+function update_status() {
+    {% for col in range(1,p_col_count+1)  %}
+        {{ update_status_group( (p_row_count*p_col_count)+(col-1), col-1 ) }}
+    {% endfor %}
+
+}
+
+
+function initInterval() {
+    intervalHndl = setInterval(update_status, 3000);
+}
 
 
 function displayTriggerMessage(msg) {
@@ -72,18 +100,17 @@ function displayTriggerMessage(msg) {
         {{ case_command_group( (p_row_count*p_col_count)+(col-1), col-1 ) }}
     {% endfor %}
 
+    case 500:  
+        updated_status();
+        break;
 /*
-    case 200:  
-               aReq.open("GET", cmd_status + status_name[0], true); aReq.send();
-               setTimeout(bReq.open("GET", cmd_status + status_name[1], true),2000); setTimeout(bReq.send(),3000);
+    case 501:  aReq.open("GET", cmd_status + status_name[6], true); aReq.send(); break;
+    case 502:  aReq.open("GET", cmd_status + status_name[8], true); aReq.send(); break;
+    case 600:  
                break;
-    case 201:  aReq.open("GET", cmd_status + status_name[6], true); aReq.send(); break;
-    case 202:  aReq.open("GET", cmd_status + status_name[8], true); aReq.send(); break;
-    case 300:  
+    case 601:  
                break;
-    case 301:  
-               break;
-    case 302:  
+    case 602:  
                break;
 */
     default:   aReq.open("GET", cmd_status + 'noop', true); aReq.send();
@@ -166,7 +193,7 @@ function selectButton(btn) {
 function clearPageRowBoarders() {
 
   // Leverage button id sequence to simplify clear operation logic
-  for (var tid = 200; tid < 203; tid++) {
+  for (var tid = 500; tid < 501; tid++) {
     document.getElementById(tid).style.borderColor = "black";
     document.getElementById(tid).style.color = "black";
   }
@@ -206,7 +233,7 @@ function selectPageButton(btn) {
 {% endblock %}
 
 {% block body %}
-<body>
+<body onload="initInterval();">
 
 <div class="menu-container">
   <div class="button-container">
@@ -243,10 +270,10 @@ function selectPageButton(btn) {
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Block: x</button>
+  <button id="500" style="background:lime; color:black; font-size: 30px"        onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Update</button>
 <!--
-  <button id="200" style="background:lime; color:black; font-size: 30px"        onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
-  <button id="201" style="background:deepskyblue; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
-  <button id="202" style="background:red; color:black; font-size: 30px"         onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
+  <button id="501" style="background:deepskyblue; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
+  <button id="502" style="background:red; color:black; font-size: 30px"         onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
 -->
   </div>
 </div>

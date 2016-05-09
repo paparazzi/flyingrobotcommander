@@ -38,8 +38,9 @@ for the installation and usage of `Flask`. Here are some of the python packages(
 On startup, the FRC reads the main Paparazzi UAV configuration file `$PPRZ_HOME/conf/conf.xml`. 
 Configuration data contained in the `conf.xml` and the associated airframe/flight plan files is 
 used to initialize the FRC server. Note that the `--subscribe` option is also used to initialize 
-runtime related aircraft data that includes `ivy bus messages`. The `--file` is used to configure
-client related data( see `frc_conf.xml` for an example of the default client configuration file).
+runtime related aircraft data that includes `ivy bus messages`. It is recommended to start FRC server
+prior to starting the Paparazzi server to acquire a complete message dictionary. The `--file` option 
+is used to configure client related data( see `frc_conf.xml` for an example of the default client configuration file).
 
 ### Configuration File: frc_conf.xml
 The `frc_conf.xml` is an XML file used to configure the FRC views.
@@ -288,6 +289,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added an `Update` button to the `Status` view along with a timer interval view refresh capability
 - [x] Added initial support for a `Status` view
 - [x] Added a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row(`?view_mode=row`)
 - [x] Added `Cam Circle` flightblock to configuration files along with tooltip verbiage
