@@ -38,7 +38,7 @@ for the installation and usage of `Flask`. Here are some of the python packages(
 On startup, the FRC reads the main Paparazzi UAV configuration file `$PPRZ_HOME/conf/conf.xml`. 
 Configuration data contained in the `conf.xml` and the associated airframe/flight plan files is 
 used to initialize the FRC server. Note that the `--subscribe` option is also used to initialize 
-runtime related aircraft data that includes `ivy bus messages`. It is recommended to start FRC server
+runtime related aircraft data that includes `ivy bus messages`. It is recommended to start the FRC server
 prior to starting the Paparazzi server to acquire a complete message dictionary. The `--file` option 
 is used to configure client related data( see `frc_conf.xml` for an example of the default client configuration file).
 
@@ -92,7 +92,11 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
     </client>
 
 Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
-Either a valid block `id` or `name` attribute must be present in each block. If both are used, the `name` attribute overrideds the `id` attribute. The `color` attribute in a given block is used to specify the color to use when rendering the corrosponding button in the FRC. If the `color` attribute is not specified, the button defaults to `white`. The `label` attribute defines the text to display on a given button unless the `icon` attribute is specified. The `icon` attribute overrides the `label` attribute.
+Either a valid block `id` or `name` attribute must be present in each block. If both are used, the `name` attribute 
+overrideds the `id` attribute. The `color` attribute in a given block is used to specify the color to use when 
+rendering the corrosponding button in the FRC. If the `color` attribute is not specified, the button defaults 
+to `white`. The `label` attribute defines the text to display on a given button unless the `icon` attribute is 
+specified. The `icon` attribute overrides the `label` attribute.
 
 Example `frc_conf.xml` file:
 
@@ -247,9 +251,9 @@ Once the client related data is configured, the various client views of the FRC 
     Syntax:
 
     - Flight Block Route: show/flightblock/
-    - Guided Route: show/guided/
-    - Waypoint Route: show/waypoint/
-    - Status Route: show/status/
+    - Guided Route:       show/guided/
+    - Waypoint Route:     show/waypoint/
+    - Status Route:       show/status/
 
 Assuming the server is running on the local host(ip=127.0.0.1), type one of the following URL's into
 a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view. 
@@ -257,9 +261,10 @@ a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view.
     localhost:5000/show/flightblock/
     localhost:5000/show/guided/
     localhost:5000/show/waypoint/
-    localhost:5000/show/status/
+    localhost:5000/show/status/   (NOTE: Inovke the FRC server with the -s/--subscribe option)
 
-Remember to configure the aircraft and flight block client data prior to accessing a client view.
+Remember to configure the aircraft, flight block, guided, waypoint and status client data prior to accessing 
+the respective client view.
 
 #### Flight Block View
 ![Alt Flight Block View](doc/images/flightblock_screen.png?raw=true "Flight Block View")
@@ -271,6 +276,11 @@ Remember to configure the aircraft and flight block client data prior to accessi
 ![Alt Waypoint View](doc/images/waypoint_screen.png?raw=true "Waypoint View")
 
 #### Status View
+The `Status` view relies on data supplied from the `ivy` message bus and the `-s/--subscribe` option must
+be used to populate this view. It is recommended to start the FRC server prior to starting the Paparazzi 
+server to acquire a complete message dictionary.
+
+    python frc.py -i 192.168.1.147 -s
 ![Alt Status View](doc/images/status_screen.png?raw=true "Status View")
 
 ## Video Demos:
