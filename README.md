@@ -289,7 +289,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
-- [x] Added an `Update` button to the `Status` view along with a timer interval view refresh capability
+- [x] Added an `Update` button to the `Status` view that includes a timer interval refresh capability
 - [x] Added initial support for a `Status` view
 - [x] Added a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row(`?view_mode=row`)
 - [x] Added `Cam Circle` flightblock to configuration files along with tooltip verbiage
