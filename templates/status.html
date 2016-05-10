@@ -100,10 +100,11 @@ function displayTriggerMessage(msg) {
         {{ case_command_group( (p_row_count*p_col_count)+(col-1), col-1 ) }}
     {% endfor %}
 
+/*
     case 500:  
         updated_status();
         break;
-/*
+
     case 501:  aReq.open("GET", cmd_status + status_name[6], true); aReq.send(); break;
     case 502:  aReq.open("GET", cmd_status + status_name[8], true); aReq.send(); break;
     case 600:  
@@ -270,8 +271,8 @@ function selectPageButton(btn) {
   </div>
   <div class="command-button-container">
   <button id="999" style="color:black; font-size: 18px">Block: x</button>
-  <button id="500" style="background:lime; color:black; font-size: 30px"        onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Update</button>
 <!--
+  <button id="500" style="background:lime; color:black; font-size: 30px"        onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Update</button>
   <button id="501" style="background:deepskyblue; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
   <button id="502" style="background:red; color:black; font-size: 30px"         onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
 -->

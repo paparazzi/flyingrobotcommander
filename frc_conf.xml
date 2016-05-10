@@ -36,14 +36,14 @@
     <guided       name="Clockwise"                    color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />
     <guided       name="Guided"                       color="orangered"   label="G" icon="" tooltip="Guided" />
     <guided       name="Nav"                          color="red"         label="N" icon="" tooltip="Nav" />
-    <status       name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="" tooltip="GPS Position Accuracy" />
-    <status       name="GPS_SC"       msg_name="GPS_INT"               msg_key="numsv"        color="purple"      label="SN" icon="" tooltip="GPS Satellite Count" />
-    <status       name="GPS_STAT"     msg_name="ROTORCRAFT_STATUS"     msg_key="gps_status"   color="deepskyblue" label="GS" icon="" tooltip="GPS Status" />
-    <status       name="RC_STAT"      msg_name="ROTORCRAFT_STATUS"     msg_key="rc_status"    color="dodgerblue"  label="RS" icon="" tooltip="RC Status" />
-    <status       name="VOLT_STAT"    msg_name="ROTORCRAFT_STATUS"     msg_key="vsupply"      color="lime"        label="VS" icon="" tooltip="Voltage Status" />
-    <status       name="MOTOR_STAT"   msg_name="ROTORCRAFT_STATUS"     msg_key="ap_motors_on" color="green"       label="M"  icon="" tooltip="Motors On/Off" />
-    <status       name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="" tooltip="Aircraft On Ground/In Flight" />
-    <status       name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="" tooltip="Autopilot Mode" />
-    <status       name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="" tooltip="Navigation Block" />
+    <status       name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="bullseye.png"  tooltip="GPS Position Accuracy" />
+    <status       name="GPS_SC"       msg_name="GPS_INT"               msg_key="numsv"        color="purple"      label="SN" icon="antennas.png"  tooltip="GPS Satellite Count" />
+    <status       name="GPS_STAT"     msg_name="ROTORCRAFT_STATUS"     msg_key="gps_status"   color="deepskyblue" label="GS" icon="satellite.png" tooltip="GPS Status" />
+    <status       name="RC_STAT"      msg_name="ROTORCRAFT_STATUS"     msg_key="rc_status"    color="dodgerblue"  label="RS" icon="signal.png"    tooltip="RC Status" />
+    <status       name="VOLT_STAT"    msg_name="ROTORCRAFT_STATUS"     msg_key="vsupply"      color="lime"        label="VS" icon="battery.png"   tooltip="Voltage Status" />
+    <status       name="MOTOR_STAT"   msg_name="ROTORCRAFT_STATUS"     msg_key="ap_motors_on" color="green"       label="M"  icon="propeller.png" tooltip="Motors On/Off" />
+    <status       name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="aircraft-take-off.png" tooltip="Aircraft On Ground/In Flight" />
+    <status       name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="plane.png" tooltip="Autopilot Mode" />
+    <status       name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="airplane-arrows-circle.png" tooltip="Navigation Block" />
 </client>
 
