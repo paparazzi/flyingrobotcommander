@@ -299,6 +299,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added icons for the `Status` view and update documentation image
 - [x] Added an `Update` button to the `Status` view that includes a timer interval refresh capability
 - [x] Added initial support for a `Status` view
 - [x] Added a feature that allows the aircraft colors specified in `conf.xml` to be used for each aircraft row(`?view_mode=row`)
