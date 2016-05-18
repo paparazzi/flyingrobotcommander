@@ -189,7 +189,9 @@ Links to our custom theme configuration file and the associated icons:
 
 ![Alt Klingon Flight Block View](doc/images/klingon_screen.png?raw=true "Klingon Flight Block View")
     
-### Aircraft Coloring Scheme via URL Parameters
+### URL Parameters
+
+#### Aircraft Coloring Scheme
 Each row of aircraft buttons default to the colors specified for each block function, a column major view. 
 This behavior can be overriden through the use of the `view_mode` URL parameter. If you would like to preserve/use
 the colors assigned to each aircraft for each row's color, set the `view_mode` URL paramater to `row`.
@@ -201,6 +203,12 @@ a row major view.
 
 ![Alt Flight Block view_mode=row View](doc/images/flightblock_viewmode_screen.png?raw=true "Flight Block view_mode=row View")
 
+#### Resizing Buttons
+The default button size is 70x70 pixels. Sometimes it is desireable to reduce or increase
+button sizes based on display variants. The `button_size` URL parameter is used to specify a
+desired button size. For example, to specify a button size of 50x50 pixels use the following:
+
+    localhost:5000/show/flightblock/?button_size=50
 
 ### Adding Client Data via Routes
 If the `--file` option is not used when starting the FRC server, the client related configuration must
@@ -299,6 +307,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added support for resizing buttons(`?button_size=x`; where `x` is an even integer)
 - [x] Added icons for the `Status` view and update documentation image
 - [x] Added an `Update` button to the `Status` view that includes a timer interval refresh capability
 - [x] Added initial support for a `Status` view

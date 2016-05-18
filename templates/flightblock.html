@@ -168,11 +168,19 @@ function selectPageButton(btn) {
 <style>
 
 .button-container {
-  {{ btn_container_style( (p_col_count*70)+70 ) }}
+  {{ btn_container_style( (p_col_count*p_button_size)+p_button_size ) }}
+}
+
+.button-container > button {
+  {{ btn_style( p_button_size ) }}
 }
 
 .command-button-container {
-  {{ btn_container_style( (p_col_count*70)+70 ) }}
+  {{ btn_container_style( (p_col_count*p_button_size)+p_button_size ) }}
+}
+
+.command-button-container > button {
+  {{ cmd_btn_style( p_button_size ) }}
 }
 
 </style>

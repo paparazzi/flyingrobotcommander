@@ -719,12 +719,13 @@ def template_configuration():
 
 @app.route('/show/view/<name>/')
 def showview(name):
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',  'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template(name+'.html', p_host=server_host,          p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,              p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                    p_button_size=int(button_size),
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
                             p_color_list=fb_color_list,               p_label_list=fb_label_list,
                             p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list)
@@ -732,12 +733,13 @@ def showview(name):
 
 @app.route('/show/flightblock/')
 def showflightblock():
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template('flightblock.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,              p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                    p_button_size=int(button_size),
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
                             p_color_list=fb_color_list,               p_label_list=fb_label_list,
                             p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list)
@@ -745,12 +747,13 @@ def showflightblock():
 
 @app.route('/show/guided/')
 def showguided():
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template('guided.html', p_host=server_host,      p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                 p_button_size=int(button_size),
                             p_col_count=10, 
                             p_color_list=gd_color_list,            p_label_list=gd_label_list,
                             p_icon_list=gd_icon_list,              p_tooltip_list=gd_tooltip_list) 
@@ -758,12 +761,13 @@ def showguided():
 
 @app.route('/show/waypoint/')
 def showwaypoint():
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template('waypoint.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                 p_button_size=int(button_size),
                             p_col_count=len(waypoint_client_list), p_col_list=waypoint_client_list,
                             p_color_list=wp_color_list,            p_label_list=wp_label_list,
                             p_icon_list=wp_icon_list,              p_tooltip_list=wp_tooltip_list) 
@@ -771,12 +775,13 @@ def showwaypoint():
 
 @app.route('/show/waypointhover/')
 def showwaypointhover():
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list),   p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,           p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,             p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                   p_button_size=int(button_size),
                             p_col_count=8, 
                             p_color_list=wp_color_list,              p_label_list=wp_label_list,
                             p_icon_list=wp_icon_list,                p_tooltip_list=wp_tooltip_list) 
@@ -784,12 +789,13 @@ def showwaypointhover():
 
 @app.route('/show/status/')
 def showstatus():
-    view_mode = request.args.get('view_mode', 'col')
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 70) 
     return render_template('status.html', p_host=server_host,      p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
                             p_ac_icon_list=ac_icon_list,           p_ac_tooltip_list=ac_tooltip_list,
-                            p_view_mode=view_mode,
+                            p_view_mode=view_mode,                 p_button_size=int(button_size),
                             p_col_count=len(status_client_list),   p_col_list=status_client_list,
                             p_col_list_msg_name=status_client_list_msg_name, p_col_list_msg_key=status_client_list_msg_key,
                             p_color_list=st_color_list,            p_label_list=st_label_list,

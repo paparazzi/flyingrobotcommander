@@ -12,6 +12,18 @@
   overflow-y: auto;
 {% endmacro %}
 
+{% macro btn_style(width) %}
+  width: {{width}}px;
+  height: {{width}}px;
+  font-size: {{width/2}}px;
+{% endmacro %}
+
+{% macro cmd_btn_style(width) %}
+  width: {{width*2+8}}px;
+  height: {{width}}px;
+  font-size: {{width/2}}px;
+{% endmacro %}
+
 {% macro btn_link(id, tooltip, color, name, icon) %}
 {% if icon is equalto "" %}
   <button id="{{id}}" title="{{tooltip}}" style="background:{{color}}" onmousedown="mousedownButton(this)" onclick="selectButton(this)">{{name}}</button>
