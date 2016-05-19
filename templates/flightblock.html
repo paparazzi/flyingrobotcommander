@@ -168,7 +168,7 @@ function selectPageButton(btn) {
 <style>
 
 .button-container {
-  {{ btn_container_style( (p_col_count*p_button_size)+p_button_size ) }}
+  {{ btn_container_style( (p_col_count*p_button_size)+((p_col_count-1)*6) ) }}
 }
 
 .button-container > button {
@@ -176,7 +176,7 @@ function selectPageButton(btn) {
 }
 
 .command-button-container {
-  {{ btn_container_style( (p_col_count*p_button_size)+p_button_size ) }}
+  {{ btn_container_style( (p_col_count*p_button_size)+((p_col_count-1)*6) ) }}
 }
 
 .command-button-container > button {
