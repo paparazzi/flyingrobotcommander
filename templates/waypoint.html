@@ -46,7 +46,7 @@ function displayTriggerMessage(msg) {
   // Set message text to color other than black as a visual aid to detect message latency issues
   // CURRENTY NOT USED BASED ON OBSERVED PERFORMANCE
   //document.getElementById(msg_btn_id).style.color = "green";
-  //document.getElementById(msg_btn_id).innerHTML = "Point: " + msg;
+  //document.getElementById(msg_btn_id).innerHTML = "Id: " + msg;
 
   var aReq = new XMLHttpRequest();
   var bReq = new XMLHttpRequest();
@@ -74,7 +74,7 @@ function displayTriggerMessage(msg) {
   }
 
   document.getElementById(msg_btn_id).style.color = "black";
-  document.getElementById(msg_btn_id).innerHTML = "Point: " + msg;
+  document.getElementById(msg_btn_id).innerHTML = "Id: " + msg;
 
 }
 
@@ -229,7 +229,7 @@ function selectPageButton(btn) {
  
   </div>
   <div class="command-button-container">
-  <button id="999" style="color:black; font-size: 18px">Point: x</button>
+  <button id="999" style="color:black">Id: x</button>
   <!--
   <button id="200" style="background:lime; color:black; font-size: 30px"   onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
   <button id="201" style="background:purple; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
