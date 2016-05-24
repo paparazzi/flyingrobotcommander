@@ -216,15 +216,17 @@ function selectPageButton(btn) {
 <style>
 
 .button-container {
-  {{ btn_container_style( (p_col_count*p_button_size)+((p_col_count-1)*6) ) }}
+  {{ btn_container_style( (p_col_count*(p_button_size+8)) ) }}
 }
 
 .button-container > button {
   {{ btn_style( p_button_size ) }}
+  font-family:verdana, verdana, verdana;
+  font-size: {{ p_button_size/3 }}px;
 }
 
 .command-button-container {
-  {{ btn_container_style( (p_col_count*p_button_size)+((p_col_count-1)*6) ) }}
+  {{ btn_container_style( (p_col_count*(p_button_size+8)) ) }}
 }
 
 .command-button-container > button {

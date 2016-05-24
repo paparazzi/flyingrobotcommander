@@ -9,12 +9,12 @@ body {
 }
 
 .button-container > button {
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   border-radius: 10px;
-  border: 4px solid black;
+  border: 2px solid black;
   font-family:verdana-bold, verdana-bold, verdana;
-  font-size: 35px;
+  font-size: 32px;
   color:black;
   text-align:center;
   float: left;
@@ -35,12 +35,12 @@ body {
 }
 
 .command-button-container > button {
-  width: 148px;
-  height: 70px;
+  width: 132px;
+  height: 64px;
   border-radius: 10px;
-  border: 4px solid black;
+  border: 2px solid black;
   font-family:verdana-bold, verdana-bold, verdana;
-  font-size: 35px;
+  font-size: 32px;
   color:black;
   text-align:center;
   float: left;
