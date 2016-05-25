@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.3.2 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.3 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -204,7 +204,7 @@ a row major view.
 ![Alt Flight Block view_mode=row View](doc/images/flightblock_viewmode_screen.png?raw=true "Flight Block view_mode=row View")
 
 #### Resizing Buttons
-The default button size is 70x70 pixels. Sometimes it is desireable to reduce or increase
+The default button size is 64x64 pixels. Sometimes it is desireable to reduce or increase
 button sizes based on display variants. The `button_size` URL parameter is used to specify a
 desired button size. For example, to specify a button size of 50x50 pixels use the following:
 
@@ -307,6 +307,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Update `styles.css` and button sizes to improve support for iOS devices
 - [x] Added support for resizing buttons(`?button_size=x`; where `x` is an even integer)
 - [x] Added icons for the `Status` view and update documentation image
 - [x] Added an `Update` button to the `Status` view that includes a timer interval refresh capability
