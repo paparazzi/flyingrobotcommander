@@ -720,7 +720,7 @@ def template_configuration():
 @app.route('/show/view/<name>/')
 def showview(name):
     view_mode   = request.args.get('view_mode',  'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template(name+'.html', p_host=server_host,          p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
@@ -734,7 +734,7 @@ def showview(name):
 @app.route('/show/flightblock/')
 def showflightblock():
     view_mode   = request.args.get('view_mode',   'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template('flightblock.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
@@ -748,7 +748,7 @@ def showflightblock():
 @app.route('/show/guided/')
 def showguided():
     view_mode   = request.args.get('view_mode',   'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template('guided.html', p_host=server_host,      p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
@@ -762,7 +762,7 @@ def showguided():
 @app.route('/show/waypoint/')
 def showwaypoint():
     view_mode   = request.args.get('view_mode',   'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template('waypoint.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
@@ -776,7 +776,7 @@ def showwaypoint():
 @app.route('/show/waypointhover/')
 def showwaypointhover():
     view_mode   = request.args.get('view_mode',   'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template('waypointhover.html', p_host=server_host, p_port=server_port, 
                             p_row_count=len(aircraft_client_list),   p_row_list=aircraft_client_list,
                             p_ac_color_list=ac_color_list,           p_ac_label_list=ac_label_list,
@@ -790,7 +790,7 @@ def showwaypointhover():
 @app.route('/show/status/')
 def showstatus():
     view_mode   = request.args.get('view_mode',   'col')
-    button_size = request.args.get('button_size', 70) 
+    button_size = request.args.get('button_size', 64) 
     return render_template('status.html', p_host=server_host,      p_port=server_port, 
                             p_row_count=len(aircraft_client_list), p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,         p_ac_label_list=ac_label_list,
