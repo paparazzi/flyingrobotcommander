@@ -58,7 +58,7 @@ log.setLevel(logging.ERROR)
 # --- Class/Global state variables
 
 ivy_interface = IvyMessagesInterface("FlyingRobotCommander", start_ivy=False)
-frc_version   = "0.3.3"
+frc_version   = "0.3.4"
 verbose       = 0              # Default is disabled(i.e. = 0)
 curl          = 0              # Default is disabled(i.e. = 0)
 subscribe     = 0              # Default is disabled(i.e. = 0)
@@ -113,7 +113,15 @@ class Aircraft(object):
         self.waypoints    = {}
         self.messages     = {}
 
+class Layout(object):
+    def __init__(self, name, rows, cols):
+        self.name         = name
+        self.rows         = rows
+        self.cols         = cols
+        
+
 aircrafts = {}
+layout  = {}
 
 def add_new_aircraft_message( aircraft, msg_class, name, msg):
     aircraft.messages[name] = Message(msg_class, name, msg)
@@ -126,6 +134,9 @@ def add_new_aircraft_flightblock( aircraft, fb_id, fb_name):
 
 def add_new_aircraft(ac_id, name, color):
     aircrafts[ac_id] = Aircraft(ac_id, name, color)
+
+def add_new_layout(name, rows, cols):
+    layout[0] = Layout(name, rows, cols)    
 
 def print_aircraft_data():
     for ac_id in aircrafts:
@@ -167,6 +178,7 @@ def generate_configuration_stub():
     color = cycle(['magenta', 'purple','deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
     label = 1
 
+    print( '    <layout name="flightblockredux"  rows="3" cols="7" />')
     print('</client>')
 
 
@@ -303,6 +315,14 @@ def static_init_client_configuration_data(fname):
         st_msg_key   = status.get('msg_key')
         view_attributelist_helper(status, st_color_list, st_label_list, st_icon_list, st_tooltip_list)
         status_client_add(st_name, st_msg_name, st_msg_key)
+
+    # Populate layout client objects
+    for layout in root.findall('layout'):
+        name = layout.get('name')
+        rows = int(layout.get('rows'))
+        cols = int(layout.get('cols'))
+        print("Found layout: name=%s, rows=%d, cols=%d" % (name, rows, cols) )
+        add_new_layout(name, rows, cols)
     
 
 def static_init_configuration_data():
@@ -743,6 +763,21 @@ def showflightblock():
                             p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
                             p_color_list=fb_color_list,               p_label_list=fb_label_list,
                             p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list)
+
+
+@app.route('/show/flightblockredux/')
+def showflightblockredux():
+    view_mode   = request.args.get('view_mode',   'col')
+    button_size = request.args.get('button_size', 64) 
+    return render_template('flightblockredux.html', p_host=server_host,    p_port=server_port, 
+                            p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
+                            p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
+                            p_ac_icon_list=ac_icon_list,              p_ac_tooltip_list=ac_tooltip_list,
+                            p_view_mode=view_mode,                    p_button_size=int(button_size),
+                            p_col_count=len(flightblock_client_list), p_col_list=flightblock_client_list,
+                            p_color_list=fb_color_list,               p_label_list=fb_label_list,
+                            p_icon_list=fb_icon_list,                 p_tooltip_list=fb_tooltip_list,
+                            p_layout_rows=layout[0].rows,             p_layout_cols=layout[0].cols )
 
 
 @app.route('/show/guided/')

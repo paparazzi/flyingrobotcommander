@@ -45,5 +45,6 @@
     <status       name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="aircraft-take-off.png" tooltip="Aircraft On Ground/In Flight" />
     <status       name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="plane.png" tooltip="Autopilot Mode" />
     <status       name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="airplane-arrows-circle.png" tooltip="Navigation Block" />
+    <layout name="flightblockredux"  rows="3" cols="7" />
 </client>
 

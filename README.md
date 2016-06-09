@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.3.3 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.4 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -89,6 +89,11 @@ The `frc_conf.xml` is an XML file used to configure the FRC views.
             icon      = "<icon>"
             tooltip   = "<tooltip>"
        </status>
+       <layout>
+            name      = "<template name>"
+            rows      = "<number of rows>"
+            cols      = "<number of columns>"
+       </layout>
     </client>
 
 Flight block, waypoint, and guided blocks are ordered based on their order in the file(i.e. order is preserved). 
@@ -145,6 +150,7 @@ Example `frc_conf.xml` file:
         <status  name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="" tooltip="Aircraft On Ground/In Flight" />
         <status  name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="" tooltip="Autopilot Mode" />
         <status  name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="" tooltip="Navigation Block" />
+        <layout name="flightblockredux"  rows="3" cols="7" />
     </client>
 
 ### Generating a Configuration Stub
@@ -167,6 +173,7 @@ for use in a custom FRC configuration file.
         <waypoint name="p1" color="gold" label="5" icon="" tooltip="p1" />
         ...
         <waypoint name="CAM" color="dodgerblue" label="10" icon="" tooltip="CAM" />
+        <layout name="flightblockredux"  rows="3" cols="7" />
     </client>
 
 More likely than not, you will probably need to prune the output of this switch to only those aircraft, flight blocks and waypoints
@@ -258,15 +265,17 @@ Once the client related data is configured, the various client views of the FRC 
 
     Syntax:
 
-    - Flight Block Route: show/flightblock/
-    - Guided Route:       show/guided/
-    - Waypoint Route:     show/waypoint/
-    - Status Route:       show/status/
+    - Flight Block Route:       show/flightblock/
+    - Flight Block Redux Route: show/flightblockredux/
+    - Guided Route:             show/guided/
+    - Waypoint Route:           show/waypoint/
+    - Status Route:             show/status/
 
 Assuming the server is running on the local host(ip=127.0.0.1), type one of the following URL's into
 a browser(e.g. Chrome, Firefox, etc...) to execute the respective client view. 
 
     localhost:5000/show/flightblock/
+    localhost:5000/show/flightblockredux/
     localhost:5000/show/guided/
     localhost:5000/show/waypoint/
     localhost:5000/show/status/   (NOTE: Inovke the FRC server with the -s/--subscribe option)
@@ -276,6 +285,9 @@ the respective client view.
 
 #### Flight Block View
 ![Alt Flight Block View](doc/images/flightblock_screen.png?raw=true "Flight Block View")
+
+#### Flight Block Redux View
+![Alt Flight Block Redux View](doc/images/flightblockredux_screen.png?raw=true "Flight Block Redux View")
 
 #### Guided View
 ![Alt Guided View](doc/images/guided_screen.png?raw=true "Guided View")
@@ -299,7 +311,6 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
-- [ ] Add a `grid` view or similar for to facilitate a UI redux with respect to large aircraft x flighblock datasets (i.e. >= 84 combinations/buttons)
 - [ ] Add/improve software installation section in the README
 - [ ] Add more error handlers with appropriate feedback (this includes the `None` response for aircraft subset mismatches, etc....)
 - [ ] Add support for `status` view generation via `-g` switch, note `-s` switch dependency
@@ -310,6 +321,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added a `flightblockredux` view to facilitate an optimized UI with respect to large aircraft x flighblock datasets (i.e. >= 84 combinations/buttons). Bump version to v0.3.4.
 - [x] Update `styles.css` and button sizes to improve support for iOS devices
 - [x] Added support for resizing buttons(`?button_size=x`; where `x` is an even integer)
 - [x] Added icons for the `Status` view and update documentation image
