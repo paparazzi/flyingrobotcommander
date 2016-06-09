@@ -22,6 +22,28 @@ aircraft that use [Paparazzi UAV](https://github.com/paparazzi/paparazzi) and [P
 
 The default values for `IP`, `PORT`, and `FILE`, if not specified, are `127.0.0.1`, `5000`, and `frc_conf.xml`, respectively.
 
+### Getting Started
+
+- Make sure [Python](https://www.python.org/), [Flask](http://flask.pocoo.org/), and [PPRZLink](https://github.com/paparazzi/pprzlink) are installed.
+- Make sure the `PAPARAZZI_SRC` and `PAPARAZZI_HOME` enviroment variables are set. 
+
+```
+    $ env | grep paparazzi
+    PAPARAZZI_SRC=/home/fred/paparazzi
+    PAPARAZZI_HOME=/home/fred/paparazzi
+```
+
+- If they are not set add the following lines to your `~/.bashrc` file:
+
+```
+    export PAPARAZZI_HOME="your paparazzi software directory"
+    export PAPARAZZI_SRC="your paparazzi software directory"
+```
+
+- Create a config file containing the aircrafts, flightblocks, waypoints, guided modes and status messages from paparazzi you would like to include. e.g. edit the example `frc_conf.xml` to match the names in the `conf/conf.xml` file found in your paparazzi installation.
+- Run `$ python frc.py -f your_config_file.xml`. The server should now be running.
+- Visit `http://localhost:5000/show/flightblock/` in your browser and you should see the flightblock interface.
+
 ### Running the Flying Robot Commander
 Open a terminal window and type the following command:
 
