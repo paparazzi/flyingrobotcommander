@@ -299,6 +299,9 @@ Periscope broadcasts:
 - [FRC: Guidance Video](https://www.youtube.com/watch?v=BdItVWyjLUc)
 
 ## TODO:
+- [ ] Add a `grid` view or similar for to facilitate a UI redux with respect to large aircraft x flighblock datasets (i.e. >= 84 combinations/buttons)
+- [ ] Add/improve software installation section in the README
+- [ ] Add more error handlers with appropriate feedback (this includes the `None` response for aircraft subset mismatches, etc....)
 - [ ] Add support for `status` view generation via `-g` switch, note `-s` switch dependency
 - [ ] Research ivy messaging inconsistencies when running live multi-MAV system tests
 - [ ] Add client routes by name (i.e. waypoint/client/add/stay_p1)
