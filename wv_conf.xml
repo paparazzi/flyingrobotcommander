@@ -11,6 +11,7 @@
 	<flightblock	name="Takeoff"		color="#117899"		label="2" 	icon="wv_icons/take-off.png"			tooltip="Take-off" />
 	<flightblock	name="Standby"		color="#1395BA"		label="3" 	icon="wv_icons/standby.png" 			tooltip="Standby" />
 	<flightblock	name="Swarm"		color="#A2B86C"		label="H" 	icon="wv_icons/swarm.png" 			tooltip="Swarm" />
+	<flightblock	name="Swarm Home"	color="#EBC844"		label="H" 	icon="wv_icons/swarm_home.png" 			tooltip="Swarm Home" />
 	<flightblock	name="Land here"	color="#EF8B2C"		label="C" 	icon="wv_icons/land_here.png" 			tooltip="Land Here" />
 	<flightblock	name="Land"		color="#F16C20"	 	label=""	icon="wv_icons/landing.png" 			tooltip="Land" />
 	<flightblock	name="Flare"		color="#D94E1F"		label=""	icon="wv_icons/flare.png" 			tooltip="Flare" />
