@@ -152,6 +152,7 @@ def generate_configuration_stub():
 
     print('<client>')
 
+    print( '    <!-- Aircraft Blocks -->')
     label = 1
     for ac_id in aircrafts:
         curline = '    <aircraft name="%s" color="%s" label="%d" icon="" tooltip="%s" />' % (aircrafts[ac_id].name, aircrafts[ac_id].color, label, aircrafts[ac_id].name)
@@ -159,6 +160,7 @@ def generate_configuration_stub():
         label += 1
         tmp_ac_id = ac_id
 
+    print( '    <!-- Flightblock Blocks -->')
     color = cycle(['lime', 'green', 'deepskyblue', 'dodgerblue', 'yellow', 'gold', 'orange', 'darkorange', 'orangered', 'red', 'darkred'])
     label = 1
     for fb_id in aircrafts[tmp_ac_id].flightblocks:
@@ -166,6 +168,7 @@ def generate_configuration_stub():
         print( curline )
         label += 1
 
+    print( '    <!-- Waypoint Blocks -->')
     color = cycle(['deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
     label = 1
     for wp_id in aircrafts[tmp_ac_id].waypoints:
@@ -173,11 +176,34 @@ def generate_configuration_stub():
         print( curline )
         label += 1
     
-    print( '    <guided  name="Back" color="purple" label=""  icon="arrow-with-circle-down.png" tooltip="Back" />')
-
+    print( '    <!-- Guided Blocks -->')
     color = cycle(['magenta', 'purple','deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered', 'red'])
     label = 1
+    print( '    <guided       name="Forward"                      color="magenta"     label=""  icon="arrow-with-circle-up.png" tooltip="Forward" />')
+    print( '    <guided       name="Back"                         color="purple"      label=""  icon="arrow-with-circle-down.png" tooltip="Back" />')
+    print( '    <guided       name="Left"                         color="deepskyblue" label=""  icon="arrow-with-circle-left.png" tooltip="Left" />')
+    print( '    <guided       name="Right"                        color="dodgerblue"  label=""  icon="arrow-with-circle-right.png" tooltip="Right" />')
+    print( '    <guided       name="Up"                           color="lime"        label=""  icon="aircraft-take-off.png" tooltip="Up" />')
+    print( '    <guided       name="Down"                         color="green"       label=""  icon="aircraft-landing.png" tooltip="Down" />')
+    print( '    <guided       name="Counterclockwise"             color="gold"        label=""  icon="arrows-rotate-counterclockwise.png" tooltip="Counterclockwise" />')
+    print( '    <guided       name="Clockwise"                    color="orange"      label=""  icon="arrows-rotate-clockwise.png" tooltip="Clockwise" />')
+    print( '    <guided       name="Guided"                       color="orangered"   label="G" icon="" tooltip="Guided" />')
+    print( '    <guided       name="Nav"                          color="red"         label="N" icon="" tooltip="Nav" />')
 
+    print( '    <!-- Status Blocks -->')
+    color = cycle(['magenta', 'purple','deepskyblue', 'dodgerblue', 'lime', 'green', 'gold', 'orange', 'orangered'])
+    label = 1
+    print( '    <status       name="GPS_PA"       msg_name="GPS_INT"               msg_key="pacc"         color="magenta"     label="GA" icon="bullseye.png"  tooltip="GPS Position Accuracy" />')
+    print( '    <status       name="GPS_SC"       msg_name="GPS_INT"               msg_key="numsv"        color="purple"      label="SN" icon="antennas.png"  tooltip="GPS Satellite Count" />')
+    print( '    <status       name="GPS_STAT"     msg_name="ROTORCRAFT_STATUS"     msg_key="gps_status"   color="deepskyblue" label="GS" icon="satellite.png" tooltip="GPS Status" />')
+    print( '    <status       name="RC_STAT"      msg_name="ROTORCRAFT_STATUS"     msg_key="rc_status"    color="dodgerblue"  label="RS" icon="signal.png"    tooltip="RC Status" />')
+    print( '    <status       name="VOLT_STAT"    msg_name="ROTORCRAFT_STATUS"     msg_key="vsupply"      color="lime"        label="VS" icon="battery.png"   tooltip="Voltage Status" />')
+    print( '    <status       name="MOTOR_STAT"   msg_name="ROTORCRAFT_STATUS"     msg_key="ap_motors_on" color="green"       label="M"  icon="propeller.png" tooltip="Motors On/Off" />')
+    print( '    <status       name="FLIGHT_STAT"  msg_name="ROTORCRAFT_STATUS"     msg_key="ap_in_flight" color="gold"        label="F"  icon="aircraft-take-off.png" tooltip="Aircraft On Ground/In Flight" />')
+    print( '    <status       name="AP_MODE"      msg_name="ROTORCRAFT_STATUS"     msg_key="ap_mode"      color="orange"      label="AP" icon="plane.png" tooltip="Autopilot Mode" />')
+    print( '    <status       name="NAV_STAT"     msg_name="ROTORCRAFT_NAV_STATUS" msg_key="cur_block"    color="orangered"   label="NS" icon="airplane-arrows-circle.png" tooltip="Navigation Block" />')
+
+    print( '    <!-- Layout Blocks -->')
     print( '    <layout name="flightblockredux"  rows="3" cols="7" />')
     print('</client>')
 
