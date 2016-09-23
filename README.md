@@ -2,7 +2,7 @@
 ![Alt Frankenstein Jr. and Buzz](doc/images/frc_banner.png?raw=true "Frankenstein Jr. and Buzz")
 
 ## Version:
-This is beta version 0.3.4 of the Flying Robot Commander(FRC) and subject to major refactoring.
+This is beta version 0.3.5 of the Flying Robot Commander(FRC) and subject to major refactoring.
 
 ## Overview:
 The Flying Robot Commander(FRC) is a web based, RESTful application for controlling multiple 
@@ -343,6 +343,7 @@ Periscope broadcasts:
 - [ ] Document usage and testing strategies
 
 ## COMPLETED:
+- [x] Added distance/rotation controls/buttons to the `guided` view to facilitate refined aircraft guidance. Bump version to v0.3.5.
 - [x] Added a `flightblockredux` view to facilitate an optimized UI with respect to large aircraft x flighblock datasets (i.e. >= 84 combinations/buttons). Bump version to v0.3.4.
 - [x] Update `styles.css` and button sizes to improve support for iOS devices
 - [x] Added support for resizing buttons(`?button_size=x`; where `x` is an even integer)
