@@ -1,21 +1,39 @@
 <client>
-	<aircraft	name="TUBB04" 		color="yellow"		label="4" 	icon="" 	tooltip="TUBB04" />
-	<aircraft	name="TUBB05" 		color="cyan"		label="5" 	icon="" 	tooltip="TUBB05" />
-	<aircraft	name="TUBB09" 		color="lime"		label="9" 	icon="" 	tooltip="TUBB09" />
-	<aircraft	name="TUBB18" 		color="red"		label="18" 	icon="" 	tooltip="TUBB18" />
-
+<aircraft	name="bebop230" 	color="yellow"		label="30" 	icon="" 	tooltip="bebop230" />
+<!--<aircraft	name="bebop233" 	color="yellow"		label="33" 	icon="" 	tooltip="bebop233" />
+<aircraft	name="bebop237" 	color="yellow"		label="37" 	icon="" 	tooltip="bebop237" />
+<aircraft	name="bebop238" 	color="yellow"		label="38" 	icon="" 	tooltip="bebop238" />
+<aircraft	name="bebop239" 	color="yellow"		label="39" 	icon="" 	tooltip="bebop239" />
+<aircraft	name="bebop240" 	color="yellow"		label="40" 	icon="" 	tooltip="bebop240" />
+<aircraft	name="bebop241" 	color="yellow"		label="41" 	icon="" 	tooltip="bebop241" />
+<aircraft	name="bebop242" 	color="yellow"		label="42" 	icon="" 	tooltip="bebop242" />
+<aircraft	name="bebop243" 	color="yellow"		label="43" 	icon="" 	tooltip="bebop243" />
+<aircraft	name="bebop244" 	color="yellow"		label="44" 	icon="" 	tooltip="bebop244" />
+<aircraft	name="bebop245" 	color="yellow"		label="45" 	icon="" 	tooltip="bebop245" />
+<aircraft	name="bebop246" 	color="yellow"		label="46" 	icon="" 	tooltip="bebop246" />
+<aircraft	name="bebop247" 	color="yellow"		label="47" 	icon="" 	tooltip="bebop247" />
+<aircraft	name="bebop248" 	color="yellow"		label="48" 	icon="" 	tooltip="bebop248" />
+<aircraft	name="bebop249" 	color="yellow"		label="49" 	icon="" 	tooltip="bebop249" />-->
 	<flightblock	name="Wait GPS"		color="#C02E1D"		label=""	icon="wv_icons/waiting_for_gps.png" 		tooltip="Waiting for GPS" />
-	<flightblock	name="Geo init"		color="#D94E1F"		label=""	icon="wv_icons/geo_init.png" 			tooltip="Initializing GEO" />
-	<flightblock	name="Holding point"	color="#F16C20" 	label="S" 	icon="wv_icons/holding_point.png" 		tooltip="Holding point" />
+<!--	<flightblock	name="Geo init"		color="#D94E1F"		label=""	icon="wv_icons/geo_init.png" 			tooltip="Initializing GEO" />
+	<flightblock	name="Holding point"	color="#F16C20" 	label="S" 	icon="wv_icons/holding_point.png" 		tooltip="Holding point" /> -->
 	<flightblock	name="Start Engine"	color="#0F5B78"		label="1" 	icon="wv_icons/start_engines.png" 		tooltip="Start Engine" />
 	<flightblock	name="Takeoff"		color="#117899"		label="2" 	icon="wv_icons/take-off.png"			tooltip="Take-off" />
 	<flightblock	name="Standby"		color="#1395BA"		label="3" 	icon="wv_icons/standby.png" 			tooltip="Standby" />
 	<flightblock	name="Swarm"		color="#A2B86C"		label="H" 	icon="wv_icons/swarm.png" 			tooltip="Swarm" />
 	<flightblock	name="Swarm Home"	color="#EBC844"		label="H" 	icon="wv_icons/swarm_home.png" 			tooltip="Swarm Home" />
 	<flightblock	name="Land here"	color="#EF8B2C"		label="C" 	icon="wv_icons/land_here.png" 			tooltip="Land Here" />
-	<flightblock	name="Land"		color="#F16C20"	 	label=""	icon="wv_icons/landing.png" 			tooltip="Land" />
-	<flightblock	name="Flare"		color="#D94E1F"		label=""	icon="wv_icons/flare.png" 			tooltip="Flare" />
+<!--	<flightblock	name="Land"		color="#F16C20"	 	label=""	icon="wv_icons/landing.png" 			tooltip="Land" /> -->
+<!--	<flightblock	name="Flare"		color="#D94E1F"		label=""	icon="wv_icons/flare.png" 			tooltip="Flare" /> -->
 	<flightblock	name="Landed"		color="#C02E1D"		label=""	icon="wv_icons/kill_engines.png" 		tooltip="Landed" />
+	<flightblock	name="circle_cw"	color="#A2B86C"		label=""	icon="wv_icons/clockwise.svg" 		tooltip="Circle clockwise" />
+	<flightblock	name="circle_ccw"	color="#A2B86C"		label=""	icon="wv_icons/counter_clockwise.png" 		tooltip="Landed" />
+	<flightblock	name="bucket"		color="#A2B86C"		label=""	icon="wv_icons/bucket.png" 			tooltip="Landed" />
+	<flightblock	name="inc_circle"	color="#EBC844"		label="R+"	icon="" 					tooltip="Landed" />
+	<flightblock	name="dec_circle"	color="#EBC844"		label="R-"	icon="" 					tooltip="Landed" />
+<flightblock	name="spread_out"	color="#EF8B2C"		label="S+"	icon="" 					tooltip="Landed" />
+	<flightblock	name="spread_in"	color="#EF8B2C"		label="S-"	icon="" 					tooltip="Landed" />
+
 
 	<waypoint	name="HOME"		color="deepskyblue" 	label=""	icon="" 					tooltip="Home" />
 	<waypoint	name="_TD"		color="lime"		label=""	icon="" 					tooltip="_TD" />
@@ -27,14 +45,4 @@
 	<waypoint	name="CZ2"		color="red"		label=""	icon="" 					tooltip="CZ2" />
 	<waypoint	name="CZ3"		color="red"		label=""	icon="" 					tooltip="CZ3" />
 	<waypoint	name="CZ4"		color="red"		label=""	icon="" 					tooltip="CZ4" />
-
-	<status		name="GPS_PA"		msg_name="GPS_INT"		msg_key="pacc"		color="magenta"		label="GA" 	icon="bullseye.png"	tooltip="GPS Position Accuracy" />
-	<status		name="GPS_SC"		msg_name="GPS_INT"		msg_key="numsv"		color="purple"		label="SN" 	icon="antennas.png"	tooltip="GPS Satellite Count" />
-	<status		name="GPS_STAT"		msg_name="ROTORCRAFT_STATUS"	msg_key="gps_status"	color="deepskyblue" 	label="GS" 	icon="satellite.png" 	tooltip="GPS Status" />
-	<status		name="RC_STAT"		msg_name="ROTORCRAFT_STATUS"	msg_key="rc_status"	color="dodgerblue"	label="RS" 	icon="signal.png"	tooltip="RC Status" />
-	<status		name="VOLT_STAT"	msg_name="ROTORCRAFT_STATUS"	msg_key="vsupply"	color="lime"		label="VS" 	icon="battery.png"	tooltip="Voltage Status" />
-	<status		name="MOTOR_STAT"	msg_name="ROTORCRAFT_STATUS"	msg_key="ap_motors_on" 	color="green"		label="M"	icon="propeller.png" 	tooltip="Motors On/Off" />
-	<status		name="FLIGHT_STAT"	msg_name="ROTORCRAFT_STATUS"	msg_key="ap_in_flight" 	color="gold"		label="F"	icon="aircraft-take-off.png" tooltip="Aircraft On Ground/In Flight" />
-	<status		name="AP_MODE"		msg_name="ROTORCRAFT_STATUS"		msg_key="ap_mode"	color="orange"		label="AP" icon="plane.png" tooltip="Autopilot Mode" />
-	<status		name="NAV_STAT"		msg_name="ROTORCRAFT_NAV_STATUS" 	msg_key="cur_block"	color="orangered"	label="NS" icon="airplane-arrows-circle.png" tooltip="Navigation Block" />
 </client>

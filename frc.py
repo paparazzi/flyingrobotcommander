@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
 /*
  * Copyright (C) 2003-2016 The Paparazzi Team
@@ -21,7 +20,6 @@
  * <http://www.gnu.org/licenses/>.
  */
 """
-
 from __future__ import print_function
 import sys
 from os import path, getenv
@@ -38,7 +36,7 @@ PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abs
 sys.path.append(PPRZ_SRC + "/sw/lib/python")
 sys.path.append(PPRZ_SRC + "/sw/ext/pprzlink/lib/v1.0/python")
 
-from pprzlink.ivy       import IvyMessagesInterface
+from pprzlink.ivy      import IvyMessagesInterface
 from pprzlink.message   import PprzMessage
 from settings_xml_parse import PaparazziACSettings
 
