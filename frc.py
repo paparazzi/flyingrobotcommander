@@ -20,6 +20,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 """
+
 from __future__ import print_function
 import sys
 from os import path, getenv
@@ -36,7 +37,7 @@ PPRZ_SRC = getenv("PAPARAZZI_SRC", path.normpath(path.join(path.dirname(path.abs
 sys.path.append(PPRZ_SRC + "/sw/lib/python")
 sys.path.append(PPRZ_SRC + "/sw/ext/pprzlink/lib/v1.0/python")
 
-from pprzlink.ivy      import IvyMessagesInterface
+from pprzlink.ivy       import IvyMessagesInterface
 from pprzlink.message   import PprzMessage
 from settings_xml_parse import PaparazziACSettings
 
@@ -793,6 +794,7 @@ def showflightblock():
 def showflightblockredux():
     view_mode   = request.args.get('view_mode',   'col')
     button_size = request.args.get('button_size', 64) 
+    layout[0].cols = int(request.args.get('cols', unicode(layout[0].cols)))
     return render_template('flightblockredux.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,

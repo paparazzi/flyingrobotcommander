@@ -34,4 +34,5 @@
 	<flightblock	name="dec_circle"	color="#EBC844"		label="R-"	icon="" 					tooltip="Landed" />
 <flightblock	name="spread_out"	color="#EF8B2C"		label="S+"	icon="" 					tooltip="Landed" />
 	<flightblock	name="spread_in"	color="#EF8B2C"		label="S-"	icon="" 					tooltip="Landed" />
+	 <layout name="flightblockredux"  rows="3" cols="7" />
 </client>
