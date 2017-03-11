@@ -4,7 +4,8 @@
   case {{id}}:    
       aReq.open("GET", cmd_flightblock + aircraft_id[{{row}}] + '/' + flightblock_id[flightblock_mode], true);  
       aReq.send(); 
-      document.getElementById({{row}}).style.background = flightblock_color[flightblock_mode]; 
+      document.getElementById({{row}}).style.background = flightblock_color[flightblock_mode];
+      document.getElementById({{row}}).name = flightblock_mode; 
       break;
 {% endmacro %}
 
@@ -42,8 +43,8 @@ var cmd_flightblock = ip_cmd_prefix + '/flightblock/';
 var aircraft_id        = '{{ p_row_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
 var flightblock_id     = '{{ p_col_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
 var flightblock_color  = {{ p_color_list|safe }};    
-var flightblock_mode   = 0
-
+var flightblock_mode   = -1;
+var prev_fb_mode       = 0;
 
 function displayTriggerMessage(msg) {
 
@@ -74,20 +75,29 @@ function displayTriggerMessage(msg) {
 }
 
 function clearRowBoarders(row) {
-
   for (var i = 0; i < {{p_row_count}}; i++) {
     document.getElementById(i).style.borderColor = "black";
     document.getElementById(i).style.color = "black";
-  }  
-
+  }
+  if(row >= {{p_row_count}}){
+  for (var i = {{p_row_count}}; i < {{p_row_count + p_col_count}}; i++) {
+    document.getElementById(i).style.borderColor = "black";
+    document.getElementById(i).style.color = "black";
+  }
+  for (var i = {{p_row_count * p_col_count}}; i < {{p_row_count * p_col_count + p_col_count}}; i++) {
+    document.getElementById(i).style.borderColor = "black";
+    document.getElementById(i).style.color = "black";
+  }
+  }
 }
 
 function fillGrid() {
 
   for (var i = 0; i < {{p_row_count}}; i++) {
-    document.getElementById(i).style.borderColor = "black";
-    document.getElementById(i).style.color = "black";
+    document.getElementById(i).style.borderColor = "white";
+    document.getElementById(i).style.color = "white";
     document.getElementById(i).style.background = flightblock_color[flightblock_mode];
+    document.getElementById(i).name = flightblock_mode;
   }  
 
 }
@@ -102,27 +112,42 @@ function setRowColumnBoarder(row, col) {
 function mousedownButton(btn) {
   var row = Math.trunc(btn.id / col_count) + 1;
   var col = (btn.id % col_count) + 1;
-
-  // Clear row borders
-  clearRowBoarders(row);
-  btn.style.borderColor = "black";
-  btn.style.color = "black";
-
+  if(btn.id >= {{p_row_count}} && btn.id - {{p_row_count}} != flightblock_mode)
+  {
+  	prev_fb_mode = -2;
+  	// Clear row borders
+  	btn.style.borderColor = "black";
+  	btn.style.color = "black";
+  	clearRowBoarders(btn.id);
+  }else{
+  	prev_fb_mode = flightblock_mode;
+  	for (var i = {{p_row_count * p_col_count}}; i < {{p_row_count * p_col_count + p_col_count}}; i++) {
+    		document.getElementById(i).style.borderColor = "black";
+    		document.getElementById(i).style.color = "black";
+  	}
+  }
 }
 
 function selectButton(btn) {
   var row = Math.trunc(btn.id / col_count) + 1;
   var col = (btn.id % col_count) + 1;
-
   // Set the text of the button. Useful for testing
   //btn.innerHTML = "X" + row + "Y" + col;
-
-  // Clear row borders
-  clearRowBoarders(row);
-  btn.style.borderColor = "white";
-  btn.style.color = "white";
-  displayTriggerMessage(btn.id);
-
+  if(flightblock_mode != -1 || btn.id >= {{p_row_count}}) {
+    if(prev_fb_mode != flightblock_mode){
+    	// Clear row borders
+    	clearRowBoarders(btn.id);
+    	for (var i = 0; i < {{p_row_count}}; i++) {
+  		if(document.getElementById(i).name == btn.id - {{p_row_count}}){
+  			document.getElementById(i).style.borderColor = "white";
+    			document.getElementById(i).style.color = "white";
+  		}
+  	}
+    }
+    btn.style.borderColor = "white";
+    btn.style.color = "white";
+    displayTriggerMessage(btn.id);
+  }
 }
 
 
@@ -173,14 +198,21 @@ function selectButton(btn) {
         {% set rowicon    = ac_icon.next() %}
         {{ btn_link( row-1,  rowtooltip, rowcolor, rowlabel, rowicon ) }}
   {% endfor %}
-
+  {% if((p_row_count) % p_layout_cols != 0) %}
+  {% for col in range(0,  p_layout_cols - ((p_row_count) % p_layout_cols))  %}
+        <button style="background:black" disabled="disabled">&nbsp;</button>
+  {% endfor %}
+  {% endif %}
   <button title="Select Flightblock Mode" style="background:black; background-image:url(/static/images/plane.png); background-repeat:no-repeat; background-size: 90%; background-position: center center" disabled="disabled"></button>
 
   {% for col in range(1,p_col_count+1)  %}
         {{ btn_link( p_row_count+(col-1),  tooltip.next(), color.next(), label.next(), icon.next() ) }}
   {% endfor %}    
-
-  <button style="background:black" disabled="disabled"></button>  
+  {% if((p_col_count + 1) % p_layout_cols != 0) %}
+  {% for col in range(0, p_layout_cols - ((p_col_count + 1) % p_layout_cols))  %}
+        <button style="background:black" disabled="disabled">&nbsp;</button>
+  {% endfor %} 
+  {% endif %}
 
  
   <button title="Send Flightblock All Aircraft" style="background:black; background-image:url(/static/images/airplane-arrows-circle.png); background-repeat:no-repeat; background-size: 90%; background-position: center center" disabled="disabled"></button>       
@@ -191,10 +223,17 @@ function selectButton(btn) {
 
   
   </div>
+  <!--
   <div class="command-button-container">
   <button id="999" style="color:black">Id: x</button>
   </div>
+  -->
 </div>
-
+<script>
+for (var i = 0; i < {{p_row_count}}; i++) {
+    document.getElementById(i).style.background = flightblock_color[0];
+    document.getElementById(i).name = 0;
+}
+</script>
 </body>
 {% endblock %}

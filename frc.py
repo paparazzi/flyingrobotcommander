@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
 /*
  * Copyright (C) 2003-2016 The Paparazzi Team
@@ -795,6 +794,7 @@ def showflightblock():
 def showflightblockredux():
     view_mode   = request.args.get('view_mode',   'col')
     button_size = request.args.get('button_size', 64) 
+    layout[0].cols = int(request.args.get('cols', unicode(layout[0].cols)))
     return render_template('flightblockredux.html', p_host=server_host,    p_port=server_port, 
                             p_row_count=len(aircraft_client_list),    p_row_list=aircraft_client_list, 
                             p_ac_color_list=ac_color_list,            p_ac_label_list=ac_label_list,
@@ -873,7 +873,7 @@ if __name__ == '__main__':
 
     # Get/set the required IP address and port number along with other command line arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--ip", type=str, default="127.0.0.1",
+    parser.add_argument("-i", "--ip", type=str, default="0.0.0.0",
                         help="ip address")
     parser.add_argument("-p","--port", type=int, default=5000,
                         help="port number")
