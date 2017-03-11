@@ -36,25 +36,37 @@ var ip_cmd_prefix   = 'http://' + ip_addr + ':' + port_number;  // Prefix for UR
 // Guidance Command Example: http://127.0.0.1:5000/guidance/217/3//10.0/0.0/0.0/0.0
 var cmd_guidance    = ip_cmd_prefix + '/guidance/';
 var aircraft_id     = '{{ p_row_list }}'.replace( / |\[|\]/g, '' ).split(',');    // Strips space and square brackets from list before splitting
-var flag_mask       = new Array('0', '1', '3', '112');  // Velocity flag: 112 = 0x70 
-var ned_params      = new Array(
-                                '10.0/0.0/0.0/0.0', 
-                                '-10.0/0.0/0.0/0.0', 
-                                '0.0/-10.0/0.0/0.0', 
-                                '0.0/10.0/0.0/0.0', 
-                                '0.0/0.0/-10.0/0.0', 
-                                '0.0/0.0/10.0/0.0', 
-                                '0.0/0.0/0.0/-90.0', 
-                                '0.0/0.0/0.0/90.0',
-                                '0.0/0.0/0.0/0.0', 
-                                '0.0/0.0/0.0/0.0'
-                                );
+var flag_mask       = ['0', '13', '14', '96'];  // Velocity flag: 96 = 0x60
+
+// Default Units: Distance in meters; Rotation in degrees (1 degree = 0.0174533 radians) 
+var ned_params      = [
+                        '1.0/0.0/0.0/0.0', 
+                        '-1.0/0.0/0.0/0.0', 
+                        '0.0/-1.0/0.0/0.0', 
+                        '0.0/1.0/0.0/0.0', 
+                        '0.0/0.0/-1.0/0.0', 
+                        '0.0/0.0/1.0/0.0', 
+                        '0.0/0.0/0.0/-0.0174533',
+                        '0.0/0.0/0.0/0.0174533',
+                        '0.0/0.0/0.0/0.0', 
+                        '0.0/0.0/0.0/0.0'
+                      ];
+
+var scalar_distance   = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0];                 // Meters
+var scalar_rotation   = [1, 5, 15, 30, 45, 60, 90, 120, 135, 150, 180];  // Degrees
+var scalar_tuple      = [2, 2, 2, 0];  // Scalar Index Order -- 0: North(South); 1: East(West); 2: Up(Down); 3: CounterClock(Clockwise)
 
 // Setmode Command Example: http://127.0.0.1:5000/guidance/setmode/217/13
 // Note: uses the aircraft_id values as part of the command, see above
 var cmd_setmode     = ip_cmd_prefix + '/guidance/setmode/';
-var mode            = new Array('19', '13');  // GUIDED = 19, NAV = 13
+var mode            = ['19', '13'];  // GUIDED = 19, NAV = 13
 
+function initView() {
+  document.getElementById(200).innerHTML = scalar_distance[scalar_tuple[0]];
+  document.getElementById(201).innerHTML = scalar_distance[scalar_tuple[1]];
+  document.getElementById(202).innerHTML = scalar_distance[scalar_tuple[2]];
+  document.getElementById(203).innerHTML = scalar_rotation[scalar_tuple[3]];
+}
 
 function displayTriggerMessage(msg) {
 
@@ -83,14 +95,28 @@ function displayTriggerMessage(msg) {
 
 
     case 200:  
-               aReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); aReq.send();
-               setTimeout(bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true),3000); bReq.send();
+               scalar_tuple[0] = (scalar_tuple[0] + 1) % scalar_distance.length;
+               ned_params[0]   = scalar_distance[scalar_tuple[0]].toString() + "/0.0/0.0/0.0";
+               ned_params[1]   = "-" + scalar_distance[scalar_tuple[0]].toString() + "/0.0/0.0/0.0";
+               document.getElementById(200).innerHTML = scalar_distance[scalar_tuple[0]];
                break;
     case 201:  
-               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); bReq.send(); 
+               scalar_tuple[1] = (scalar_tuple[1] + 1) % scalar_distance.length;
+               ned_params[2]   = "0.0/-" + scalar_distance[scalar_tuple[1]].toString() + "/0.0/0.0";
+               ned_params[3]   = "0.0/"  + scalar_distance[scalar_tuple[1]].toString() + "/0.0/0.0";
+               document.getElementById(201).innerHTML = scalar_distance[scalar_tuple[1]];
                break;
     case 202:  
-               bReq.open("GET", cmd_guidance + flag_mask[2] + '/' + ned_params[0], true); bReq.send(); 
+               scalar_tuple[2] = (scalar_tuple[2] + 1) % scalar_distance.length;
+               ned_params[4]   = "0.0/0.0/-" + scalar_distance[scalar_tuple[2]].toString() + "/0.0";
+               ned_params[5]   = "0.0/0.0/"  + scalar_distance[scalar_tuple[2]].toString() + "/0.0";
+               document.getElementById(202).innerHTML = scalar_distance[scalar_tuple[2]];
+               break;
+    case 203:  
+               scalar_tuple[3] = (scalar_tuple[3] + 1) % scalar_rotation.length;
+               ned_params[6]   = "0.0/0.0/0.0/-" + (scalar_rotation[scalar_tuple[3]] * 0.0174533).toString();
+               ned_params[7]   = "0.0/0.0/0.0/"  + (scalar_rotation[scalar_tuple[3]] * 0.0174533).toString();
+               document.getElementById(203).innerHTML = scalar_rotation[scalar_tuple[3]];
                break;
     default:   aReq.open("GET", cmd_guidance + '', true); aReq.send();
   }
@@ -215,7 +241,7 @@ function selectPageButton(btn) {
 {% endblock %}
 
 {% block body %}
-<body>
+<body onload="initView();">
 
 <div class="menu-container">
   <div class="button-container">
@@ -251,12 +277,11 @@ function selectPageButton(btn) {
 
   </div>
   <div class="command-button-container">
+  <button id="200" style="background:magenta; color:black; font-size: 30px"   onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">N/S</button>
+  <button id="201" style="background:deepskyblue; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">E/W</button>
+  <button id="202" style="background:lime; color:black; font-size: 30px"    onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">U/D</button>
+  <button id="203" style="background:gold; color:black; font-size: 30px"    onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Yaw</button>
   <button id="999" style="color:black">Id: x</button>
-  <!--
-  <button id="200" style="background:lime; color:black; font-size: 30px"   onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Launch</button>
-  <button id="201" style="background:purple; color:black; font-size: 30px" onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Flight</button>
-  <button id="202" style="background:red; color:black; font-size: 30px"    onmousedown="mousedownButton(this)" onclick="selectPageButton(this)">Land</button>
-  -->
   </div>
 </div>
 
