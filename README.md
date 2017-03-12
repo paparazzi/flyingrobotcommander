@@ -311,6 +311,8 @@ the respective client view.
 #### Flight Block Redux View
 ![Alt Flight Block Redux View](doc/images/flightblockredux_screen.png?raw=true "Flight Block Redux View")
 
+![Alt Flight Block Redux View with WV_ICONS](doc/images/flightblockredux2_screen.png?raw=true "Flight Block Redux View with WV_ICONS")
+
 #### Guided View
 ![Alt Guided View](doc/images/guided_screen.png?raw=true "Guided View")
 
